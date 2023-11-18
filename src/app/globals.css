@@ -121,7 +121,8 @@ section {
   display: none;
 }
 body {
-  line-height: 1;
+  letter-spacing: 3px;
+  line-height: 1.5;
   font-family: "Syncopate", serif;
 }
 menu,

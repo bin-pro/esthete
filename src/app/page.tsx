@@ -1,7 +1,9 @@
+import { SignInComp } from "@/components/sign/SignInComp";
+
 export default function Home() {
   return (
     <>
-      <p>Main page</p>
+      <SignInComp />
     </>
   );
 }
