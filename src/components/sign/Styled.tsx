@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+// Sign In---------------------------------
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -12,8 +13,8 @@ export const Container = styled.div`
 
 export const TitleBox = styled.section`
   width: 400px;
-  height: 100px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -21,6 +22,10 @@ export const TitleBox = styled.section`
 export const Title = styled.h1`
   text-align: center;
   line-height: 2;
+`;
+
+export const CursorText = styled(Title)`
+  cursor: pointer;
 `;
 
 export const Input = styled.input`
@@ -60,3 +65,5 @@ export const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+
+// Sign Up---------------------------------

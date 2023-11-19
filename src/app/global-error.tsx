@@ -11,9 +11,11 @@ const Container = styled.div`
 const Button = styled.button`
   width: 200px;
   height: 40px;
+  font-family: "Syncopate", sans-serif;
   background-color: #000;
   color: #fff;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
 `;
 
