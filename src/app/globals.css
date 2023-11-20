@@ -152,17 +152,18 @@ table {
 *::-webkit-scrollbar {
   width: 7px;
   height: 7px;
+  background: #000;
 }
 *::-webkit-scrollbar-thumb {
   width: 7px;
   height: 7px;
-  /* background: ${(props) => props.theme.primaryColor}; */
+  background: #adadad;
   border-radius: 10px;
 }
 
 *::selection {
   color: black;
-  background: #daa520;
+  background: #ffffff;
 }
 
 a {

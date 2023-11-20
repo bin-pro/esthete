@@ -2,13 +2,14 @@ import styled from "styled-components";
 
 // Sign In---------------------------------
 export const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  max-width: 100vw;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 15px;
+  overflow-y: auto;
 `;
 
 export const TitleBox = styled.section`
@@ -67,3 +68,10 @@ export const Button = styled.button`
 `;
 
 // Sign Up---------------------------------
+export const StatusMessage = styled.p`
+  width: 400px;
+  height: 20px;
+  font-family: "Syncopate", sans-serif;
+  font-size: 12px;
+  text-align: left;
+`;

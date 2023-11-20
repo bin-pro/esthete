@@ -8,7 +8,11 @@ export const metadata: Metadata = {
   description: "내 손 안의 작은 전시회, Esthète",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html>
       <body>
