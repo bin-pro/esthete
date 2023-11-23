@@ -39,12 +39,7 @@ export const SignInComp: React.FC = () => {
   return (
     <>
       <S.Container>
-        <Image
-          src={Background}
-          layout="fill"
-          alt="background"
-          style={ImageBackground}
-        />
+        <Image src={Background} fill alt="background" style={ImageBackground} />
         <Image
           src={MainLogo}
           width={200}
