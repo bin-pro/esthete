@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MainLogo from "@/../public/icons/mainLogo.png";
+import Background from "@/../public/images/background.jpg";
+import { ImageBackground } from "./Styled";
 import Image from "next/image";
 import * as S from "./Styled";
 import axios from "axios";
@@ -37,7 +39,19 @@ export const SignInComp: React.FC = () => {
   return (
     <>
       <S.Container>
-        <Image src={MainLogo} width={200} alt="esthete-logo" loading="lazy" placeholder="empty" />
+        <Image
+          src={Background}
+          layout="fill"
+          alt="background"
+          style={ImageBackground}
+        />
+        <Image
+          src={MainLogo}
+          width={200}
+          alt="esthete-logo"
+          loading="lazy"
+          placeholder="empty"
+        />
         <br />
         <S.TitleBox>
           <S.Title>

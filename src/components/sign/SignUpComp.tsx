@@ -4,6 +4,8 @@ import { useCallback, useState } from "react";
 import Image from "next/image";
 import * as S from "./Styled";
 import MainLogo from "@/../public/icons/mainLogo.png";
+import Background from "@/../public/images/background.jpg";
+import { ImageBackground } from "./Styled";
 
 const SignUpComp: React.FC = () => {
   // Input State-----------------------------------------------
@@ -33,8 +35,10 @@ const SignUpComp: React.FC = () => {
       setEmail(emailCurrent);
 
       if (!emailRegex.test(emailCurrent)) {
-        setEmailMessage("Invalid email format");
         setIsEmail(false);
+        if (emailCurrent === "") {
+          setEmailMessage("");
+        } else setEmailMessage("Invalid email format");
       } else {
         setEmailMessage("Valid email format");
         setIsEmail(true);
@@ -50,8 +54,10 @@ const SignUpComp: React.FC = () => {
     setName(nameCurrent);
 
     if (!nameRegex.test(nameCurrent)) {
-      setNameMessage("Invalid name format");
       setIsName(false);
+      if (nameCurrent === "") {
+        setNameMessage("");
+      } else setNameMessage("Invalid name format");
     } else {
       setNameMessage("Valid name format");
       setIsName(true);
@@ -66,10 +72,13 @@ const SignUpComp: React.FC = () => {
     setPassword(passwordCurrent);
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage(
-        "At least 8 letters using num | Eng | special characters"
-      );
       setIsPassword(false);
+      if (passwordCurrent === "") {
+        setPasswordMessage("");
+      } else
+        setPasswordMessage(
+          "At least 8 letters using num, Eng, special characters"
+        );
     } else {
       setPasswordMessage("Valid password format");
       setIsPassword(true);
@@ -83,8 +92,10 @@ const SignUpComp: React.FC = () => {
       setPasswordCheck(password2Current);
 
       if (password === password2Current) {
-        setPasswordCheckMessage("password match");
         setIsPasswordCheck(true);
+        if (password2Current === "") {
+          setPasswordCheckMessage("");
+        } else setPasswordCheckMessage("password match");
       } else {
         setPasswordCheckMessage("Password mismatch");
         setIsPasswordCheck(false);
@@ -95,6 +106,12 @@ const SignUpComp: React.FC = () => {
   return (
     <>
       <S.Container>
+        <Image
+          src={Background}
+          layout="fill"
+          alt="background"
+          style={ImageBackground}
+        />
         <Image
           src={MainLogo}
           width={200}
@@ -113,21 +130,25 @@ const SignUpComp: React.FC = () => {
           <S.CursorText>* Excel Upload *</S.CursorText>
         </S.TitleBox>
         <S.Input placeholder="Email" type="email" onChange={onChangeEmail} />
-        <S.StatusMessage>{emailMessage}</S.StatusMessage>
+        <S.EmailMessage isEmail={isEmail}>{emailMessage}</S.EmailMessage>
         <S.Input placeholder="Name" type="text" onChange={onChangeName} />
-        <S.StatusMessage>{nameMessage}</S.StatusMessage>
+        <S.NameMessage isName={isName}>{nameMessage}</S.NameMessage>
         <S.Input
           placeholder="Password"
           type="password"
           onChange={onChangePassword}
         />
-        <S.StatusMessage>{passwordMessage}</S.StatusMessage>
+        <S.PasswordMessage isPassword={isPassword}>
+          {passwordMessage}
+        </S.PasswordMessage>
         <S.Input
           placeholder="Confirm Password"
           type="password"
           onChange={onChangePasswordCheck}
         />
-        <S.StatusMessage>{passwordCheckMessage}</S.StatusMessage>
+        <S.PasswordCheckMessage isPasswordCheck={isPasswordCheck}>
+          {passwordCheckMessage}
+        </S.PasswordCheckMessage>
         <S.Button>Submit</S.Button>
       </S.Container>
     </>

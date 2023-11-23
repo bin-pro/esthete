@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StyledComponentsRegistry from "./lib/registry";
-import ThemeProvider from "@/context/ThemeProvider";
+import ContextProvider from "@/context/ContextProvider";
 
 export const metadata: Metadata = {
   title: "Esthète CMS",
@@ -16,9 +16,9 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <ThemeProvider>
+        <ContextProvider>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-        </ThemeProvider>
+        </ContextProvider>
       </body>
     </html>
   );
