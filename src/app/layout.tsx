@@ -7,9 +7,9 @@ import { Providers } from "./ThemeProvider";
 export const metadata: Metadata = {
   title: "Esthète CMS",
   description: "내 손 안의 작은 전시회, Esthète",
-  openGraph: {
-    images: [],
-  },
+  // openGraph: {
+  //   images: [],
+  // },
 };
 
 export default function RootLayout({

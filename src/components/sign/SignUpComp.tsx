@@ -121,7 +121,6 @@ const SignUpComp: React.FC = () => {
           loading="lazy"
           placeholder="empty"
         />
-        <br />
         <S.TitleBox>
           <S.Title>
             My own small Exhibition

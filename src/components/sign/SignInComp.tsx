@@ -47,7 +47,6 @@ export const SignInComp: React.FC = () => {
           loading="lazy"
           placeholder="empty"
         />
-        <br />
         <S.TitleBox>
           <S.Title>
             My own small Exhibition
@@ -55,6 +54,7 @@ export const SignInComp: React.FC = () => {
             Management system
           </S.Title>
         </S.TitleBox>
+        <br />
         <S.Input placeholder="email" type="email" />
         <S.Input placeholder="password" type="password" />
         <S.RightBox>
