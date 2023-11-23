@@ -6,6 +6,7 @@ import * as S from "./Styled";
 import MainLogo from "@/../public/icons/mainLogo.png";
 import Background from "@/../public/images/background.jpg";
 import { ImageBackground } from "./Styled";
+import { useRouter } from "next/navigation";
 
 const SignUpComp: React.FC = () => {
   // Input State-----------------------------------------------
@@ -103,6 +104,12 @@ const SignUpComp: React.FC = () => {
     },
     [password]
   );
+
+  // Navigation------------------------------------
+  const router = useRouter();
+  const goToExcel = () => {
+    router.push("/sign-up/excel");
+  };
   return (
     <>
       <S.Container>
@@ -122,7 +129,7 @@ const SignUpComp: React.FC = () => {
             Management system
           </S.Title>
           <br />
-          <S.CursorText>* Excel Upload *</S.CursorText>
+          <S.CursorText onClick={goToExcel}>* Excel Upload *</S.CursorText>
         </S.TitleBox>
         <S.Input placeholder="Email" type="email" onChange={onChangeEmail} />
         <S.EmailMessage isEmail={isEmail}>{emailMessage}</S.EmailMessage>

@@ -10,7 +10,7 @@ export const Container = styled.div`
   align-items: center;
   gap: 15px;
   position: relative;
-  overflow-y: auto;
+  padding: 5%;
 `;
 
 export const ImageBackground: React.CSSProperties = {
@@ -100,18 +100,95 @@ export const MessageStyle = styled.p`
 `;
 
 export const EmailMessage = styled(MessageStyle)<EmailProps>`
-  color: ${(props) =>
-    props.isEmail ? props.theme.primaryColor : props.theme.secondaryColor};
+  color: ${(props) => (props.isEmail ? "#7EC9FF" : "#FF6D6D")};
 `;
 
 export const NameMessage = styled(MessageStyle)<NameProps>`
-  color: ${(props) => (props.isName ? "red" : "green")};
+  color: ${(props) => (props.isName ? "#7EC9FF" : "#FF6D6D")};
 `;
 
 export const PasswordMessage = styled(MessageStyle)<PasswordProps>`
-  color: ${(props) => (props.isPassword ? "red" : "green")};
+  color: ${(props) => (props.isPassword ? "#7EC9FF" : "#FF6D6D")};
 `;
 
 export const PasswordCheckMessage = styled(MessageStyle)<PasswordCheckProps>`
-  color: ${(props) => (props.isPasswordCheck ? "red" : "green")};
+  color: ${(props) => (props.isPasswordCheck ? "#7EC9FF" : "#FF6D6D")};
+`;
+
+// Excel---------------------------------
+interface UploadStatusProps {
+  status: String;
+}
+export const UploadStatusText = styled.p<UploadStatusProps>`
+  width: 400px;
+  font-family: "Syncopate", sans-serif;
+  text-align: center;
+  color: ${(props) =>
+    props.status === "success"
+      ? "#7EC9FF"
+      : props.status === "fail"
+      ? "#FF6D6D"
+      : "#fff"};
+`;
+
+export const UploadInput = styled.input`
+  display: none;
+`;
+
+export const UploadText = styled.label`
+  cursor: pointer;
+`;
+
+export const ExcelDataBox = styled.div`
+  min-width: 700px;
+  height: 300px;
+  max-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  @media all and (min-width: 900px) {
+    min-width: 800px;
+  }
+  @media all and (min-width: 1000px) {
+    min-width: 900px;
+  }
+  @media all and (min-width: 1100px) {
+    min-width: 1000px;
+  }
+`;
+
+export const ExcelDataUnit = styled.div`
+  width: calc(100% / 3);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  padding: 0 10px;
+`;
+
+export const ExcelData = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 40px;
+`;
+
+export const ExcelDataText = styled.p`
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  opacity: 0.75;
+`;
+
+interface ExcelSubmitButtonProps {
+  isUpload: Boolean;
+}
+export const ExcelSubmitButton = styled(Button)<ExcelSubmitButtonProps>`
+  background-color: ${(props) => (props.isUpload ? "#fff" : "#afafaf")};
 `;
