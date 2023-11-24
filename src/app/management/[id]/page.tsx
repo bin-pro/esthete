@@ -68,13 +68,12 @@ const Management = () => {
             <Masonry gutter="25px" style={{}}>
               {DUMMY_DATA.map((data) => (
                 <M.CardContainer key={data.id}>
-                  <M.CardImageSection>
-                    <Image
-                      src={data.image}
-                      alt="testImage"
-                      style={M.CardImageStyle}
-                    />
-                  </M.CardImageSection>
+                  <Image
+                    src={data.image}
+                    alt="testImage"
+                    width={200}
+                    style={M.CardImageStyle}
+                  />
                   <M.CardFooter>
                     <M.CardButton>DELETE</M.CardButton>
                     <M.CardButton>REJECT</M.CardButton>

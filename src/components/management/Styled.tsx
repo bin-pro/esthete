@@ -20,14 +20,8 @@ export const CardContainer = styled.div`
   }
 `;
 
-export const CardImageSection = styled.section`
-  width: 100%;
-  height: calc(100% - 35px);
-  border: 1px solid #fff;
-`;
-
-export const CardImageStyle = {
-  width: "100%",
+export const CardImageStyle: React.CSSProperties = {
+  width: "200px",
   objectFit: "contain",
 };
 
