@@ -46,7 +46,7 @@ const Statistic: React.FC = () => {
           <S.InfoBox>
             Manager, JUN SEO
             <br />
-            Log out
+            <S.LogoutSpan>Logout</S.LogoutSpan>
           </S.InfoBox>
         </S.HeaderSection>
         <S.BodySection>

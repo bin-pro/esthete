@@ -12,7 +12,7 @@ export const Container = styled.div`
   position: relative;
   padding: 1% 5%;
   transition: all 0.3s ease-in-out;
-  @media all and (max-width: 868px) {
+  @media all and (max-width: 900px) {
     height: 200vh;
     max-height: none;
     padding: 5% 5%;
@@ -38,7 +38,7 @@ export const HeaderSection = styled.header`
   border-bottom: 1px solid #fff;
   transition: all 0.3s ease-in-out;
   padding-bottom: 10px;
-  @media all and (max-width: 868px) {
+  @media all and (max-width: 900px) {
     min-height: 200px;
     flex-direction: column;
     align-items: flex-start;
@@ -54,7 +54,7 @@ export const LogoBox = styled.section`
   flex-direction: column;
   justify-content: space-between;
   transition: all 0.3s ease-in-out;
-  @media all and (max-width: 868px) {
+  @media all and (max-width: 900px) {
     width: 100%;
     height: 150px;
   }
@@ -64,6 +64,10 @@ export const NavBox = styled.section`
   width: 100%;
   display: flex;
   gap: 40px;
+  @media all and (max-width: 900px) {
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 interface NavSpanProps {
@@ -86,7 +90,7 @@ export const InfoBox = styled.section`
   justify-content: flex-end;
   align-items: flex-end;
   transition: all 0.3s ease-in-out;
-  @media all and (max-width: 868px) {
+  @media all and (max-width: 900px) {
     width: 100%;
     height: 150px;
     justify-content: center;
@@ -95,9 +99,12 @@ export const InfoBox = styled.section`
 `;
 
 export const LogoutSpan = styled.span`
+  font-size: 12px;
+  opacity: 0.75;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
   &:hover {
-    color: #fff;
+    opacity: 1;
   }
 `;
 
@@ -109,7 +116,7 @@ export const BodySection = styled.section`
   grid-template-rows: repeat(2, 1fr);
   gap: 30px;
   border: 1px solid #fff;
-  @media all and (max-width: 868px) {
+  @media all and (max-width: 900px) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(4, 1fr);
   }
