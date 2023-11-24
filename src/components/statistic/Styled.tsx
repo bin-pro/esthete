@@ -10,12 +10,11 @@ export const Container = styled.div`
   align-items: center;
   gap: 15px;
   position: relative;
-  padding: 1% 5%;
+  padding: 5%;
   transition: all 0.3s ease-in-out;
   @media all and (max-width: 900px) {
     height: 200vh;
     max-height: none;
-    padding: 5% 5%;
   }
 `;
 
