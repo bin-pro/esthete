@@ -6,7 +6,6 @@ export const Container = styled.div`
   max-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 15px;
   position: relative;
@@ -31,12 +30,17 @@ export const ImageBackground: React.CSSProperties = {
 export const HeaderSection = styled.header`
   width: 100%;
   height: 150px;
+  min-height: 150px;
+  max-height: 150px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 5%;
   border-bottom: 1px solid #fff;
   transition: all 0.3s ease-in-out;
   padding-bottom: 10px;
+  z-index: 1;
   @media all and (max-width: 900px) {
     min-height: 200px;
     flex-direction: column;
@@ -88,6 +92,7 @@ export const InfoBox = styled.section`
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
+  gap: 10px;
   transition: all 0.3s ease-in-out;
   @media all and (max-width: 900px) {
     width: 100%;
@@ -109,12 +114,12 @@ export const LogoutSpan = styled.span`
 
 export const BodySection = styled.section`
   width: 100%;
-  height: calc(100% - 150px);
+  min-height: calc(100% - 150px);
+  max-height: calc(100% - 150px);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   gap: 30px;
-  border: 1px solid #fff;
   @media all and (max-width: 900px) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(4, 1fr);
@@ -123,13 +128,32 @@ export const BodySection = styled.section`
 
 export const GraphBox = styled.section`
   width: 100%;
+  max-width: 100%;
   height: 100%;
   justify-self: center;
   align-self: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid #fff;
+  transition: all 0.3s ease-in-out;
+`;
+
+export const Graph = styled.section`
+  width: 100%;
+  min-height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid #fff;
+  margin-bottom: 10px;
+`;
+
+export const GraphTitle = styled.h2`
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  font-family: "Syncopate", sans-serif;
 `;
 
 export const TitleBox = styled.section`
