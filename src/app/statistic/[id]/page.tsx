@@ -4,8 +4,15 @@ import * as S from "@/components/statistic/Styled";
 import Image from "next/image";
 import MainLogo from "@/../public/icons/mainLogo.png";
 import Background from "@/../public/images/background.jpg";
+import { useParams, useRouter } from "next/navigation";
 
 const Statistic: React.FC = () => {
+  const router = useRouter();
+  const { id } = useParams();
+  const goToPage = (page: string) => {
+    router.push(`/${page}/${id}}`);
+  };
+
   return (
     <>
       <S.Container>
@@ -15,20 +22,39 @@ const Statistic: React.FC = () => {
           alt="background"
           style={S.ImageBackground}
         />
-        <Image
-          src={MainLogo}
-          width={200}
-          alt="esthete-logo"
-          loading="lazy"
-          placeholder="empty"
-        />
-        <S.TitleBox>
-          <S.Title>
-            My own small Exhibition
+        <S.HeaderSection>
+          <S.LogoBox>
+            <Image src={MainLogo} alt="mainLogo" width={150} />
+            <S.NavBox>
+              <S.StatisticNav
+                isCurrent={true}
+                onClick={() => goToPage("statistic")}
+              >
+                Statistic
+              </S.StatisticNav>
+              <S.ManagementNav
+                isCurrent={false}
+                onClick={() => goToPage("management")}
+              >
+                Management
+              </S.ManagementNav>
+              <S.AdminNav isCurrent={false} onClick={() => goToPage("admin")}>
+                Admin
+              </S.AdminNav>
+            </S.NavBox>
+          </S.LogoBox>
+          <S.InfoBox>
+            Manager, JUN SEO
             <br />
-            Management system
-          </S.Title>
-        </S.TitleBox>
+            Log out
+          </S.InfoBox>
+        </S.HeaderSection>
+        <S.BodySection>
+          <S.GraphBox></S.GraphBox>
+          <S.GraphBox></S.GraphBox>
+          <S.GraphBox></S.GraphBox>
+          <S.GraphBox></S.GraphBox>
+        </S.BodySection>
       </S.Container>
     </>
   );
