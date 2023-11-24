@@ -12,6 +12,9 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
   const goToPage = (page: string) => {
     router.push(`/${page}/${id}}`);
   };
+  const handleLogout = () => {
+    router.push("/");
+  };
 
   return (
     <S.HeaderSection>
@@ -41,7 +44,7 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
       <S.InfoBox>
         Manager, JUN SEO
         <br />
-        <S.LogoutSpan>Logout</S.LogoutSpan>
+        <S.LogoutSpan onClick={handleLogout}>Logout</S.LogoutSpan>
       </S.InfoBox>
     </S.HeaderSection>
   );

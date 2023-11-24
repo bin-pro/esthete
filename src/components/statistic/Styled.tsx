@@ -92,7 +92,7 @@ export const InfoBox = styled.section`
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
-  gap: 10px;
+  gap: 20px;
   transition: all 0.3s ease-in-out;
   @media all and (max-width: 900px) {
     width: 100%;
@@ -103,7 +103,7 @@ export const InfoBox = styled.section`
 `;
 
 export const LogoutSpan = styled.span`
-  font-size: 12px;
+  font-size: 10px;
   opacity: 0.75;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
