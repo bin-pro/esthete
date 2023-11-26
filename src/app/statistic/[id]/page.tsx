@@ -35,14 +35,7 @@ const BORDER_COLORS = [
   "rgba(255, 99, 132, 1)",
 ];
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const OPTIONS = {
   responsive: true,
@@ -68,36 +61,23 @@ const Statistic: React.FC = () => {
   return (
     <>
       <S.Container>
-        <Image
-          src={Background}
-          fill
-          alt="background"
-          style={S.ImageBackground}
-        />
+        <Image src={Background} fill alt="background" style={S.ImageBackground} />
         <Header param="statistic" />
         <S.BodySection>
           <S.GraphBox>
-            <S.Graph>
-              {/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}
-            </S.Graph>
+            <S.Graph>{/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}</S.Graph>
             <S.GraphTitle>* Number of Access user / day</S.GraphTitle>
           </S.GraphBox>
           <S.GraphBox>
-            <S.Graph>
-              {/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}
-            </S.Graph>
+            <S.Graph>{/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}</S.Graph>
             <S.GraphTitle>* Number of Infringement / day</S.GraphTitle>
           </S.GraphBox>
           <S.GraphBox>
-            <S.Graph>
-              {/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}
-            </S.Graph>
+            <S.Graph>{/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}</S.Graph>
             <S.GraphTitle>* Number of Active user / day</S.GraphTitle>
           </S.GraphBox>
           <S.GraphBox>
-            <S.Graph>
-              {/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}
-            </S.Graph>
+            <S.Graph>{/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}</S.Graph>
             <S.GraphTitle>* Number of Bad / day</S.GraphTitle>
           </S.GraphBox>
         </S.BodySection>

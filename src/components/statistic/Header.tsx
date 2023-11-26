@@ -10,7 +10,7 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
   const router = useRouter();
   const { id } = useParams();
   const goToPage = (page: string) => {
-    router.push(`/${page}/${id}}`);
+    router.push(`/${page}/${id}`);
   };
   const handleLogout = () => {
     router.push("/");
