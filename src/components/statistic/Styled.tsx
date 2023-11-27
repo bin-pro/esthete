@@ -7,14 +7,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
   position: relative;
-  padding: 5%;
   transition: all 0.3s ease-in-out;
-  @media all and (max-width: 900px) {
-    height: 200vh;
-    max-height: none;
-  }
 `;
 
 export const ImageBackground: React.CSSProperties = {
@@ -35,17 +29,34 @@ export const HeaderSection = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 15px;
   position: sticky;
-  top: 5%;
-  border-bottom: 1px solid #fff;
+  top: 0;
+  backdrop-filter: blur(2px);
   transition: all 0.3s ease-in-out;
-  padding-bottom: 10px;
+  padding: 5%;
+  margin-bottom: 15px;
   z-index: 1;
   @media all and (max-width: 900px) {
+    height: 200px;
     min-height: 200px;
+    max-height: 200px;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0;
+  }
+`;
+
+export const HeaderLine = styled.section`
+  width: 90%;
+  height: 0px;
+  position: sticky;
+  top: 150px;
+  border-bottom: 1px solid #fff;
+  @media all and (max-width: 900px) {
+    width: 90%;
+    position: sticky;
+    top: 215px;
+    border-bottom: 1px solid #fff;
   }
 `;
 
@@ -56,6 +67,7 @@ export const LogoBox = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 25px;
   transition: all 0.3s ease-in-out;
   @media all and (max-width: 900px) {
     width: 100%;
@@ -114,12 +126,15 @@ export const LogoutSpan = styled.span`
 
 export const BodySection = styled.section`
   width: 100%;
-  min-height: calc(100% - 150px);
-  max-height: calc(100% - 150px);
+  height: calc(100% - 166px);
+  min-height: calc(100% - 166px);
+  max-height: calc(100% - 166px);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   gap: 30px;
+  padding: 5%;
+  overflow: hidden;
   @media all and (max-width: 900px) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(4, 1fr);
