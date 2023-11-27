@@ -13,6 +13,8 @@ import TestImage5 from "@/../public/images/testImage (5).png";
 import TestImage6 from "@/../public/images/testImage (6).png";
 import TestImage7 from "@/../public/images/testImage (7).png";
 import TestImage8 from "@/../public/images/testImage (8).png";
+import { useState } from "react";
+import ReactPaginate from "react-paginate";
 
 const DUMMY_DATA = [
   {
@@ -166,6 +168,11 @@ const DUMMY_DATA = [
 ];
 
 const Management = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageClick = (data: { selected: number }) => {
+    setCurrentPage(data.selected + 1);
+  };
   return (
     <>
       <S.Container>
