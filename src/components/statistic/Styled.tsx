@@ -34,7 +34,7 @@ export const HeaderSection = styled.header`
   top: 0;
   backdrop-filter: blur(2px);
   transition: all 0.3s ease-in-out;
-  padding: 5%;
+  padding: 0 5%;
   margin-bottom: 15px;
   z-index: 1;
   @media all and (max-width: 900px) {
@@ -66,7 +66,7 @@ export const LogoBox = styled.section`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 25px;
   transition: all 0.3s ease-in-out;
   @media all and (max-width: 900px) {
