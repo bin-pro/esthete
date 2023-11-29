@@ -43,6 +43,7 @@ export const HeaderSection = styled.header`
     max-height: 200px;
     flex-direction: column;
     align-items: flex-start;
+    padding-top: 5%;
   }
 `;
 

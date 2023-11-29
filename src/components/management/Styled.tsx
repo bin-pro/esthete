@@ -1,3 +1,4 @@
+import ReactPaginate from "react-paginate";
 import styled from "styled-components";
 
 export const MasonryContainer = styled.div`
@@ -16,7 +17,7 @@ export const CardContainer = styled.div`
   position: relative;
   transition: all 0.3s ease-in-out;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 `;
 
@@ -64,4 +65,35 @@ export const CardButton = styled.section<CardButtonProps>`
   font-size: 12px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
+`;
+
+export const StyledPagination = styled(ReactPaginate).attrs({
+  activeClassName: "active",
+})`
+  margin: 50px 16px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0 5rem;
+  li a {
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a {
+    color: #62b6b7;
+  }
+  li.active a {
+    color: #91cccd;
+    font-weight: 700;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: #fff;
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
 `;
