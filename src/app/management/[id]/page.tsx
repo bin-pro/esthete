@@ -6,51 +6,26 @@ import Image from "next/image";
 import Background from "@/../public/images/background.jpg";
 import Header from "@/components/statistic/Header";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import TestImage1 from "@/../public/images/testImage (1).png";
-import TestImage2 from "@/../public/images/testImage (2).png";
-import TestImage3 from "@/../public/images/testImage (3).png";
-import TestImage4 from "@/../public/images/testImage (4).png";
-import TestImage5 from "@/../public/images/testImage (5).png";
-import TestImage6 from "@/../public/images/testImage (6).png";
-import TestImage7 from "@/../public/images/testImage (7).png";
-import TestImage8 from "@/../public/images/testImage (8).png";
+import { useState, useEffect } from "react";
+import { DUMMY_DATA } from "../../../../DummyData";
 
-const DUMMY_DATA = [
-  {
-    id: 1,
-    image: TestImage1,
-  },
-  {
-    id: 2,
-    image: TestImage2,
-  },
-  {
-    id: 3,
-    image: TestImage3,
-  },
-  {
-    id: 4,
-    image: TestImage4,
-  },
-  {
-    id: 5,
-    image: TestImage5,
-  },
-  {
-    id: 6,
-    image: TestImage6,
-  },
-  {
-    id: 7,
-    image: TestImage7,
-  },
-  {
-    id: 8,
-    image: TestImage8,
-  },
-];
+const ITEMS_PER_PAGE = 5;
 
 const Management = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemOffSet, setItemOffSet] = useState(0);
+
+  useEffect(() => {
+    setCurrentPage(Math.ceil(DUMMY_DATA.length / ITEMS_PER_PAGE));
+  }, [itemOffSet, ITEMS_PER_PAGE]);
+
+  const offSet = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentData = DUMMY_DATA.slice(offSet, offSet + ITEMS_PER_PAGE);
+
+  const handlePageClick = (data: { selected: number }) => {
+    setCurrentPage(data.selected + 1);
+  };
+
   return (
     <>
       <S.Container>
@@ -63,9 +38,10 @@ const Management = () => {
         <Header param="management" />
         <M.MasonryContainer>
           <ResponsiveMasonry
-            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1280: 4 }}
+            columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1280: 3 }}
+            style={M.ResMasonryStyle}
           >
-            <Masonry gutter="25px" style={{}}>
+            <Masonry gutter="20px" style={M.MasonryStyle}>
               {DUMMY_DATA.map((data) => (
                 <M.CardContainer key={data.id}>
                   <Image
@@ -75,13 +51,31 @@ const Management = () => {
                     style={M.CardImageStyle}
                   />
                   <M.CardFooter>
-                    <M.CardButton>DELETE</M.CardButton>
-                    <M.CardButton>REJECT</M.CardButton>
+                    <M.CardButton del={true}>DELETE</M.CardButton>
+                    <M.CardButton del={false}>REJECT</M.CardButton>
                   </M.CardFooter>
                 </M.CardContainer>
               ))}
             </Masonry>
           </ResponsiveMasonry>
+          <M.StyledPagination
+            forcePage={currentPage}
+            previousLabel={"〈"}
+            nextLabel={"〉"}
+            breakLabel={"..."}
+            pageCount={DUMMY_DATA.length / ITEMS_PER_PAGE}
+            marginPagesDisplayed={3}
+            pageRangeDisplayed={2}
+            onPageChange={handlePageClick}
+            containerClassName="pagination justify-content-center"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            activeClassName="active"
+          />
         </M.MasonryContainer>
       </S.Container>
     </>
