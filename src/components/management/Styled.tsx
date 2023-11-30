@@ -141,19 +141,18 @@ export const SwiperContainer = styled.div`
     width: 350px;
     height: 300px;
   }
-  border: 2px solid #fff;
 `;
 
 export const SwiperCard = styled(SwiperSlide)`
   width: 500px;
   height: 250px;
   display: flex;
-  border: 1px solid #fff;
+  background-color: #000;
 `;
 
 export const SwiperImageStyle = {
   objectFit: "cover",
-  border: "1px solid #fff",
+  borderLeft: "1px solid #fff",
 };
 
 export const InfoSection = styled.section`
@@ -163,12 +162,51 @@ export const InfoSection = styled.section`
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  border: 1px solid #fff;
 `;
 
 export const InfoBox = styled.section`
   width: 100%;
   height: calc(100% - 30px);
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+`;
+
+export const ColHeadBox = styled.section`
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const ColHalfBox = styled.section`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+interface InfoSpanProps {
+  attr?: String;
+}
+export const InfoSpan = styled.span<InfoSpanProps>`
+  font-size: 14px;
+  color: ${(props) =>
+    props.attr === "title"
+      ? "#7EC9FF"
+      : props.attr === "log"
+      ? "#FF6D6D"
+      : "#fff"};
+`;
+
+export const ColLogBox = styled.section`
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 `;
 
@@ -178,17 +216,25 @@ export const ActionBox = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-top: 1px solid #fff;
 `;
 
-export const ActionButton = styled.button`
+interface ActionButtonProps {
+  attr?: String;
+}
+export const ActionButton = styled.button<ActionButtonProps>`
   width: 50%;
-  height: 100%;
+  height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  border: none;
+  border-right: ${(props) =>
+    props.attr === "delete" ? "1px solid #fff" : "none"};
+  font-family: "Syncopate", sans-serif;
+  color: ${(props) => (props.attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
   background-color: transparent;
-  font-size: 12px;
+  font-size: 14px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 `;

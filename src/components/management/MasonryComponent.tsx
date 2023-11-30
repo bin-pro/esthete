@@ -23,28 +23,30 @@ const MasonryComponent: React.FC = () => {
     setCurrentPage(data.selected);
   };
   return (
-    <M.MasonryContainer>
-      <ResponsiveMasonry
-        columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1280: 3 }}
-        style={M.ResMasonryStyle}
-      >
-        <Masonry gutter="20px" style={M.MasonryStyle}>
-          {DUMMY_DATA.map((data) => (
-            <M.CardContainer key={data.id}>
-              <Image
-                src={data.image}
-                alt="testImage"
-                width={200}
-                style={M.CardImageStyle}
-              />
-              <M.CardFooter>
-                <M.CardButton attr={"delete"}>DELETE</M.CardButton>
-                <M.CardButton attr={"reject"}>REJECT</M.CardButton>
-              </M.CardFooter>
-            </M.CardContainer>
-          ))}
-        </Masonry>
-      </ResponsiveMasonry>
+    <>
+      <M.MasonryContainer>
+        <ResponsiveMasonry
+          columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1280: 3 }}
+          style={M.ResMasonryStyle}
+        >
+          <Masonry gutter="20px" style={M.MasonryStyle}>
+            {DUMMY_DATA.map((data) => (
+              <M.CardContainer key={data.id}>
+                <Image
+                  src={data.image}
+                  alt="testImage"
+                  width={200}
+                  style={M.CardImageStyle}
+                />
+                <M.CardFooter>
+                  <M.CardButton attr={"delete"}>DELETE</M.CardButton>
+                  <M.CardButton attr={"reject"}>REJECT</M.CardButton>
+                </M.CardFooter>
+              </M.CardContainer>
+            ))}
+          </Masonry>
+        </ResponsiveMasonry>
+      </M.MasonryContainer>
       <M.StyledPagination
         forcePage={currentPage}
         previousLabel={"〈"}
@@ -63,7 +65,7 @@ const MasonryComponent: React.FC = () => {
         nextLinkClassName="page-link"
         activeClassName="active"
       />
-    </M.MasonryContainer>
+    </>
   );
 };
 
