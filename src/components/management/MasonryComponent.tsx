@@ -5,22 +5,29 @@ import Image from "next/image";
 import * as M from "@/components/management/Styled";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { DUMMY_DATA } from "../../../DummyData";
+import { useParams, useRouter } from "next/navigation";
 
 const ITEMS_PER_PAGE = 5;
 
 const MasonryComponent: React.FC = () => {
+  const router = useRouter();
+  const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemOffSet, setItemOffSet] = useState(0);
 
   useEffect(() => {
     setCurrentPage(Math.ceil(DUMMY_DATA.length / ITEMS_PER_PAGE));
-  }, [itemOffSet, ITEMS_PER_PAGE]);
+  }, [itemOffSet]);
 
-  const offSet = (currentPage - 1) * ITEMS_PER_PAGE;
+  const offSet = currentPage - 1 * ITEMS_PER_PAGE;
   const currentData = DUMMY_DATA.slice(offSet, offSet + ITEMS_PER_PAGE);
 
   const handlePageClick = (data: { selected: number }) => {
-    setCurrentPage(data.selected);
+    setCurrentPage(data.selected + 1);
+  };
+
+  const goToDetail = (post_id: number) => {
+    router.push(`/detail/post//${id}/${post_id}`);
   };
   return (
     <>
@@ -37,6 +44,14 @@ const MasonryComponent: React.FC = () => {
                   alt="testImage"
                   width={200}
                   style={M.CardImageStyle}
+                  onClick={() =>
+                    router.push(`/detail/post//${id}/${data.id}`, {
+                      id: data.id,
+                      post_id: data.id,
+                      image: data.image,
+                      description: data.description,
+                    })
+                  }
                 />
                 <M.CardFooter>
                   <M.CardButton attr={"delete"}>DELETE</M.CardButton>

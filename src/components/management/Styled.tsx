@@ -126,7 +126,6 @@ export const SwiperContainer = styled.div`
   width: 90%;
   height: calc(100% - 170px);
   min-width: 700px;
-  min-height: 500px;
   max-height: calc(100% - 170px);
   display: flex;
   align-items: center;

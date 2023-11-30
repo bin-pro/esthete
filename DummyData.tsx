@@ -14,30 +14,37 @@ export const DUMMY_DATA = [
   {
     id: 1,
     image: TestImage1,
+    description: "test description1",
   },
   {
     id: 2,
     image: TestImage2,
+    description: "test description2",
   },
   {
     id: 3,
     image: TestImage4,
+    description: "test description3",
   },
   {
     id: 4,
     image: TestImage5,
+    description: "test description4",
   },
   {
     id: 5,
     image: TestImage6,
+    description: "test description5",
   },
   {
     id: 6,
     image: TestImage7,
+    description: "test description6",
   },
   {
     id: 7,
     image: TestImage8,
+    description: "test description7",
   },
 ];
 
