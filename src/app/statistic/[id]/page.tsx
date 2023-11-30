@@ -65,19 +65,27 @@ const Statistic: React.FC = () => {
         <Header param="statistic" />
         <S.BodySection>
           <S.GraphBox>
-            <S.Graph>{/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}</S.Graph>
+            <S.Graph>
+              <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+            </S.Graph>
             <S.GraphTitle>* Number of Access user / day</S.GraphTitle>
           </S.GraphBox>
           <S.GraphBox>
-            <S.Graph>{/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}</S.Graph>
+            <S.Graph>
+              <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+            </S.Graph>
             <S.GraphTitle>* Number of Infringement / day</S.GraphTitle>
           </S.GraphBox>
           <S.GraphBox>
-            <S.Graph>{/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}</S.Graph>
+            <S.Graph>
+              <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+            </S.Graph>
             <S.GraphTitle>* Number of Active user / day</S.GraphTitle>
           </S.GraphBox>
           <S.GraphBox>
-            <S.Graph>{/* <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} /> */}</S.Graph>
+            <S.Graph>
+              <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+            </S.Graph>
             <S.GraphTitle>* Number of Bad / day</S.GraphTitle>
           </S.GraphBox>
         </S.BodySection>
