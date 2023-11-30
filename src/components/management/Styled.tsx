@@ -82,10 +82,10 @@ export const StyledPagination = styled(ReactPaginate).attrs({
   }
   li.previous a,
   li.next a {
-    color: #62b6b7;
+    color: #7ec9ff;
   }
   li.active a {
-    color: #91cccd;
+    color: #7ec9ff;
     font-weight: 700;
     min-width: 32px;
   }
