@@ -5,154 +5,72 @@ import TestImage5 from "@/../public/images/testImage (5).png";
 import TestImage6 from "@/../public/images/testImage (6).png";
 import TestImage7 from "@/../public/images/testImage (7).png";
 import TestImage8 from "@/../public/images/testImage (8).png";
+import ProfileImage1 from "@/../public/images/profile (1).png";
+import ProfileImage2 from "@/../public/images/profile (2).png";
+import ProfileImage3 from "@/../public/images/profile (3).png";
+import ProfileImage4 from "@/../public/images/profile (4).png";
 
 export const DUMMY_DATA = [
   {
     id: 1,
     image: TestImage1,
+    description: "test description1",
   },
   {
     id: 2,
     image: TestImage2,
+    description: "test description2",
   },
   {
     id: 3,
-    image: TestImage5,
+    image: TestImage4,
+    description: "test description3",
   },
   {
     id: 4,
-    image: TestImage4,
+    image: TestImage5,
+    description: "test description4",
   },
   {
     id: 5,
-    image: TestImage5,
+    image: TestImage6,
+    description: "test description5",
   },
   {
     id: 6,
-    image: TestImage6,
+    image: TestImage7,
+    description: "test description6",
   },
   {
     id: 7,
-    image: TestImage7,
-  },
-  {
-    id: 8,
     image: TestImage8,
+    description: "test description7",
+  },
+];
+
+export const GUEST_BOOK_DATA = [
+  {
+    id: 1,
+    profile: ProfileImage1,
+    name: "JUN SEO",
+    guestBook: "Hello World!",
   },
   {
-    id: 9,
-    image: TestImage1,
+    id: 2,
+    profile: ProfileImage2,
+    name: "Han Kyeol",
+    guestBook: "I'm Sad",
   },
   {
-    id: 10,
-    image: TestImage2,
+    id: 3,
+    profile: ProfileImage3,
+    name: "Je Koo",
+    guestBook: "I'm Happy",
   },
   {
-    id: 11,
-    image: TestImage5,
-  },
-  {
-    id: 12,
-    image: TestImage4,
-  },
-  {
-    id: 13,
-    image: TestImage5,
-  },
-  {
-    id: 14,
-    image: TestImage6,
-  },
-  {
-    id: 15,
-    image: TestImage7,
-  },
-  {
-    id: 16,
-    image: TestImage8,
-  },
-  {
-    id: 17,
-    image: TestImage1,
-  },
-  {
-    id: 18,
-    image: TestImage2,
-  },
-  {
-    id: 19,
-    image: TestImage5,
-  },
-  {
-    id: 20,
-    image: TestImage4,
-  },
-  {
-    id: 21,
-    image: TestImage5,
-  },
-  {
-    id: 22,
-    image: TestImage6,
-  },
-  {
-    id: 23,
-    image: TestImage7,
-  },
-  {
-    id: 24,
-    image: TestImage8,
-  },
-  {
-    id: 25,
-    image: TestImage1,
-  },
-  {
-    id: 26,
-    image: TestImage2,
-  },
-  {
-    id: 27,
-    image: TestImage5,
-  },
-  {
-    id: 28,
-    image: TestImage4,
-  },
-  {
-    id: 29,
-    image: TestImage5,
-  },
-  {
-    id: 30,
-    image: TestImage6,
-  },
-  {
-    id: 31,
-    image: TestImage7,
-  },
-  {
-    id: 32,
-    image: TestImage8,
-  },
-  {
-    id: 33,
-    image: TestImage1,
-  },
-  {
-    id: 34,
-    image: TestImage2,
-  },
-  {
-    id: 35,
-    image: TestImage5,
-  },
-  {
-    id: 36,
-    image: TestImage4,
-  },
-  {
-    id: 37,
-    image: TestImage5,
+    id: 4,
+    profile: ProfileImage4,
+    name: "Su bin",
+    guestBook: "I'm Angry",
   },
 ];
