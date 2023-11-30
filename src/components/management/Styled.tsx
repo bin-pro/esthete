@@ -1,5 +1,6 @@
 import ReactPaginate from "react-paginate";
 import styled from "styled-components";
+import { SwiperSlide } from "swiper/react";
 
 export const SelectSection = styled.section`
   width: 90%;
@@ -26,7 +27,7 @@ export const MasonryContainer = styled.div`
   height: calc(100% - 170px);
   max-height: calc(100% - 170px);
   padding: 5% 0;
-  overflow: hidden;
+  overflow-y: auto;
 `;
 
 export const CardContainer = styled.div`
@@ -71,17 +72,18 @@ export const CardFooter = styled.section`
 `;
 
 interface CardButtonProps {
-  del?: boolean;
+  attr?: String;
 }
 export const CardButton = styled.section<CardButtonProps>`
   width: 50%;
   height: 100%;
   border: 1px solid #fff;
-  border-right: ${(props) => (props.del ? "none" : "1px solid #fff")};
+  border-right: ${(props) =>
+    props.attr === "delete" ? "none" : "1px solid #fff"};
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${(props) => (props.del ? "#7EC9FF" : "#FF6D6D")};
+  color: ${(props) => (props.attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
   background-color: #000;
   font-size: 12px;
   transition: all 0.3s ease-in-out;
@@ -129,7 +131,7 @@ export const SwiperContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 5% 0;
-  overflow: hidden;
+  overflow-y: auto;
   transition: all 0.3s ease-in-out;
   @media all and (max-width: 705px) {
     width: 500px;
@@ -139,12 +141,54 @@ export const SwiperContainer = styled.div`
     width: 350px;
     height: 300px;
   }
+  border: 2px solid #fff;
+`;
+
+export const SwiperCard = styled(SwiperSlide)`
+  width: 500px;
+  height: 250px;
+  display: flex;
   border: 1px solid #fff;
 `;
 
-export const SwiperCard = styled.div`
-  width: 320px;
-  height: 160px;
+export const SwiperImageStyle = {
+  objectFit: "cover",
+  border: "1px solid #fff",
+};
+
+export const InfoSection = styled.section`
+  width: calc(100% - 200px);
+  height: 100%;
   display: flex;
-  border: 1px solid #fff;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+`;
+
+export const InfoBox = styled.section`
+  width: 100%;
+  height: calc(100% - 30px);
+  display: flex;
+  gap: 10px;
+`;
+
+export const ActionBox = styled.section`
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ActionButton = styled.button`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: transparent;
+  font-size: 12px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 `;

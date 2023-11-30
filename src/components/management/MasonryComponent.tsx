@@ -38,8 +38,8 @@ const MasonryComponent: React.FC = () => {
                 style={M.CardImageStyle}
               />
               <M.CardFooter>
-                <M.CardButton del={true}>DELETE</M.CardButton>
-                <M.CardButton del={false}>REJECT</M.CardButton>
+                <M.CardButton attr={"delete"}>DELETE</M.CardButton>
+                <M.CardButton attr={"reject"}>REJECT</M.CardButton>
               </M.CardFooter>
             </M.CardContainer>
           ))}
