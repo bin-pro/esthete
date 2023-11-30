@@ -1,11 +1,32 @@
 import ReactPaginate from "react-paginate";
 import styled from "styled-components";
 
+export const SelectSection = styled.section`
+  width: 90%;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+`;
+
+interface SelectProps {
+  isSelect: Boolean;
+}
+export const SelectText = styled.span<SelectProps>`
+  font-size: 14px;
+  opacity: ${(props) => (props.isSelect ? 1 : 0.5)};
+  margin: 0 15px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+`;
+
+// Masonry-----------------------------------
 export const MasonryContainer = styled.div`
   width: 90%;
-  height: calc(100% - 150px);
+  height: calc(100% - 170px);
+  max-height: calc(100% - 170px);
   padding: 5% 0;
-  overflow-y: auto;
+  overflow: hidden;
 `;
 
 export const CardContainer = styled.div`
@@ -96,4 +117,34 @@ export const StyledPagination = styled(ReactPaginate).attrs({
   li.disabled a {
     cursor: default;
   }
+`;
+
+// Swiper-----------------------------------
+export const SwiperContainer = styled.div`
+  width: 90%;
+  height: calc(100% - 170px);
+  min-width: 700px;
+  min-height: 500px;
+  max-height: calc(100% - 170px);
+  display: flex;
+  align-items: center;
+  padding: 5% 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  @media all and (max-width: 705px) {
+    width: 500px;
+    height: 400px;
+  }
+  @media all and (max-width: 505px) {
+    width: 350px;
+    height: 300px;
+  }
+  border: 1px solid #fff;
+`;
+
+export const SwiperCard = styled.div`
+  width: 320px;
+  height: 160px;
+  display: flex;
+  border: 1px solid #fff;
 `;
