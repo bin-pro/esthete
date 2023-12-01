@@ -14,4 +14,4 @@ ADD ./build/libs/esthete-admin-service-0.0.1-SNAPSHOT.jar esthete-admin-service.
 EXPOSE 8080
 
 # 앱 실행
-ENTRYPOINT ["java","-jar","esthete-core-service.jar"]
+ENTRYPOINT ["java","-jar","esthete-admin-service.jar"]
