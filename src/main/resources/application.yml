@@ -70,3 +70,6 @@ logging:
 servers:
   - url: https://api.esthete.roberniro-projects.xyz
     description: Production server
+
+services:
+  core-service: ${CORE_SERVICE_URL}
