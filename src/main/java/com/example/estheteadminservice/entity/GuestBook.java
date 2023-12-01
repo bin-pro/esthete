@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class GuestBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "BINARY(16)", name = "guest_book_uuid")
+    @Column(columnDefinition = "BINARY(16)", name = "guest_book_uuid", unique = true)
     private UUID guestBookId;
 
     private String content;
@@ -48,6 +49,7 @@ public class GuestBook {
         this.createdAt = createdAt;
         setPhotographer(photographer);
         setGuestBookAuthor(guestBookAuthor);
+        this.guestBookAbusingReports = new ArrayList<>();
     }
 
     public void setPhotographer(Photographer photographer) {

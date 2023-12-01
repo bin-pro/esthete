@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public interface GuestBookAbusingReportDto {
+public class GuestBookAbusingReportDto {
 
     @Data
     @Builder
@@ -18,7 +18,7 @@ public interface GuestBookAbusingReportDto {
     @AllArgsConstructor
     @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    class CreateRequest {
+    public static class CreateRequest {
         private String guestBookId;
         private String photographerId;
         private String photographerNickname;
@@ -34,7 +34,13 @@ public interface GuestBookAbusingReportDto {
         private String reason;
     }
 
-    class ReadReportedGuestBookResponse {
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class ReadReportedGuestBookResponse {
         private String guestBookId;
         private String photographerId;
         private String photographerNickname;
@@ -66,7 +72,7 @@ public interface GuestBookAbusingReportDto {
     @AllArgsConstructor
     @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    class ReadDetailedInfoResponse {
+    public static class ReadDetailedInfoResponse {
         private String reporterId;
         private String reporterNickname;
         private String reporterProfileImg;

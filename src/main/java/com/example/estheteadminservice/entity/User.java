@@ -23,7 +23,7 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(columnDefinition = "BINARY(16)", name = "user_uuid")
+    @Column(columnDefinition = "BINARY(16)", name = "user_uuid", unique = true)
     private String userId;
 
     private String password;

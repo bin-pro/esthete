@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class AbusingReporter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "BINARY(16)", name = "reported_uuid")
+    @Column(columnDefinition = "BINARY(16)", name = "reported_uuid", unique = true)
     private UUID abusingReporterId;
 
     private String nickname;
@@ -40,5 +41,7 @@ public class AbusingReporter {
         this.abusingReporterId = abusingReporterId;
         this.nickname = nickname;
         this.profileImgUrl = profileImgUrl;
+        this.guestBookAbusingReports = new ArrayList<>();
+        this.photoAbusingReports = new ArrayList<>();
     }
 }

@@ -40,7 +40,7 @@ public class PhotoAbusingReport extends AbusingReportBaseEntity {
         if (this.getAbusingReporter() != null) {
             this.getAbusingReporter().getPhotoAbusingReports().remove(this);
         }
-        this.setAbusingReporter(abusingReporter);
+        this.abusingReporter = abusingReporter;
         abusingReporter.getPhotoAbusingReports().add(this);
     }
 

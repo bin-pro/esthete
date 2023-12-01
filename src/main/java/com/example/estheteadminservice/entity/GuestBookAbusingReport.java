@@ -40,7 +40,7 @@ public class GuestBookAbusingReport extends AbusingReportBaseEntity {
         if (this.getAbusingReporter() != null) {
             this.getAbusingReporter().getGuestBookAbusingReports().remove(this);
         }
-        this.setAbusingReporter(abusingReporter);
+        this.abusingReporter = abusingReporter;
         abusingReporter.getGuestBookAbusingReports().add(this);
     }
 

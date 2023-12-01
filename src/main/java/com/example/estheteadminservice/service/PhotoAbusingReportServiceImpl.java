@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -35,41 +36,47 @@ public class PhotoAbusingReportServiceImpl implements PhotoAbusingReportService 
 
         final UUID photographerId = UUID.fromString(photoAbusingReportCreateRequest.getPhotographerId());
 
-        final Photographer photographer = photographerRepository.findByPhotographerId(photographerId).orElse(
-                photographerRepository.save(Photographer.generatePhotographer()
-                        .photographerId(photographerId)
-                        .nickname(photoAbusingReportCreateRequest.getPhotographerNickname())
-                        .profileImgUrl(photoAbusingReportCreateRequest.getPhotographerProfileImg())
-                        .build())
-        );
+        Optional<Photographer> photographer = photographerRepository.findByPhotographerId(photographerId);
+
+        if (photographer.isEmpty()) {
+            photographer = Optional.of(photographerRepository.save(Photographer.generatePhotographer()
+                    .photographerId(photographerId)
+                    .nickname(photoAbusingReportCreateRequest.getPhotographerNickname())
+                    .profileImgUrl(photoAbusingReportCreateRequest.getPhotographerProfileImg())
+                    .build()));
+        }
 
         final UUID photoId = UUID.fromString(photoAbusingReportCreateRequest.getPhotoId());
 
-        final Photo photo = photoRepository.findByPhotoId(photoId).orElse(
-                photoRepository.save(Photo.generatePhoto()
-                        .photoId(photoId)
-                        .photoUrl(photoAbusingReportCreateRequest.getPhotoUrl())
-                        .title(photoAbusingReportCreateRequest.getPhotoTitle())
-                        .description(photoAbusingReportCreateRequest.getPhotoDescription())
-                        .createdAt(LocalDateTime.parse(photoAbusingReportCreateRequest.getPhotoCreatedAt()))
-                        .photographer(photographer)
-                        .build())
-        );
+        Optional<Photo> photo = photoRepository.findByPhotoId(photoId);
 
-        final UUID abusingReportId = UUID.randomUUID();
+        if (photo.isEmpty()) {
+            photo = Optional.of(photoRepository.save(Photo.generatePhoto()
+                    .photoId(photoId)
+                    .photoUrl(photoAbusingReportCreateRequest.getPhotoUrl())
+                    .title(photoAbusingReportCreateRequest.getPhotoTitle())
+                    .description(photoAbusingReportCreateRequest.getPhotoDescription())
+                    .createdAt(LocalDateTime.parse(photoAbusingReportCreateRequest.getPhotoCreatedAt()))
+                    .photographer(photographer.get())
+                    .build()));
+        }
 
-        final AbusingReporter abusingReporter = abusingReporterRepository.findByAbusingReporterId(abusingReportId).orElse(
-                abusingReporterRepository.save(AbusingReporter.generateAbusingReporter()
-                        .abusingReporterId(abusingReportId)
-                        .nickname(photoAbusingReportCreateRequest.getReporterNickname())
-                        .profileImgUrl(photoAbusingReportCreateRequest.getReporterProfileImg())
-                        .build())
-        );
+        final UUID abusingReporterId = UUID.fromString(photoAbusingReportCreateRequest.getReporterId());
+
+        Optional<AbusingReporter> abusingReporter = abusingReporterRepository.findByAbusingReporterId(abusingReporterId);
+
+        if (abusingReporter.isEmpty()) {
+            abusingReporter = Optional.of(abusingReporterRepository.save(AbusingReporter.generateAbusingReporter()
+                    .abusingReporterId(abusingReporterId)
+                    .nickname(photoAbusingReportCreateRequest.getReporterNickname())
+                    .profileImgUrl(photoAbusingReportCreateRequest.getReporterProfileImg())
+                    .build()));
+        }
 
         photoAbusingReportRepository.save(
                 PhotoAbusingReport.generatePhotoAbusingReport()
-                        .photo(photo)
-                        .abusingReporter(abusingReporter)
+                        .photo(photo.get())
+                        .abusingReporter(abusingReporter.get())
                         .reason(photoAbusingReportCreateRequest.getReason())
                         .build()
         );
@@ -84,5 +91,16 @@ public class PhotoAbusingReportServiceImpl implements PhotoAbusingReportService 
                 = photoRepository.findAllReportedPhoto(pageable);
 
         return readReportedPhotoResponsePage;
+    }
+
+    @Override
+    public Page<PhotoAbusingReportDto.ReadDetailedInfoResponse> readDetailedInfoOfReportedPhoto(UUID photoId, Integer page, Integer size) {
+
+        final Pageable pageable = Pageable.ofSize(size).withPage(page);
+
+        final Page<PhotoAbusingReportDto.ReadDetailedInfoResponse> readDetailedPhotoAbusingReportInfoResponsePage
+                = photoAbusingReportRepository.findDetailedInfoOfReportedPhoto(photoId, pageable);
+
+        return readDetailedPhotoAbusingReportInfoResponsePage;
     }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class Photographer {
     @Column(name = "photographer_id")
     private Long id;
 
-    @Column(columnDefinition = "BINARY(16)", name = "photographer_uuid")
+    @Column(columnDefinition = "BINARY(16)", name = "photographer_uuid", unique = true)
     private UUID photographerId;
 
     private String nickname;
@@ -41,5 +42,7 @@ public class Photographer {
         this.photographerId = photographerId;
         this.nickname = nickname;
         this.profileImgUrl = profileImgUrl;
+        this.guestBooks = new ArrayList<>();
+        this.photos = new ArrayList<>();
     }
 }

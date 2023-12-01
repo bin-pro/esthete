@@ -10,9 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-public interface PhotoAbusingReportDto {
+public class PhotoAbusingReportDto {
 
         @Data
         @Builder
@@ -20,7 +18,7 @@ public interface PhotoAbusingReportDto {
         @AllArgsConstructor
         @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        class CreateRequest {
+        public static class CreateRequest {
                 private String photoId;
                 private String photoTitle;
                 private String photoDescription;
@@ -41,7 +39,7 @@ public interface PhotoAbusingReportDto {
         @AllArgsConstructor
         @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        class ReadReportedPhotoResponse {
+        public static class ReadReportedPhotoResponse {
                 private String photoId;
                 private String photoTitle;
                 private String photoDescription;
@@ -74,7 +72,7 @@ public interface PhotoAbusingReportDto {
         @AllArgsConstructor
         @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        class ReadDetailedInfoResponse {
+        public static class ReadDetailedInfoResponse {
                 private String reporterId;
                 private String reporterNickname;
                 private String reporterProfileImg;

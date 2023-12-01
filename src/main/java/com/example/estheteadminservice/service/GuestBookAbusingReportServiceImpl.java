@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -30,50 +31,57 @@ public class GuestBookAbusingReportServiceImpl implements GuestBookAbusingReport
 
         final UUID photographerId = UUID.fromString(guestBookAbusingReportCreateRequest.getPhotographerId());
 
-        final Photographer photographer = photographerRepository.findByPhotographerId(photographerId).orElse(
-                photographerRepository.save(Photographer.generatePhotographer()
-                        .photographerId(photographerId)
-                        .nickname(guestBookAbusingReportCreateRequest.getPhotographerNickname())
-                        .profileImgUrl(guestBookAbusingReportCreateRequest.getPhotographerProfileImg())
-                        .build())
-        );
+        Optional<Photographer> photographer = photographerRepository.findByPhotographerId(photographerId);
+
+        if (photographer.isEmpty()) {
+            photographer = Optional.of(photographerRepository.save(Photographer.generatePhotographer()
+                    .photographerId(photographerId)
+                    .nickname(guestBookAbusingReportCreateRequest.getPhotographerNickname())
+                    .profileImgUrl(guestBookAbusingReportCreateRequest.getPhotographerProfileImg())
+                    .build()));
+        }
 
         final UUID guestBookAuthorId = UUID.fromString(guestBookAbusingReportCreateRequest.getGuestBookAuthorId());
 
-        final GuestBookAuthor guestBookAuthor = guestBookAuthorRepository.findByGuestBookAuthorId(guestBookAuthorId).orElse(
-                guestBookAuthorRepository.save(GuestBookAuthor.generateGuestBookAuthor()
-                        .guestBookAuthorId(guestBookAuthorId)
-                        .nickname(guestBookAbusingReportCreateRequest.getGuestBookAuthorNickname())
-                        .profileImgUrl(guestBookAbusingReportCreateRequest.getGuestBookAuthorProfileImg())
-                        .build())
-        );
+        Optional<GuestBookAuthor> guestBookAuthor = guestBookAuthorRepository.findByGuestBookAuthorId(guestBookAuthorId);
+
+        if (guestBookAuthor.isEmpty()) {
+            guestBookAuthor = Optional.of(guestBookAuthorRepository.save(GuestBookAuthor.generateGuestBookAuthor()
+                    .guestBookAuthorId(guestBookAuthorId)
+                    .nickname(guestBookAbusingReportCreateRequest.getGuestBookAuthorNickname())
+                    .profileImgUrl(guestBookAbusingReportCreateRequest.getGuestBookAuthorProfileImg())
+                    .build()));
+        }
 
         final UUID guestBookId = UUID.fromString(guestBookAbusingReportCreateRequest.getGuestBookId());
 
-        final GuestBook guestBook = guestBookRepository.findByGuestBookId(guestBookId).orElse(
-                guestBookRepository.save(GuestBook.generateGuestBook()
-                        .guestBookId(guestBookId)
-                        .photographer(photographer)
-                        .guestBookAuthor(guestBookAuthor)
-                        .content(guestBookAbusingReportCreateRequest.getGuestBookContent())
-                        .createdAt(LocalDateTime.parse(guestBookAbusingReportCreateRequest.getGuestBookCreatedAt()))
-                        .build())
-        );
+        Optional<GuestBook> guestBook = guestBookRepository.findByGuestBookId(guestBookId);
 
-        final UUID abusingReportId = UUID.randomUUID();
+        if (guestBook.isEmpty()) {
+            guestBook = Optional.of(guestBookRepository.save(GuestBook.generateGuestBook()
+                    .guestBookId(guestBookId)
+                    .photographer(photographer.get())
+                    .guestBookAuthor(guestBookAuthor.get())
+                    .content(guestBookAbusingReportCreateRequest.getGuestBookContent())
+                    .createdAt(LocalDateTime.parse(guestBookAbusingReportCreateRequest.getGuestBookCreatedAt()))
+                    .build()));
+        }
 
-        final AbusingReporter abusingReporter = abusingReporterRepository.findByAbusingReporterId(abusingReportId).orElse(
-                abusingReporterRepository.save(AbusingReporter.generateAbusingReporter()
-                        .abusingReporterId(abusingReportId)
-                        .nickname(guestBookAbusingReportCreateRequest.getReporterNickname())
-                        .profileImgUrl(guestBookAbusingReportCreateRequest.getReporterProfileImg())
-                        .build())
-        );
+        final UUID abusingReporterId = UUID.fromString(guestBookAbusingReportCreateRequest.getReporterId());
 
+        Optional<AbusingReporter> abusingReporter = abusingReporterRepository.findByAbusingReporterId(abusingReporterId);
+
+        if (abusingReporter.isEmpty()) {
+            abusingReporter = Optional.of(abusingReporterRepository.save(AbusingReporter.generateAbusingReporter()
+                    .abusingReporterId(abusingReporterId)
+                    .nickname(guestBookAbusingReportCreateRequest.getReporterNickname())
+                    .profileImgUrl(guestBookAbusingReportCreateRequest.getReporterProfileImg())
+                    .build()));
+        }
 
         final GuestBookAbusingReport guestBookAbusingReport = GuestBookAbusingReport.generateGuestBookAbusingReport()
-                .guestBook(guestBook)
-                .abusingReporter(abusingReporter)
+                .guestBook(guestBook.get())
+                .abusingReporter(abusingReporter.get())
                 .reason(guestBookAbusingReportCreateRequest.getReason())
                 .build();
 
@@ -89,5 +97,16 @@ public class GuestBookAbusingReportServiceImpl implements GuestBookAbusingReport
                     = guestBookRepository.findAllReportedGuestBook(pageable);
 
             return readReportedGuestBookResponsePage;
+    }
+
+    @Override
+    public Page<GuestBookAbusingReportDto.ReadDetailedInfoResponse> readDetailedInfoOfReportedGuestBook(UUID guestBookId, Integer page, Integer size) {
+
+        final Pageable pageable = Pageable.ofSize(size).withPage(page);
+
+        final Page<GuestBookAbusingReportDto.ReadDetailedInfoResponse> readDetailedGuestBookAbusingReportInfoResponsePage
+                = guestBookAbusingReportRepository.findDetailedInfoOfReportedGuestBook(guestBookId, pageable);
+
+        return readDetailedGuestBookAbusingReportInfoResponsePage;
     }
 }
