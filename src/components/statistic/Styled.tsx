@@ -87,10 +87,10 @@ export const NavBox = styled.section`
 `;
 
 interface NavSpanProps {
-  isCurrent: Boolean;
+  $isCurrent: Boolean;
 }
 export const StatisticNav = styled.span<NavSpanProps>`
-  opacity: ${(props) => (props.isCurrent ? 1 : 0.5)};
+  opacity: ${(props) => (props.$isCurrent ? 1 : 0.5)};
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 `;
