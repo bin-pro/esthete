@@ -15,26 +15,13 @@ public class AbusingReportBaseEntity {
     @Column(columnDefinition = "BINARY(16)", name = "report_uuid")
     private UUID reportId;
 
-    @Column(columnDefinition = "BINARY(16)", name = "reported_uuid")
-    private UUID reporterId;
-
-    private String reporterNickname;
-
-    private String reporterProfileImgUrl;
-
     private String reason;
-
-    private String content;
 
     private LocalDateTime createdAt;
 
     @Builder
-    public AbusingReportBaseEntity(UUID reporterId, String reporterNickname, String reporterProfileImgUrl, String reason, String content) {
-        this.reporterId = reporterId;
-        this.reporterNickname = reporterNickname;
-        this.reporterProfileImgUrl = reporterProfileImgUrl;
+    public AbusingReportBaseEntity(String reason) {
         this.reason = reason;
-        this.content = content;
         this.createdAt = LocalDateTime.now();
     }
 

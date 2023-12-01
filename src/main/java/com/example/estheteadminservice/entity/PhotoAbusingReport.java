@@ -21,15 +21,27 @@ public class PhotoAbusingReport extends AbusingReportBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "abusing_reporter_id", foreignKey = @ForeignKey(name = "photo_abusing_report_fk_abusing_reporter_id"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AbusingReporter abusingReporter;
+
     @JoinColumn(name = "photo_id", foreignKey = @ForeignKey(name = "photo_abusing_report_fk_photo_id"))
     @ManyToOne(fetch = FetchType.LAZY)
     private Photo photo;
 
     @Builder(builderMethodName = "generatePhotoAbusingReport")
-    public PhotoAbusingReport(UUID reporterId, String reporterNickname,
-                              String reporterProfileImgUrl, String reason, String content, Photo photo) {
-        super(reporterId, reporterNickname, reporterProfileImgUrl, reason, content);
+    public PhotoAbusingReport(String reason, AbusingReporter abusingReporter, Photo photo) {
+        super(reason);
+        setAbusingReporter(abusingReporter);
         setPhoto(photo);
+    }
+
+    private void setAbusingReporter(AbusingReporter abusingReporter) {
+        if (this.getAbusingReporter() != null) {
+            this.getAbusingReporter().getPhotoAbusingReports().remove(this);
+        }
+        this.setAbusingReporter(abusingReporter);
+        abusingReporter.getPhotoAbusingReports().add(this);
     }
 
     public void setPhoto(Photo photo) {

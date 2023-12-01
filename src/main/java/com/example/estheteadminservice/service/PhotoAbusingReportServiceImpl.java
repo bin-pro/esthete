@@ -1,15 +1,20 @@
 package com.example.estheteadminservice.service;
 
 import com.example.estheteadminservice.dto.PhotoAbusingReportDto;
+import com.example.estheteadminservice.entity.AbusingReporter;
 import com.example.estheteadminservice.entity.Photo;
 import com.example.estheteadminservice.entity.PhotoAbusingReport;
 import com.example.estheteadminservice.entity.Photographer;
+import com.example.estheteadminservice.repository.AbusingReporterRepository;
 import com.example.estheteadminservice.repository.PhotoAbusingReportRepository;
 import com.example.estheteadminservice.repository.PhotoRepository;
 import com.example.estheteadminservice.repository.PhotographerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -22,9 +27,11 @@ public class PhotoAbusingReportServiceImpl implements PhotoAbusingReportService 
     private final PhotoAbusingReportRepository photoAbusingReportRepository;
     private final PhotoRepository photoRepository;
     private final PhotographerRepository photographerRepository;
+    private final AbusingReporterRepository abusingReporterRepository;
 
     @Override
-    public void createPhotoAbusingReport(PhotoAbusingReportDto.createRequest photoAbusingReportCreateRequest) {
+    @Transactional
+    public void createPhotoAbusingReport(PhotoAbusingReportDto.CreateRequest photoAbusingReportCreateRequest) {
 
         final UUID photographerId = UUID.fromString(photoAbusingReportCreateRequest.getPhotographerId());
 
@@ -49,14 +56,33 @@ public class PhotoAbusingReportServiceImpl implements PhotoAbusingReportService 
                         .build())
         );
 
+        final UUID abusingReportId = UUID.randomUUID();
+
+        final AbusingReporter abusingReporter = abusingReporterRepository.findByAbusingReporterId(abusingReportId).orElse(
+                abusingReporterRepository.save(AbusingReporter.generateAbusingReporter()
+                        .abusingReporterId(abusingReportId)
+                        .nickname(photoAbusingReportCreateRequest.getReporterNickname())
+                        .profileImgUrl(photoAbusingReportCreateRequest.getReporterProfileImg())
+                        .build())
+        );
+
         photoAbusingReportRepository.save(
                 PhotoAbusingReport.generatePhotoAbusingReport()
                         .photo(photo)
-                        .reporterId(UUID.fromString(photoAbusingReportCreateRequest.getReporterId()))
-                        .reporterNickname(photoAbusingReportCreateRequest.getReporterNickname())
-                        .reporterProfileImgUrl(photoAbusingReportCreateRequest.getReporterProfileImg())
+                        .abusingReporter(abusingReporter)
                         .reason(photoAbusingReportCreateRequest.getReason())
                         .build()
         );
+    }
+
+    @Override
+    public Page<PhotoAbusingReportDto.ReadReportedPhotoResponse> readReportedPhoto(Integer page, Integer size) {
+
+        final Pageable pageable = Pageable.ofSize(size).withPage(page);
+
+        final Page<PhotoAbusingReportDto.ReadReportedPhotoResponse> readReportedPhotoResponsePage
+                = photoRepository.findAllReportedPhoto(pageable);
+
+        return readReportedPhotoResponsePage;
     }
 }

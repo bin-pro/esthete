@@ -1,15 +1,14 @@
 package com.example.estheteadminservice.service;
 
 import com.example.estheteadminservice.dto.GuestBookAbusingReportDto;
-import com.example.estheteadminservice.entity.GuestBook;
-import com.example.estheteadminservice.entity.GuestBookAbusingReport;
-import com.example.estheteadminservice.entity.Photographer;
-import com.example.estheteadminservice.repository.GuestBookAbusingReportRepository;
-import com.example.estheteadminservice.repository.GuestBookRepository;
-import com.example.estheteadminservice.repository.PhotographerRepository;
+import com.example.estheteadminservice.entity.*;
+import com.example.estheteadminservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -22,9 +21,12 @@ public class GuestBookAbusingReportServiceImpl implements GuestBookAbusingReport
     private final GuestBookAbusingReportRepository guestBookAbusingReportRepository;
     private final GuestBookRepository guestBookRepository;
     private final PhotographerRepository photographerRepository;
+    private final GuestBookAuthorRepository guestBookAuthorRepository;
+    private final AbusingReporterRepository abusingReporterRepository;
 
     @Override
-    public void createGuestBookAbusingReport(GuestBookAbusingReportDto.createRequest guestBookAbusingReportCreateRequest) {
+    @Transactional
+    public void createGuestBookAbusingReport(GuestBookAbusingReportDto.CreateRequest guestBookAbusingReportCreateRequest) {
 
         final UUID photographerId = UUID.fromString(guestBookAbusingReportCreateRequest.getPhotographerId());
 
@@ -36,28 +38,56 @@ public class GuestBookAbusingReportServiceImpl implements GuestBookAbusingReport
                         .build())
         );
 
+        final UUID guestBookAuthorId = UUID.fromString(guestBookAbusingReportCreateRequest.getGuestBookAuthorId());
+
+        final GuestBookAuthor guestBookAuthor = guestBookAuthorRepository.findByGuestBookAuthorId(guestBookAuthorId).orElse(
+                guestBookAuthorRepository.save(GuestBookAuthor.generateGuestBookAuthor()
+                        .guestBookAuthorId(guestBookAuthorId)
+                        .nickname(guestBookAbusingReportCreateRequest.getGuestBookAuthorNickname())
+                        .profileImgUrl(guestBookAbusingReportCreateRequest.getGuestBookAuthorProfileImg())
+                        .build())
+        );
+
         final UUID guestBookId = UUID.fromString(guestBookAbusingReportCreateRequest.getGuestBookId());
 
         final GuestBook guestBook = guestBookRepository.findByGuestBookId(guestBookId).orElse(
                 guestBookRepository.save(GuestBook.generateGuestBook()
                         .guestBookId(guestBookId)
                         .photographer(photographer)
-                        .authorId(UUID.fromString(guestBookAbusingReportCreateRequest.getGuestBookAuthorId()))
-                        .authorNickname(guestBookAbusingReportCreateRequest.getGuestBookAuthorNickname())
-                        .authorProfileImgUrl(guestBookAbusingReportCreateRequest.getGuestBookAuthorProfileImg())
+                        .guestBookAuthor(guestBookAuthor)
                         .content(guestBookAbusingReportCreateRequest.getGuestBookContent())
                         .createdAt(LocalDateTime.parse(guestBookAbusingReportCreateRequest.getGuestBookCreatedAt()))
                         .build())
         );
 
+        final UUID abusingReportId = UUID.randomUUID();
+
+        final AbusingReporter abusingReporter = abusingReporterRepository.findByAbusingReporterId(abusingReportId).orElse(
+                abusingReporterRepository.save(AbusingReporter.generateAbusingReporter()
+                        .abusingReporterId(abusingReportId)
+                        .nickname(guestBookAbusingReportCreateRequest.getReporterNickname())
+                        .profileImgUrl(guestBookAbusingReportCreateRequest.getReporterProfileImg())
+                        .build())
+        );
+
+
         final GuestBookAbusingReport guestBookAbusingReport = GuestBookAbusingReport.generateGuestBookAbusingReport()
                 .guestBook(guestBook)
-                .reporterId(UUID.fromString(guestBookAbusingReportCreateRequest.getReporterId()))
-                .reporterNickname(guestBookAbusingReportCreateRequest.getReporterNickname())
-                .reporterProfileImgUrl(guestBookAbusingReportCreateRequest.getReporterProfileImg())
+                .abusingReporter(abusingReporter)
                 .reason(guestBookAbusingReportCreateRequest.getReason())
                 .build();
 
         guestBookAbusingReportRepository.save(guestBookAbusingReport);
+    }
+
+    @Override
+    public Page<GuestBookAbusingReportDto.ReadReportedGuestBookResponse> readReportedGuestBook(Integer page, Integer size) {
+
+            final Pageable pageable = Pageable.ofSize(size).withPage(page);
+
+            final Page<GuestBookAbusingReportDto.ReadReportedGuestBookResponse> readReportedGuestBookResponsePage
+                    = guestBookRepository.findAllReportedGuestBook(pageable);
+
+            return readReportedGuestBookResponsePage;
     }
 }

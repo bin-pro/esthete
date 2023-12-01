@@ -26,13 +26,6 @@ public class GuestBook {
     @Column(columnDefinition = "BINARY(16)", name = "guest_book_uuid")
     private UUID guestBookId;
 
-    @Column(columnDefinition = "BINARY(16)", name = "author_uuid")
-    private UUID authorId;
-
-    private String authorNickname;
-
-    private String authorProfileImgUrl;
-
     private String content;
 
     private LocalDateTime createdAt;
@@ -41,18 +34,20 @@ public class GuestBook {
     @ManyToOne(fetch = FetchType.LAZY)
     private Photographer photographer;
 
+    @JoinColumn(name = "guest_book_author_id", foreignKey = @ForeignKey(name = "guest_book_fk_guest_book_author_id"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    private GuestBookAuthor guestBookAuthor;
+
     @OneToMany(mappedBy = "guestBook", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GuestBookAbusingReport> guestBookAbusingReports;
 
     @Builder(builderMethodName = "generateGuestBook")
-    public GuestBook(UUID guestBookId, UUID authorId, String authorNickname, String authorProfileImgUrl, String content, Photographer photographer, LocalDateTime createdAt) {
+    public GuestBook(UUID guestBookId, String content, Photographer photographer, GuestBookAuthor guestBookAuthor, LocalDateTime createdAt) {
         this.guestBookId = guestBookId;
-        this.authorId = authorId;
-        this.authorNickname = authorNickname;
-        this.authorProfileImgUrl = authorProfileImgUrl;
         this.content = content;
         this.createdAt = createdAt;
         setPhotographer(photographer);
+        setGuestBookAuthor(guestBookAuthor);
     }
 
     public void setPhotographer(Photographer photographer) {
@@ -61,5 +56,13 @@ public class GuestBook {
         }
         this.photographer = photographer;
         photographer.getGuestBooks().add(this);
+    }
+
+    public void setGuestBookAuthor(GuestBookAuthor guestBookAuthor) {
+        if (this.guestBookAuthor != null) {
+            this.guestBookAuthor.getGuestBooks().remove(this);
+        }
+        this.guestBookAuthor = guestBookAuthor;
+        guestBookAuthor.getGuestBooks().add(this);
     }
 }

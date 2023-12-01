@@ -25,11 +25,23 @@ public class GuestBookAbusingReport extends AbusingReportBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private GuestBook guestBook;
 
+    @JoinColumn(name = "abusing_reporter_id", foreignKey = @ForeignKey(name = "guest_book_abusing_report_fk_abusing_reporter_id"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AbusingReporter abusingReporter;
+
     @Builder(builderMethodName = "generateGuestBookAbusingReport")
-    public GuestBookAbusingReport(UUID reporterId, String reporterNickname,
-                                  String reporterProfileImgUrl, String reason, String content, GuestBook guestBook) {
-        super(reporterId, reporterNickname, reporterProfileImgUrl, reason, content);
+    public GuestBookAbusingReport(String reason, AbusingReporter abusingReporter, GuestBook guestBook) {
+        super(reason);
+        setAbusingReporter(abusingReporter);
         setGuestBook(guestBook);
+    }
+
+    private void setAbusingReporter(AbusingReporter abusingReporter) {
+        if (this.getAbusingReporter() != null) {
+            this.getAbusingReporter().getGuestBookAbusingReports().remove(this);
+        }
+        this.setAbusingReporter(abusingReporter);
+        abusingReporter.getGuestBookAbusingReports().add(this);
     }
 
     public void setGuestBook(GuestBook guestBook) {
