@@ -45,12 +45,13 @@ public class GuestBook {
     private List<GuestBookAbusingReport> guestBookAbusingReports;
 
     @Builder(builderMethodName = "generateGuestBook")
-    public GuestBook(UUID guestBookId, UUID authorId, String authorNickname, String authorProfileImgUrl, String content, Photographer photographer) {
+    public GuestBook(UUID guestBookId, UUID authorId, String authorNickname, String authorProfileImgUrl, String content, Photographer photographer, LocalDateTime createdAt) {
         this.guestBookId = guestBookId;
         this.authorId = authorId;
         this.authorNickname = authorNickname;
         this.authorProfileImgUrl = authorProfileImgUrl;
         this.content = content;
+        this.createdAt = createdAt;
         setPhotographer(photographer);
     }
 

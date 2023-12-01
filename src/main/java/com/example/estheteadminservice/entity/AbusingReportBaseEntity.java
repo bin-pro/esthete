@@ -3,6 +3,7 @@ package com.example.estheteadminservice.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -25,6 +26,8 @@ public class AbusingReportBaseEntity {
 
     private String content;
 
+    private LocalDateTime createdAt;
+
     @Builder
     public AbusingReportBaseEntity(UUID reporterId, String reporterNickname, String reporterProfileImgUrl, String reason, String content) {
         this.reporterId = reporterId;
@@ -32,6 +35,7 @@ public class AbusingReportBaseEntity {
         this.reporterProfileImgUrl = reporterProfileImgUrl;
         this.reason = reason;
         this.content = content;
+        this.createdAt = LocalDateTime.now();
     }
 
     @PrePersist

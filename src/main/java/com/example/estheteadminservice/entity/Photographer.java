@@ -37,8 +37,8 @@ public class Photographer {
     private List<Photo> photos;
 
     @Builder(builderMethodName = "generatePhotographer")
-    public Photographer(String photographerId, String nickname, String profileImgUrl) {
-        this.photographerId = UUID.fromString(photographerId);
+    public Photographer(UUID photographerId, String nickname, String profileImgUrl) {
+        this.photographerId = photographerId;
         this.nickname = nickname;
         this.profileImgUrl = profileImgUrl;
     }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "photos")
@@ -23,7 +24,7 @@ public class Photo {
     private Long id;
 
     @Column(columnDefinition = "BINARY(16)", name = "photo_uuid")
-    private String photoId;
+    private UUID photoId;
 
     private String title;
 
@@ -41,11 +42,12 @@ public class Photo {
     private List<PhotoAbusingReport> photoAbusingReports;
 
     @Builder(builderMethodName = "generatePhoto")
-    public Photo(String photoId, String title, String description, String photoUrl, Photographer photographer) {
+    public Photo(UUID photoId, String title, String description, String photoUrl, Photographer photographer, LocalDateTime createdAt) {
         this.photoId = photoId;
         this.title = title;
         this.description = description;
         this.photoUrl = photoUrl;
+        this.createdAt = createdAt;
         setPhotographer(photographer);
     }
 
