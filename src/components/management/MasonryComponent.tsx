@@ -6,6 +6,7 @@ import * as M from "@/components/management/Styled";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { DUMMY_DATA } from "../../../DummyData";
 import { useParams, useRouter } from "next/navigation";
+import PostDetailModal from "../detail/PostDetailModal";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -14,6 +15,9 @@ const MasonryComponent: React.FC = () => {
   const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemOffSet, setItemOffSet] = useState(0);
+
+  // Modal
+  const [modal, setModal] = useState(false);
 
   // useEffect(() => {
   //   setCurrentPage(Math.ceil(DUMMY_DATA.length / ITEMS_PER_PAGE));
@@ -77,6 +81,7 @@ const MasonryComponent: React.FC = () => {
         nextLinkClassName="page-link"
         activeClassName="active"
       />
+      <PostDetailModal modal={modal} setModal={setModal} />
     </>
   );
 };
