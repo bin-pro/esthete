@@ -23,19 +23,19 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
           <Image src={MainLogo} alt="mainLogo" width={150} />
           <S.NavBox>
             <S.StatisticNav
-              isCurrent={param === "statistic" ? true : false}
+              $isCurrent={param === "statistic" ? true : false}
               onClick={() => goToPage("statistic")}
             >
               Statistic
             </S.StatisticNav>
             <S.ManagementNav
-              isCurrent={param === "management" ? true : false}
+              $isCurrent={param === "management" ? true : false}
               onClick={() => goToPage("management")}
             >
               Management
             </S.ManagementNav>
             <S.AdminNav
-              isCurrent={param === "admin" ? true : false}
+              $isCurrent={param === "admin" ? true : false}
               onClick={() => goToPage("admin")}
             >
               Admin

@@ -11,11 +11,11 @@ export const SelectSection = styled.section`
 `;
 
 interface SelectProps {
-  isSelect: Boolean;
+  $isSelect: Boolean;
 }
 export const SelectText = styled.span<SelectProps>`
   font-size: 14px;
-  opacity: ${(props) => (props.isSelect ? 1 : 0.5)};
+  opacity: ${(props) => (props.$isSelect ? 1 : 0.5)};
   margin: 0 15px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
@@ -72,18 +72,18 @@ export const CardFooter = styled.section`
 `;
 
 interface CardButtonProps {
-  attr?: String;
+  $attr?: String;
 }
 export const CardButton = styled.section<CardButtonProps>`
   width: 50%;
   height: 100%;
   border: 1px solid #fff;
   border-right: ${(props) =>
-    props.attr === "delete" ? "none" : "1px solid #fff"};
+    props.$attr === "delete" ? "none" : "1px solid #fff"};
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${(props) => (props.attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
+  color: ${(props) => (props.$attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
   background-color: #000;
   font-size: 12px;
   transition: all 0.3s ease-in-out;
