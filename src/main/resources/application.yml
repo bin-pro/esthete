@@ -48,11 +48,7 @@ spring:
 springdoc:
   use-fqn: true
   swagger-ui:
-    enabled: true
-    base-url: admin
-  open-api:
-    v3:
-      path: admin/v3/api-docs
+    path: /admin/swagger-ui
 
 logging:
   level:
