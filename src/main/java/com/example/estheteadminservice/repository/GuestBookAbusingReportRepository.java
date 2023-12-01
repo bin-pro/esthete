@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -19,4 +20,6 @@ public interface GuestBookAbusingReportRepository extends JpaRepository<GuestBoo
             "WHERE gab.guestBook.guestBookId = :guestBookId")
     Page<GuestBookAbusingReportDto.ReadDetailedInfoResponse>
     findDetailedInfoOfReportedGuestBook(@Param("guestBookId") UUID guestBookId, Pageable pageable);
+
+    Optional<GuestBookAbusingReport> findByReportId(UUID reportId);
 }

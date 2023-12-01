@@ -12,4 +12,6 @@ public interface GuestBookAbusingReportService {
     Page<GuestBookAbusingReportDto.ReadReportedGuestBookResponse> readReportedGuestBook(Integer page, Integer size);
 
     Page<GuestBookAbusingReportDto.ReadDetailedInfoResponse> readDetailedInfoOfReportedGuestBook(UUID guestBookId, Integer page, Integer size);
+
+    GuestBookAbusingReportDto.DeleteResponse deleteGuestBookAbusingReport(UUID guestBookAbusingReportId);
 }

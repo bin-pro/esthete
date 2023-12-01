@@ -10,6 +10,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 public class PhotoAbusingReportDto {
 
         @Data
@@ -73,6 +76,7 @@ public class PhotoAbusingReportDto {
         @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
         @JsonInclude(JsonInclude.Include.NON_NULL)
         public static class ReadDetailedInfoResponse {
+                private String reportId;
                 private String reporterId;
                 private String reporterNickname;
                 private String reporterProfileImg;
@@ -80,12 +84,29 @@ public class PhotoAbusingReportDto {
                 private Long reporterPhotoAbusingReportCount;
 
                 public ReadDetailedInfoResponse(PhotoAbusingReport photoAbusingReport) {
+                        this.reportId = photoAbusingReport.getReportId().toString();
                         this.reporterId = photoAbusingReport.getAbusingReporter().getAbusingReporterId().toString();
                         this.reporterNickname = photoAbusingReport.getAbusingReporter().getNickname();
                         this.reporterProfileImg = photoAbusingReport.getAbusingReporter().getProfileImgUrl();
                         this.reportReason = photoAbusingReport.getReason();
                         this.reporterPhotoAbusingReportCount
                                 = (long) photoAbusingReport.getAbusingReporter().getPhotoAbusingReports().size();
+                }
+        }
+
+        @Data
+        @NoArgsConstructor
+        @AllArgsConstructor
+        @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        public static class DeleteResponse {
+                private String photoAbusingReportId;
+                private String deletedAt;
+
+                @Builder
+                public DeleteResponse(UUID photoAbusingReportId) {
+                        this.photoAbusingReportId = photoAbusingReportId.toString();
+                        this.deletedAt = LocalDateTime.now().toString();
                 }
         }
 }

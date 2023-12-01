@@ -2,6 +2,8 @@ package com.example.estheteadminservice.service;
 
 import com.example.estheteadminservice.dto.GuestBookAbusingReportDto;
 import com.example.estheteadminservice.entity.*;
+import com.example.estheteadminservice.exception.AbusingReportException;
+import com.example.estheteadminservice.exception.AbusingReportErrorResult;
 import com.example.estheteadminservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -108,5 +110,20 @@ public class GuestBookAbusingReportServiceImpl implements GuestBookAbusingReport
                 = guestBookAbusingReportRepository.findDetailedInfoOfReportedGuestBook(guestBookId, pageable);
 
         return readDetailedGuestBookAbusingReportInfoResponsePage;
+    }
+
+    @Override
+    @Transactional
+    public GuestBookAbusingReportDto.DeleteResponse deleteGuestBookAbusingReport(UUID guestBookAbusingReportId) {
+
+        final GuestBookAbusingReport guestBookAbusingReport
+                = guestBookAbusingReportRepository.findByReportId(guestBookAbusingReportId)
+                        .orElseThrow(() -> new AbusingReportException(AbusingReportErrorResult.ABUSING_REPORT_NOT_FOUND));
+
+        guestBookAbusingReportRepository.delete(guestBookAbusingReport);
+
+        return GuestBookAbusingReportDto.DeleteResponse.builder()
+                .guestBookAbusingReportId(guestBookAbusingReportId)
+                .build();
     }
 }

@@ -39,9 +39,9 @@ public class AbusingReportController {
         return ResponseEntity.status(HttpStatus.OK).body(readReportedPhotoResponsePage);
     }
 
-    @GetMapping("/photos/{photoId}")
+    @GetMapping("/photos/details")
     public ResponseEntity<Page<PhotoAbusingReportDto.ReadDetailedInfoResponse>>
-    readDetailedInfoOfReportedPhoto(@PathVariable("photoId") UUID photoId,
+    readDetailedInfoOfReportedPhoto(@RequestParam("photoId") UUID photoId,
                                      @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
 
         Page<PhotoAbusingReportDto.ReadDetailedInfoResponse> readDetailedInfoResponsePage
@@ -50,6 +50,14 @@ public class AbusingReportController {
         return ResponseEntity.status(HttpStatus.OK).body(readDetailedInfoResponsePage);
     }
 
+    @DeleteMapping("/photos/{photoAbusingReportId}")
+    public ResponseEntity<PhotoAbusingReportDto.DeleteResponse>
+    deletePhotoAbusingReport(@PathVariable("photoAbusingReportId") UUID photoAbusingReportId) {
+
+        PhotoAbusingReportDto.DeleteResponse photoAbusingReportDeleteResponse = photoAbusingReportService.deletePhotoAbusingReport(photoAbusingReportId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(photoAbusingReportDeleteResponse);
+    }
 
     @PostMapping("/guest-books")
     public ResponseEntity createGuestBookAbusingReport(@RequestBody GuestBookAbusingReportDto.CreateRequest guestBookAbusingReportCreateRequest) {
@@ -69,14 +77,23 @@ public class AbusingReportController {
         return ResponseEntity.status(HttpStatus.OK).body(readReportedGuestBookResponsePage);
     }
 
-    @GetMapping("/guest-books/{guestBookId}")
+    @GetMapping("/guest-books/details")
     public ResponseEntity<Page<GuestBookAbusingReportDto.ReadDetailedInfoResponse>>
-    readDetailedInfoOfReportedGuestBook(@PathVariable("guestBookId") UUID guestBookId,
+    readDetailedInfoOfReportedGuestBook(@RequestParam("guestBookId") UUID guestBookId,
                                      @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
 
         Page<GuestBookAbusingReportDto.ReadDetailedInfoResponse> readDetailedInfoResponsePage
                 = guestBookAbusingReportService.readDetailedInfoOfReportedGuestBook(guestBookId, page, size);
 
         return ResponseEntity.status(HttpStatus.OK).body(readDetailedInfoResponsePage);
+    }
+
+    @DeleteMapping("/guest-books/{guestBookAbusingReportId}")
+    public ResponseEntity<GuestBookAbusingReportDto.DeleteResponse>
+    deleteGuestBookAbusingReport(@PathVariable("guestBookAbusingReportId") UUID guestBookAbusingReportId) {
+
+        GuestBookAbusingReportDto.DeleteResponse guestBookAbusingReportDeleteResponse = guestBookAbusingReportService.deleteGuestBookAbusingReport(guestBookAbusingReportId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(guestBookAbusingReportDeleteResponse);
     }
 }
