@@ -18,6 +18,7 @@ import java.util.UUID;
 public class GuestBookAbusingReport extends AbusingReportBaseEntity {
 
     @Id
+    @Column(name = "guest_book_abusing_report_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

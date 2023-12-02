@@ -26,8 +26,10 @@ public class User {
     @Column(columnDefinition = "BINARY(16)", name = "user_uuid", unique = true)
     private String userId;
 
+    @Column(name = "user_password", unique = true)
     private String password;
 
+    @Column(name = "user_role")
     private Role role;
 
     @PostPersist

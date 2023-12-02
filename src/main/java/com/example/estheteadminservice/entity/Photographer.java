@@ -27,8 +27,10 @@ public class Photographer {
     @Column(columnDefinition = "BINARY(16)", name = "photographer_uuid", unique = true)
     private UUID photographerId;
 
+    @Column(name = "photographer_nickname")
     private String nickname;
 
+    @Column(name = "photographer_profile_img_url")
     private String profileImgUrl;
 
     @OneToMany(mappedBy = "photographer", cascade = CascadeType.ALL, orphanRemoval = true)

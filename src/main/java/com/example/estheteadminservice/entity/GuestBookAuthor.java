@@ -21,14 +21,17 @@ import java.util.UUID;
 public class GuestBookAuthor {
 
     @Id
+    @Column(name = "guest_book_author_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(columnDefinition = "BINARY(16)", name = "guest_book_author_uuid", unique = true)
     private UUID guestBookAuthorId;
 
+    @Column(name = "guest_book_author_nickname")
     private String nickname;
 
+    @Column(name = "guest_book_author_profile_img_url")
     private String profileImgUrl;
 
     @OneToMany(mappedBy = "guestBookAuthor", cascade = CascadeType.ALL, orphanRemoval = true)

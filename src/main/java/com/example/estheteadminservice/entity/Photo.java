@@ -21,16 +21,20 @@ import java.util.UUID;
 public class Photo {
 
     @Id
+    @Column(name = "photo_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(columnDefinition = "BINARY(16)", name = "photo_uuid", unique = true)
     private UUID photoId;
 
+    @Column(name = "photo_title")
     private String title;
 
+    @Column(name = "photo_description")
     private String description;
 
+    @Column(name = "photo_url")
     private String photoUrl;
 
     private LocalDateTime createdAt;

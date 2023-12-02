@@ -21,12 +21,14 @@ import java.util.UUID;
 public class GuestBook {
 
     @Id
+    @Column(name = "guest_book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(columnDefinition = "BINARY(16)", name = "guest_book_uuid", unique = true)
     private UUID guestBookId;
 
+    @Column(name = "guest_book_content")
     private String content;
 
     private LocalDateTime createdAt;
