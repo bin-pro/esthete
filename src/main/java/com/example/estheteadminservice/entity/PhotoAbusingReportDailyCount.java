@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class PhotoAbusingReportDailyCount extends DailyCountBaseEntity {
 
     @Id
+    @Column(name = "photo_abusing_report_daily_count_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

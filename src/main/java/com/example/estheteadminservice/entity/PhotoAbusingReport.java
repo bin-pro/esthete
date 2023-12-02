@@ -18,6 +18,7 @@ import java.util.UUID;
 public class PhotoAbusingReport extends AbusingReportBaseEntity {
 
     @Id
+    @Column(name = "photo_abusing_report_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class ExhibitionDailyCount extends DailyCountBaseEntity {
     @Id
+    @Column(name = "exhibition_daily_count_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

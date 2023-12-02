@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class UserDailyCount extends DailyCountBaseEntity {
 
     @Id
+    @Column(name = "user_daily_count_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

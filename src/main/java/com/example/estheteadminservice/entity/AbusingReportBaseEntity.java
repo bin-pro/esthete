@@ -15,6 +15,7 @@ public class AbusingReportBaseEntity {
     @Column(columnDefinition = "BINARY(16)", name = "report_uuid")
     private UUID reportId;
 
+    @Column(name = "report_reason")
     private String reason;
 
     private LocalDateTime createdAt;

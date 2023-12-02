@@ -20,14 +20,17 @@ import java.util.UUID;
 public class AbusingReporter {
 
     @Id
+    @Column(name = "abusing_reporter_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "BINARY(16)", name = "reported_uuid", unique = true)
+    @Column(columnDefinition = "BINARY(16)", name = "abusing_reporter_uuid", unique = true)
     private UUID abusingReporterId;
 
+    @Column(name = "abusing_reporter_nickname")
     private String nickname;
 
+    @Column(name = "abusing_reporter_profile_img_url")
     private String profileImgUrl;
 
     @OneToMany(mappedBy = "abusingReporter", cascade = CascadeType.ALL, orphanRemoval = true)
