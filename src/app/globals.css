@@ -148,6 +148,7 @@ table {
 }
 * {
   box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
 }
 *::-webkit-scrollbar {
   width: 7px;

@@ -6,6 +6,7 @@ import * as M from "@/components/management/Styled";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { DUMMY_DATA } from "../../../DummyData";
 import { useParams, useRouter } from "next/navigation";
+import PostDetailModal from "../detail/PostDetailModal";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -15,9 +16,12 @@ const MasonryComponent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemOffSet, setItemOffSet] = useState(0);
 
-  useEffect(() => {
-    setCurrentPage(Math.ceil(DUMMY_DATA.length / ITEMS_PER_PAGE));
-  }, [itemOffSet]);
+  // Modal
+  const [modal, setModal] = useState(false);
+
+  // useEffect(() => {
+  //   setCurrentPage(Math.ceil(DUMMY_DATA.length / ITEMS_PER_PAGE));
+  // }, [itemOffSet]);
 
   const offSet = currentPage - 1 * ITEMS_PER_PAGE;
   const currentData = DUMMY_DATA.slice(offSet, offSet + ITEMS_PER_PAGE);
@@ -26,9 +30,6 @@ const MasonryComponent: React.FC = () => {
     setCurrentPage(data.selected + 1);
   };
 
-  const goToDetail = (post_id: number) => {
-    router.push(`/detail/post//${id}/${post_id}`);
-  };
   return (
     <>
       <M.MasonryContainer>
@@ -54,8 +55,8 @@ const MasonryComponent: React.FC = () => {
                   }
                 />
                 <M.CardFooter>
-                  <M.CardButton attr={"delete"}>DELETE</M.CardButton>
-                  <M.CardButton attr={"reject"}>REJECT</M.CardButton>
+                  <M.CardButton $attr={"delete"}>DELETE</M.CardButton>
+                  <M.CardButton $attr={"reject"}>REJECT</M.CardButton>
                 </M.CardFooter>
               </M.CardContainer>
             ))}
@@ -63,11 +64,11 @@ const MasonryComponent: React.FC = () => {
         </ResponsiveMasonry>
       </M.MasonryContainer>
       <M.StyledPagination
-        forcePage={currentPage}
+        forcePage={1}
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={DUMMY_DATA.length / ITEMS_PER_PAGE}
+        pageCount={4}
         marginPagesDisplayed={3}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}
@@ -80,6 +81,7 @@ const MasonryComponent: React.FC = () => {
         nextLinkClassName="page-link"
         activeClassName="active"
       />
+      <PostDetailModal modal={modal} setModal={setModal} />
     </>
   );
 };

@@ -20,9 +20,9 @@ const SwiperComponent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemOffSet, setItemOffSet] = useState(0);
 
-  useEffect(() => {
-    setCurrentPage(Math.ceil(GUEST_BOOK_DATA.length / ITEMS_PER_PAGE));
-  }, [itemOffSet, ITEMS_PER_PAGE]);
+  // useEffect(() => {
+  //   setCurrentPage(Math.ceil(GUEST_BOOK_DATA.length / ITEMS_PER_PAGE));
+  // }, [itemOffSet, ITEMS_PER_PAGE]);
 
   const offSet = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentData = GUEST_BOOK_DATA.slice(offSet, offSet + ITEMS_PER_PAGE);
@@ -99,7 +99,7 @@ const SwiperComponent: React.FC = () => {
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={GUEST_BOOK_DATA.length / 3}
+        pageCount={2}
         marginPagesDisplayed={3}
         pageRangeDisplayed={2}
         containerClassName="pagination justify-content-center"

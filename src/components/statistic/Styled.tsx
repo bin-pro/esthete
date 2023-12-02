@@ -87,10 +87,10 @@ export const NavBox = styled.section`
 `;
 
 interface NavSpanProps {
-  isCurrent: Boolean;
+  $isCurrent: Boolean;
 }
 export const StatisticNav = styled.span<NavSpanProps>`
-  opacity: ${(props) => (props.isCurrent ? 1 : 0.5)};
+  opacity: ${(props) => (props.$isCurrent ? 1 : 0.5)};
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 `;
@@ -126,48 +126,65 @@ export const LogoutSpan = styled.span`
 `;
 
 export const BodySection = styled.section`
-  width: 100%;
+  width: 90%;
   height: calc(100% - 166px);
   min-height: calc(100% - 166px);
   max-height: calc(100% - 166px);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 30px;
-  padding: 5%;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+  /* gap: 30px; */
+  overflow-y: auto;
   @media all and (max-width: 900px) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    height: calc(100% - 216px);
+    min-height: calc(100% - 216px);
+    max-height: calc(100% - 216px);
+  }
+`;
+
+export const RowSection = styled.section`
+  width: 100%;
+  height: 50%;
+  min-height: 50%;
+  max-height: 50%;
+  display: flex;
+  flex-direction: row;
+  /* gap: 30px; */
+  @media all and (max-width: 900px) {
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    flex-direction: column;
   }
 `;
 
 export const GraphBox = styled.section`
-  width: 100%;
-  max-width: 100%;
+  width: 50%;
   height: 100%;
-  justify-self: center;
-  align-self: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s ease-in-out;
+  justify-content: flex-start;
+  @media all and (max-width: 900px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const Graph = styled.section`
   width: 100%;
-  min-height: 90%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-bottom: 1px solid #fff;
-  margin-bottom: 10px;
+  border-bottom: 1px solid #949494;
 `;
 
 export const GraphTitle = styled.h2`
   width: 100%;
-  text-align: left;
+  height: 10%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   font-size: 12px;
   font-family: "Syncopate", sans-serif;
 `;

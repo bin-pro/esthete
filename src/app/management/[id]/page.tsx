@@ -28,13 +28,13 @@ const Management = () => {
         <Header param="management" />
         <M.SelectSection>
           <M.SelectText
-            isSelect={!isSelect ? true : false}
+            $isSelect={!isSelect ? true : false}
             onClick={handleSelect}
           >
             Post
           </M.SelectText>
           <M.SelectText
-            isSelect={isSelect ? true : false}
+            $isSelect={isSelect ? true : false}
             onClick={handleSelect}
           >
             Guest Book
