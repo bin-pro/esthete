@@ -3,24 +3,17 @@ server:
   forward-headers-strategy: FRAMEWORK
 
 spring:
+  profiles:
+    active: dev
   application:
     name: esthete-admin
-#    h2:
-#      console:
-#        enabled: true
-#        path: /h2-console
-#      datasource:
-#        url: jdbc:h2:mem:testdb
-#        username: sa
-#        password: sa
-#        driver-class-name: org.h2.Driver
-  datasource:
-    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_INITIAL_DB}?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=utf8&allowPublicKeyRetrieval=true
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP-SERVERS}
+    datasource:
+      url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_INITIAL_DB}?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=utf8&allowPublicKeyRetrieval=true
+      username: ${MYSQL_USERNAME}
+      password: ${MYSQL_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    kafka:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP-SERVERS}
 
   jpa:
     defer-datasource-initialization: true
@@ -39,16 +32,9 @@ spring:
         format_sql: true
     repositories:
       enabled: true
-  profiles:
-    active: dev
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-
-springdoc:
-  use-fqn: true
-  swagger-ui:
-    path: /admin/swagger-ui
 
 logging:
   level:
@@ -65,9 +51,22 @@ logging:
       springfox: DEBUG
       esthete: DEBUG
       lombok: DEBUG
+
+springdoc:
+  use-fqn: true
+  swagger-ui:
+    path: /admin/swagger-ui
+
 servers:
   - url: https://api.esthete.roberniro-projects.xyz
     description: Production server
 
 services:
   core-service: ${CORE_SERVICE_URL}
+
+statistics:
+  cron-expression: ${CRON_EXPRESSION}
+  count-interval-minutes: ${COUNT_INTERVAL_MINUTES}
+
+cors:
+  allowed-origin: ${ALLOWED_ORIGIN}

@@ -82,6 +82,7 @@ public class GuestBookAbusingReportDto {
         private String reporterProfileImg;
         private String reportReason;
         private Long reporterGuestBookAbusingReportCount;
+        private String createdAt;
 
         public ReadDetailedInfoResponse(GuestBookAbusingReport guestBookAbusingReport) {
             this.reportId = guestBookAbusingReport.getReportId().toString();
@@ -91,6 +92,7 @@ public class GuestBookAbusingReportDto {
             this.reportReason = guestBookAbusingReport.getReason();
             this.reporterGuestBookAbusingReportCount =
                     (long) guestBookAbusingReport.getAbusingReporter().getGuestBookAbusingReports().size();
+            this.createdAt = guestBookAbusingReport.getCreatedAt().toString();
         }
     }
 
