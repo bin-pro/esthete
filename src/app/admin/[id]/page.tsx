@@ -15,6 +15,8 @@ const Admin = () => {
           fill
           alt="background"
           style={S.ImageBackground}
+          priority
+          quality={100}
         />
         <Header param="admin" />
       </S.Container>

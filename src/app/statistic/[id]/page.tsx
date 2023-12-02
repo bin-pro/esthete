@@ -61,7 +61,14 @@ const Statistic: React.FC = () => {
   return (
     <>
       <S.Container>
-        <Image src={Background} fill alt="background" style={S.ImageBackground} />
+        <Image
+          src={Background}
+          fill
+          alt="background"
+          style={S.ImageBackground}
+          priority
+          quality={100}
+        />
         <Header param="statistic" />
         <S.BodySection>
           <S.RowSection>

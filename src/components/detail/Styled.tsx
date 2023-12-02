@@ -9,12 +9,11 @@ export const Container = styled.div`
 `;
 
 export const DetailBox = styled.div`
-  width: 700px;
-  height: 85%;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   transition: all 0.3s ease;
-  border: 1px solid #fff;
   @media (max-width: 768px) {
     width: 90%;
     height: 90%;
@@ -26,7 +25,6 @@ export const LeftBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid #fff;
 `;
 
 export const RightBox = styled.div`
@@ -34,7 +32,6 @@ export const RightBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid #fff;
 `;
 
 export const ProfileBox = styled.div`
@@ -83,8 +80,7 @@ export const ActionButton = styled.button<ActionButtonProps>`
   align-items: center;
   font-family: "syncopate", sans-serif;
   border: none;
-  border-right: ${(props) =>
-    props.$attr === "delete" ? "1px solid #fff" : "none"};
+  border-right: ${(props) => (props.$attr === "delete" ? "1px solid #fff" : "none")};
   background-color: transparent;
   color: ${(props) => (props.$attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
   cursor: pointer;

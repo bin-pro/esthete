@@ -45,14 +45,7 @@ const MasonryComponent: React.FC = () => {
                   alt="testImage"
                   width={200}
                   style={M.CardImageStyle}
-                  onClick={() =>
-                    router.push(`/detail/post//${id}/${data.id}`, {
-                      id: data.id,
-                      post_id: data.id,
-                      image: data.image,
-                      description: data.description,
-                    })
-                  }
+                  onClick={() => setModal(true)}
                 />
                 <M.CardFooter>
                   <M.CardButton $attr={"delete"}>DELETE</M.CardButton>

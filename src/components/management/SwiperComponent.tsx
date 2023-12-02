@@ -4,12 +4,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
-import {
-  EffectCoverflow,
-  Autoplay,
-  Pagination,
-  Navigation,
-} from "swiper/modules";
+import { EffectCoverflow, Autoplay, Pagination, Navigation } from "swiper/modules";
 import * as M from "@/components/management/Styled";
 import { GUEST_BOOK_DATA } from "../../../DummyData";
 import Image from "next/image";
@@ -34,10 +29,6 @@ const SwiperComponent: React.FC = () => {
     <>
       <M.SwiperContainer>
         <Swiper
-          pagination={{
-            dynamicBullets: true,
-            clickable: true,
-          }}
           autoplay={{
             delay: 7000,
             disableOnInteraction: false,
@@ -54,25 +45,26 @@ const SwiperComponent: React.FC = () => {
             slideShadows: true,
           }}
           modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
-          className="mySwiper"
           style={{ overflow: GUEST_BOOK_DATA.length === 0 ? "visible" : "" }}
         >
           {GUEST_BOOK_DATA.map((data) => {
             return (
               <M.SwiperCard key={data.id}>
-                <Image
-                  src={data.profile}
-                  alt="user-profile"
-                  width={200}
-                  height={250}
-                  style={M.SwiperImageStyle}
-                />
+                <M.ImageBox>
+                  <Image
+                    src={data.profile}
+                    alt="user-profile"
+                    fill
+                    style={M.SwiperImageStyle}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </M.ImageBox>
                 <M.InfoSection>
                   <M.InfoBox>
                     <M.ColHeadBox>
                       <M.ColHalfBox>
-                        <M.InfoSpan attr="title">user-id</M.InfoSpan>
-                        <M.InfoSpan attr="title">name</M.InfoSpan>
+                        <M.InfoSpan $attr="title">user-id</M.InfoSpan>
+                        <M.InfoSpan $attr="title">name</M.InfoSpan>
                       </M.ColHalfBox>
                       <M.ColHalfBox>
                         <M.InfoSpan>{data.id}</M.InfoSpan>
@@ -80,13 +72,13 @@ const SwiperComponent: React.FC = () => {
                       </M.ColHalfBox>
                     </M.ColHeadBox>
                     <M.ColLogBox>
-                      <M.InfoSpan attr="log">Log</M.InfoSpan>
+                      <M.InfoSpan $attr="log">Log</M.InfoSpan>
                       <M.InfoSpan>{data.guestBook}</M.InfoSpan>
                     </M.ColLogBox>
                   </M.InfoBox>
                   <M.ActionBox>
-                    <M.ActionButton attr="delete">DELETE</M.ActionButton>
-                    <M.ActionButton attr="reject">REJECT</M.ActionButton>
+                    <M.ActionButton $attr="delete">DELETE</M.ActionButton>
+                    <M.ActionButton $attr="reject">REJECT</M.ActionButton>
                   </M.ActionBox>
                 </M.InfoSection>
               </M.SwiperCard>

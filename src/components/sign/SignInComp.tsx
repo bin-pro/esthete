@@ -39,13 +39,21 @@ export const SignInComp: React.FC = () => {
   return (
     <>
       <S.Container>
-        <Image src={Background} fill alt="background" style={ImageBackground} />
+        <Image
+          src={Background}
+          fill
+          alt="background"
+          style={ImageBackground}
+          priority
+          quality={100}
+        />
         <Image
           src={MainLogo}
           width={200}
           alt="esthete-logo"
-          loading="lazy"
           placeholder="empty"
+          priority
+          quality={100}
         />
         <S.TitleBox>
           <S.Title>

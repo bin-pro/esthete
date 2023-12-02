@@ -3,35 +3,35 @@ import * as D from "./Styled";
 
 const customStyles = {
   content: {
-    backgroundColor: "white",
-    border: "1px solid #1DAE86",
-    borderRadius: "16px",
+    backgroundColor: "#161616",
+    border: "1px solid #fff",
+    borderRadius: "0px",
     outline: "none",
-    padding: "20px",
-    top: "50%",
+    padding: "0",
+    top: "60%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "50%",
-    minWidth: "350px",
+    width: "75%",
+    minWidth: "600px",
+    maxWidth: "800px",
+    height: "75%",
+    minHeight: "400px",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.8)",
+    zIndex: 1,
   },
 };
-// Modal.setAppElement("#root");
+Modal.setAppElement("#root");
 
 interface PostDetailModalProps {
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PostDetailModal: React.FC<PostDetailModalProps> = ({
-  modal,
-  setModal,
-}) => {
+const PostDetailModal: React.FC<PostDetailModalProps> = ({ modal, setModal }) => {
   return (
-    <Modal
-      isOpen={modal}
-      onRequestClose={() => setModal(false)}
-      style={customStyles}
-    >
+    <Modal isOpen={modal} onRequestClose={() => setModal(false)} style={customStyles}>
       <D.Container>
         <D.DetailBox>
           <D.LeftBox>

@@ -24,19 +24,15 @@ const Management = () => {
           fill
           alt="background"
           style={S.ImageBackground}
+          priority
+          quality={100}
         />
         <Header param="management" />
         <M.SelectSection>
-          <M.SelectText
-            $isSelect={!isSelect ? true : false}
-            onClick={handleSelect}
-          >
+          <M.SelectText $isSelect={!isSelect ? true : false} onClick={handleSelect}>
             Post
           </M.SelectText>
-          <M.SelectText
-            $isSelect={isSelect ? true : false}
-            onClick={handleSelect}
-          >
+          <M.SelectText $isSelect={isSelect ? true : false} onClick={handleSelect}>
             Guest Book
           </M.SelectText>
         </M.SelectSection>
