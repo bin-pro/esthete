@@ -1,9 +1,6 @@
 package com.example.estheteadminservice.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,8 +14,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class DailyCountBaseEntity {
 
+    @Column(name = "aggregate_date")
     private LocalDate date;
 
+    @Column(name = "daily_count")
     private Long count;
 
     public DailyCountBaseEntity(Long count) {
