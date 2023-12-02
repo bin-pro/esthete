@@ -31,7 +31,8 @@ public class AbusingReportController {
 
     @GetMapping("/photos")
     public ResponseEntity<Page<PhotoAbusingReportDto.ReadReportedPhotoResponse>>
-    readAllReportedPhoto(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+    readAllReportedPhoto(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                         @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
         Page<PhotoAbusingReportDto.ReadReportedPhotoResponse> readReportedPhotoResponsePage
                 = photoAbusingReportService.readReportedPhoto(page, size);
@@ -42,7 +43,8 @@ public class AbusingReportController {
     @GetMapping("/photos/details")
     public ResponseEntity<Page<PhotoAbusingReportDto.ReadDetailedInfoResponse>>
     readDetailedInfoOfReportedPhoto(@RequestParam("photoId") UUID photoId,
-                                     @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+                                    @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                    @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
         Page<PhotoAbusingReportDto.ReadDetailedInfoResponse> readDetailedInfoResponsePage
                 = photoAbusingReportService.readDetailedInfoOfReportedPhoto(photoId, page, size);
@@ -54,13 +56,15 @@ public class AbusingReportController {
     public ResponseEntity<PhotoAbusingReportDto.DeleteResponse>
     deletePhotoAbusingReport(@PathVariable("photoAbusingReportId") UUID photoAbusingReportId) {
 
-        PhotoAbusingReportDto.DeleteResponse photoAbusingReportDeleteResponse = photoAbusingReportService.deletePhotoAbusingReport(photoAbusingReportId);
+        PhotoAbusingReportDto.DeleteResponse photoAbusingReportDeleteResponse
+                = photoAbusingReportService.deletePhotoAbusingReport(photoAbusingReportId);
 
         return ResponseEntity.status(HttpStatus.OK).body(photoAbusingReportDeleteResponse);
     }
 
     @PostMapping("/guest-books")
-    public ResponseEntity createGuestBookAbusingReport(@RequestBody GuestBookAbusingReportDto.CreateRequest guestBookAbusingReportCreateRequest) {
+    public ResponseEntity createGuestBookAbusingReport(
+            @RequestBody GuestBookAbusingReportDto.CreateRequest guestBookAbusingReportCreateRequest) {
 
         guestBookAbusingReportService.createGuestBookAbusingReport(guestBookAbusingReportCreateRequest);
 
@@ -69,7 +73,8 @@ public class AbusingReportController {
 
     @GetMapping("/guest-books")
     public ResponseEntity<Page<GuestBookAbusingReportDto.ReadReportedGuestBookResponse>>
-    readAllReportedGuestBook(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+    readAllReportedGuestBook(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                             @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
         Page<GuestBookAbusingReportDto.ReadReportedGuestBookResponse> readReportedGuestBookResponsePage
                 = guestBookAbusingReportService.readReportedGuestBook(page, size);
@@ -80,7 +85,8 @@ public class AbusingReportController {
     @GetMapping("/guest-books/details")
     public ResponseEntity<Page<GuestBookAbusingReportDto.ReadDetailedInfoResponse>>
     readDetailedInfoOfReportedGuestBook(@RequestParam("guestBookId") UUID guestBookId,
-                                     @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+                                        @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
         Page<GuestBookAbusingReportDto.ReadDetailedInfoResponse> readDetailedInfoResponsePage
                 = guestBookAbusingReportService.readDetailedInfoOfReportedGuestBook(guestBookId, page, size);

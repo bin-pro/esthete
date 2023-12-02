@@ -82,6 +82,7 @@ public class PhotoAbusingReportDto {
                 private String reporterProfileImg;
                 private String reportReason;
                 private Long reporterPhotoAbusingReportCount;
+                private String createdAt;
 
                 public ReadDetailedInfoResponse(PhotoAbusingReport photoAbusingReport) {
                         this.reportId = photoAbusingReport.getReportId().toString();
@@ -91,6 +92,7 @@ public class PhotoAbusingReportDto {
                         this.reportReason = photoAbusingReport.getReason();
                         this.reporterPhotoAbusingReportCount
                                 = (long) photoAbusingReport.getAbusingReporter().getPhotoAbusingReports().size();
+                        this.createdAt = photoAbusingReport.getCreatedAt().toString();
                 }
         }
 
