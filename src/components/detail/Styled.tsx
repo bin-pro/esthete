@@ -25,6 +25,7 @@ export const LeftBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #fff;
 `;
 
 export const RightBox = styled.div`
@@ -37,27 +38,40 @@ export const RightBox = styled.div`
 export const ProfileBox = styled.div`
   width: 100%;
   height: 40%;
-  border: 1px solid #fff;
+  position: relative;
+  border: none;
 `;
+
+export const ImageStyle: React.CSSProperties = {
+  objectFit: "cover",
+  border: "none",
+};
 
 export const InfoBox = styled.div`
   width: 100%;
   height: 60%;
   display: flex;
   flex-direction: column;
-  border: 1px solid #fff;
+  gap: 30px;
+  border-top: 1px solid #fff;
+  padding: 15px;
+`;
+
+export const InfoText = styled.p`
+  font-size: 14px;
 `;
 
 export const PostImageBox = styled.div`
   width: 100%;
   height: 65%;
-  border: 1px solid #fff;
+  position: relative;
 `;
 
 export const DescriptionBox = styled.div`
   width: 100%;
   height: calc(35% - 40px);
-  border: 1px solid #fff;
+  padding: 15px;
+  border-top: 1px solid #fff;
 `;
 
 export const ActionBox = styled.div`
@@ -66,7 +80,7 @@ export const ActionBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #fff;
+  border-top: 1px solid #fff;
 `;
 
 interface ActionButtonProps {
