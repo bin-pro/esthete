@@ -30,6 +30,6 @@ public interface GuestBookAbusingReportDailyCountRepository extends JpaRepositor
 
     @Query("SELECT new com.example.estheteadminservice.dto.DailyCountDto$GuestBookAbusingReport(gba) " +
             "FROM GuestBookAbusingReportDailyCount gba " +
-            "ORDER BY gba.date DESC")
+            "ORDER BY gba.aggregateDate DESC")
     Page<DailyCountDto.GuestBookAbusingReport> getCountPage(Pageable pageable);
 }

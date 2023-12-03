@@ -29,6 +29,6 @@ public interface PhotoAbusingReportDailyCountRepository extends JpaRepository<Ph
 
     @Query("SELECT new com.example.estheteadminservice.dto.DailyCountDto$PhotoAbusingReport(pa) " +
             "FROM PhotoAbusingReportDailyCount pa " +
-            "ORDER BY pa.date DESC")
+            "ORDER BY pa.aggregateDate DESC")
     Page<DailyCountDto.PhotoAbusingReport> getCountPage(Pageable pageable);
 }
