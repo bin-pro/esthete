@@ -26,7 +26,6 @@ spring:
       ddl-auto: ${SPRING_DATASOURCE_DDL-AUTO}
     properties:
       hibernate:
-        globally_quoted_identifiers: true
         jdbc:
           time_zone: Asia/Seoul
         show_sql: true
