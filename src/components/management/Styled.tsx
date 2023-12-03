@@ -174,6 +174,7 @@ export const SwiperCard = styled(SwiperSlide)`
   height: 250px;
   display: flex;
   background-color: #000;
+  border: 1px solid #fff;
 `;
 
 export const ImageBox = styled.section`
@@ -184,7 +185,6 @@ export const ImageBox = styled.section`
 
 export const SwiperImageStyle: React.CSSProperties = {
   objectFit: "cover",
-  borderLeft: "1px solid #fff",
 };
 
 export const InfoSection = styled.section`
@@ -194,7 +194,7 @@ export const InfoSection = styled.section`
   flex-direction: column;
   justify-content: center;
   gap: 10px;
-  border: 1px solid #fff;
+  border-left: 1px solid #fff;
 `;
 
 export const InfoBox = styled.section`
