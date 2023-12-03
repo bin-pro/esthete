@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface ExhibitionDailyCountRepository extends JpaRepository<ExhibitionDailyCount, Long> {
     @Query("SELECT new com.example.estheteadminservice.dto.DailyCountDto$Exhibition(edc) " +
             "FROM ExhibitionDailyCount edc " +
-            "ORDER BY edc.date DESC")
+            "ORDER BY edc.aggregateDate DESC")
     Page<DailyCountDto.Exhibition> getCountPage(Pageable pageable);
 }

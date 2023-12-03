@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface UserDailyCountRepository extends JpaRepository<UserDailyCount, Long> {
     @Query("SELECT new com.example.estheteadminservice.dto.DailyCountDto$User(udc) " +
             "FROM UserDailyCount udc " +
-            "ORDER BY udc.date DESC")
+            "ORDER BY udc.aggregateDate DESC")
     Page<DailyCountDto.User> getCountPage(Pageable pageable);
 }
