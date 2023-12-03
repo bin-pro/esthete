@@ -21,14 +21,14 @@ export const DetailBox = styled.div`
 `;
 
 export const LeftBox = styled.div`
-  width: 40%;
+  width: 35%;
   height: 100%;
   display: flex;
   flex-direction: column;
 `;
 
 export const RightBox = styled.div`
-  width: 60%;
+  width: 65%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -36,13 +36,13 @@ export const RightBox = styled.div`
 
 export const ProfileBox = styled.div`
   width: 100%;
-  height: 35%;
+  height: 40%;
   border: 1px solid #fff;
 `;
 
 export const InfoBox = styled.div`
   width: 100%;
-  height: 65%;
+  height: 60%;
   display: flex;
   flex-direction: column;
   border: 1px solid #fff;
@@ -50,13 +50,13 @@ export const InfoBox = styled.div`
 
 export const PostImageBox = styled.div`
   width: 100%;
-  height: 55%;
+  height: 65%;
   border: 1px solid #fff;
 `;
 
 export const DescriptionBox = styled.div`
   width: 100%;
-  height: calc(45% - 40px);
+  height: calc(35% - 40px);
   border: 1px solid #fff;
 `;
 

@@ -16,8 +16,25 @@ const MasonryComponent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemOffSet, setItemOffSet] = useState(0);
 
-  // Modal
+  // Hover-------------------------------------------
+  const [hover, setHover] = useState<Number>(-1);
+
+  // Modal-------------------------------------------
   const [modal, setModal] = useState(false);
+  const [modalData, setModalData] = useState({
+    photo_id: 0,
+    photo_title: "",
+    photo_description: "",
+    photo_url: "",
+    photo_created_at: "",
+    photographer_id: 0,
+    photographer_nickname: "",
+    photographer_profile_img: "",
+    reporter_id: 0,
+    reporter_nickname: "",
+    reporter_profile_img: "",
+    reason: "",
+  });
 
   // useEffect(() => {
   //   setCurrentPage(Math.ceil(DUMMY_DATA.length / ITEMS_PER_PAGE));
@@ -30,26 +47,66 @@ const MasonryComponent: React.FC = () => {
     setCurrentPage(data.selected + 1);
   };
 
+  const handleDelete = async () => {
+    if (window.confirm("해당 저작권 신고 게시물을 정말 삭제하시겠습니까?")) {
+      console.log("delete");
+    } else {
+      return;
+    }
+  };
+
+  const handleReject = async () => {
+    if (window.confirm("해당 저작권 신고 게시물을 유보 처리하시겠습니까?")) {
+      console.log("reject");
+    } else {
+      return;
+    }
+  };
+
   return (
     <>
       <M.MasonryContainer>
         <ResponsiveMasonry
-          columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1280: 3 }}
+          columnsCountBreakPoints={{ 350: 3, 750: 3, 900: 3, 1280: 3 }}
           style={M.ResMasonryStyle}
         >
-          <Masonry gutter="20px" style={M.MasonryStyle}>
+          <Masonry gutter="30px" style={M.MasonryStyle}>
             {DUMMY_DATA.map((data) => (
               <M.CardContainer key={data.id}>
                 <Image
                   src={data.image}
-                  alt="testImage"
-                  width={200}
+                  alt="postImage"
+                  width={250}
                   style={M.CardImageStyle}
-                  onClick={() => setModal(true)}
+                  onMouseEnter={() => {
+                    setHover(data.id);
+                  }}
                 />
+                <M.CardIageHoverBox
+                  $isHover={hover === data.id}
+                  onMouseLeave={() => setHover(-1)}
+                  onClick={() => setModal(true)}
+                >
+                  <M.CardHalfBox>
+                    <M.SmallText>user-id</M.SmallText>
+                    <M.SmallText>name</M.SmallText>
+                    <M.SmallText>post</M.SmallText>
+                    <M.SmallText>accounts</M.SmallText>
+                  </M.CardHalfBox>
+                  <M.CardHalfBox>
+                    <M.SmallText>{data.id}</M.SmallText>
+                    <M.SmallText>{data.nickname}</M.SmallText>
+                    <M.SmallText>{data.postWarning}</M.SmallText>
+                    <M.SmallText>{data.accountsWarning}</M.SmallText>
+                  </M.CardHalfBox>
+                </M.CardIageHoverBox>
                 <M.CardFooter>
-                  <M.CardButton $attr={"delete"}>DELETE</M.CardButton>
-                  <M.CardButton $attr={"reject"}>REJECT</M.CardButton>
+                  <M.CardButton $attr={"delete"} onClick={handleDelete}>
+                    DELETE
+                  </M.CardButton>
+                  <M.CardButton $attr={"reject"} onClick={handleReject}>
+                    REJECT
+                  </M.CardButton>
                 </M.CardFooter>
               </M.CardContainer>
             ))}

@@ -14,6 +14,8 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { useEffect, useState } from "react";
+import { Instance } from "@/api/axios";
 
 const BACKGROUND_COLORS = [
   "rgba(255, 99, 132, 0.2)",
@@ -58,6 +60,25 @@ const CHART_DEFAULT_OPTIONS = {
 };
 
 const Statistic: React.FC = () => {
+  // state--------------------------------------------------
+  const [userCount, setUserCount] = useState({});
+  const [exhibitionCount, setExhibitionCount] = useState({});
+  const [photoCount, setPhotoCount] = useState({});
+  const [guestBookCount, setGuestBookCount] = useState({});
+
+  // useEffect--------------------------------------------------
+  useEffect(() => {
+    (async () => {
+      // const userCountData = await Instance.get("/statistics/user/count/daily");
+      // const exhibitionCountData = await Instance.get("/statistics/exhibition/count/daily");
+      // const photoCountData = await Instance.get("/statistics/abusing-reports/photos/count/daily");
+      // const guestBookCountData = await Instance.get(
+      //   "/statistics/abusing-reports/guest-books/count/daily"
+      // );
+      // console.log(userCountData);
+    })();
+  }, []);
+
   return (
     <>
       <S.Container>

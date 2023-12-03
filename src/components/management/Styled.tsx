@@ -24,6 +24,7 @@ export const SelectText = styled.span<SelectProps>`
 // Masonry-----------------------------------
 export const MasonryContainer = styled.div`
   width: 90%;
+  min-width: 800px;
   height: calc(100% - 170px);
   max-height: calc(100% - 170px);
   padding: 5% 0;
@@ -37,28 +38,52 @@ export const ResMasonryStyle: React.CSSProperties = {
 };
 
 export const MasonryStyle: React.CSSProperties = {
-  width: "650px",
+  width: "850px",
   display: "flex",
-  justifyContent: "center",
-  gap: "0px",
+  padding: "15px",
 };
 
 export const CardContainer = styled.div`
-  width: 200px;
+  width: 250px;
   height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  overflow-x: hidden;
   &:hover {
     transform: scale(1.03);
   }
 `;
 
-export const CardIageBox = styled.section`
+interface CardImageProps {
+  $isHover: Boolean;
+}
+export const CardIageHoverBox = styled.section<CardImageProps>`
   width: 100%;
   height: calc(100% - 30px);
-  position: relative;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: ${(props) => (props.$isHover ? "0" : "-250px")};
+  border: 1px solid #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow-y: auto;
+`;
+
+export const CardHalfBox = styled.section`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+`;
+
+export const SmallText = styled.span`
+  height: 25px;
+  font-size: 10px;
+  opacity: 0.75;
 `;
 
 export const CardImageStyle: React.CSSProperties = {
