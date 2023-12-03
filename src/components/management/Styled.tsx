@@ -24,23 +24,11 @@ export const SelectText = styled.span<SelectProps>`
 // Masonry-----------------------------------
 export const MasonryContainer = styled.div`
   width: 90%;
+  min-width: 800px;
   height: calc(100% - 170px);
   max-height: calc(100% - 170px);
   padding: 5% 0;
   overflow-y: auto;
-`;
-
-export const CardContainer = styled.div`
-  width: 200px;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  transition: all 0.3s ease-in-out;
-  &:hover {
-    transform: scale(1.03);
-  }
 `;
 
 export const ResMasonryStyle: React.CSSProperties = {
@@ -50,14 +38,57 @@ export const ResMasonryStyle: React.CSSProperties = {
 };
 
 export const MasonryStyle: React.CSSProperties = {
-  width: "650px",
+  width: "850px",
   display: "flex",
-  justifyContent: "center",
-  gap: "0px",
+  padding: "15px",
 };
+
+export const CardContainer = styled.div`
+  width: 250px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
+  &:hover {
+    transform: scale(1.03);
+  }
+`;
+
+interface CardImageProps {
+  $isHover: Boolean;
+}
+export const CardIageHoverBox = styled.section<CardImageProps>`
+  width: 100%;
+  height: calc(100% - 30px);
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: ${(props) => (props.$isHover ? "0" : "-250px")};
+  border: 1px solid #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow-y: auto;
+`;
+
+export const CardHalfBox = styled.section`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+`;
+
+export const SmallText = styled.span`
+  height: 25px;
+  font-size: 10px;
+  opacity: 0.75;
+`;
 
 export const CardImageStyle: React.CSSProperties = {
   border: "1px solid #fff",
+  objectFit: "cover",
 };
 
 export const CardFooter = styled.section`
@@ -68,7 +99,6 @@ export const CardFooter = styled.section`
   align-items: center;
   position: absolute;
   bottom: 0;
-  transition: all 0.3s ease-in-out;
 `;
 
 interface CardButtonProps {
@@ -78,15 +108,13 @@ export const CardButton = styled.section<CardButtonProps>`
   width: 50%;
   height: 100%;
   border: 1px solid #fff;
-  border-right: ${(props) =>
-    props.$attr === "delete" ? "none" : "1px solid #fff"};
+  border-right: ${(props) => (props.$attr === "delete" ? "none" : "1px solid #fff")};
   display: flex;
   justify-content: center;
   align-items: center;
   color: ${(props) => (props.$attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
   background-color: #000;
   font-size: 12px;
-  transition: all 0.3s ease-in-out;
   cursor: pointer;
 `;
 
@@ -131,7 +159,6 @@ export const SwiperContainer = styled.div`
   align-items: center;
   padding: 5% 0;
   overflow-y: auto;
-  transition: all 0.3s ease-in-out;
   @media all and (max-width: 705px) {
     width: 500px;
     height: 400px;
@@ -149,7 +176,13 @@ export const SwiperCard = styled(SwiperSlide)`
   background-color: #000;
 `;
 
-export const SwiperImageStyle = {
+export const ImageBox = styled.section`
+  width: 200px;
+  height: 100%;
+  position: relative;
+`;
+
+export const SwiperImageStyle: React.CSSProperties = {
   objectFit: "cover",
   borderLeft: "1px solid #fff",
 };
@@ -189,16 +222,12 @@ export const ColHalfBox = styled.section`
 `;
 
 interface InfoSpanProps {
-  attr?: String;
+  $attr?: String;
 }
 export const InfoSpan = styled.span<InfoSpanProps>`
   font-size: 14px;
   color: ${(props) =>
-    props.attr === "title"
-      ? "#7EC9FF"
-      : props.attr === "log"
-      ? "#FF6D6D"
-      : "#fff"};
+    props.$attr === "title" ? "#7EC9FF" : props.$attr === "log" ? "#FF6D6D" : "#fff"};
 `;
 
 export const ColLogBox = styled.section`
@@ -219,7 +248,7 @@ export const ActionBox = styled.section`
 `;
 
 interface ActionButtonProps {
-  attr?: String;
+  $attr?: String;
 }
 export const ActionButton = styled.button<ActionButtonProps>`
   width: 50%;
@@ -228,10 +257,9 @@ export const ActionButton = styled.button<ActionButtonProps>`
   justify-content: center;
   align-items: center;
   border: none;
-  border-right: ${(props) =>
-    props.attr === "delete" ? "1px solid #fff" : "none"};
+  border-right: ${(props) => (props.$attr === "delete" ? "1px solid #fff" : "none")};
   font-family: "Syncopate", sans-serif;
-  color: ${(props) => (props.attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
+  color: ${(props) => (props.$attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
   background-color: transparent;
   font-size: 14px;
   transition: all 0.3s ease-in-out;

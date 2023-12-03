@@ -9,12 +9,11 @@ export const Container = styled.div`
 `;
 
 export const DetailBox = styled.div`
-  width: 700px;
-  height: 85%;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   transition: all 0.3s ease;
-  border: 1px solid #fff;
   @media (max-width: 768px) {
     width: 90%;
     height: 90%;
@@ -22,45 +21,57 @@ export const DetailBox = styled.div`
 `;
 
 export const LeftBox = styled.div`
-  width: 40%;
+  width: 35%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid #fff;
+  border-right: 1px solid #fff;
 `;
 
 export const RightBox = styled.div`
-  width: 60%;
+  width: 65%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid #fff;
 `;
 
 export const ProfileBox = styled.div`
   width: 100%;
-  height: 35%;
-  border: 1px solid #fff;
+  height: 40%;
+  position: relative;
+  border: none;
 `;
+
+export const ImageStyle: React.CSSProperties = {
+  objectFit: "cover",
+  border: "none",
+};
 
 export const InfoBox = styled.div`
   width: 100%;
-  height: 65%;
+  height: 60%;
   display: flex;
   flex-direction: column;
-  border: 1px solid #fff;
+  gap: 30px;
+  border-top: 1px solid #fff;
+  padding: 15px;
+`;
+
+export const InfoText = styled.p`
+  font-size: 14px;
 `;
 
 export const PostImageBox = styled.div`
   width: 100%;
-  height: 55%;
-  border: 1px solid #fff;
+  height: 65%;
+  position: relative;
 `;
 
 export const DescriptionBox = styled.div`
   width: 100%;
-  height: calc(45% - 40px);
-  border: 1px solid #fff;
+  height: calc(35% - 40px);
+  padding: 15px;
+  border-top: 1px solid #fff;
 `;
 
 export const ActionBox = styled.div`
@@ -69,7 +80,7 @@ export const ActionBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #fff;
+  border-top: 1px solid #fff;
 `;
 
 interface ActionButtonProps {
@@ -83,8 +94,7 @@ export const ActionButton = styled.button<ActionButtonProps>`
   align-items: center;
   font-family: "syncopate", sans-serif;
   border: none;
-  border-right: ${(props) =>
-    props.$attr === "delete" ? "1px solid #fff" : "none"};
+  border-right: ${(props) => (props.$attr === "delete" ? "1px solid #fff" : "none")};
   background-color: transparent;
   color: ${(props) => (props.$attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
   cursor: pointer;

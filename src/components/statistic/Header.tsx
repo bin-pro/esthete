@@ -20,7 +20,7 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
     <>
       <S.HeaderSection>
         <S.LogoBox>
-          <Image src={MainLogo} alt="mainLogo" width={150} />
+          <Image src={MainLogo} alt="mainLogo" width={150} priority />
           <S.NavBox>
             <S.StatisticNav
               $isCurrent={param === "statistic" ? true : false}
