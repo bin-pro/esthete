@@ -61,8 +61,37 @@ const OPTIONS = {
 };
 
 const CHART_DEFAULT_OPTIONS = {
-  labels: [],
-  datasets: [],
+  labels: [
+    "2021-09-01",
+    "2021-09-02",
+    "2021-09-03",
+    "2021-09-04",
+    "2021-09-05",
+    "2021-09-06",
+    "2021-09-07",
+    "2021-09-08",
+    "2021-09-09",
+    "2021-09-10",
+    "2021-09-11",
+    "2021-09-12",
+    "2021-09-13",
+    "2021-09-14",
+    "2021-09-15",
+    "2021-09-16",
+    "2021-09-17",
+    "2021-09-18",
+  ],
+  datasets: [
+    {
+      label: "Number of Access user / day",
+      data: [
+        65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80,
+      ],
+      backgroundColor: BACKGROUND_COLORS,
+      borderColor: BORDER_COLORS,
+      borderWidth: 1,
+    },
+  ],
 };
 
 const Statistic: React.FC = () => {
