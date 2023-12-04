@@ -9,4 +9,6 @@ public interface UserService {
     UserDto.CreateManagerResponse createManager(UserDto.CreateManagerRequest createManagerRequest);
 
     Page<UserDto.ManagerDto> readAllManager(Integer page, Integer size);
+
+    UserDto.DeleteManagerResponse deleteManager(Long managerId);
 }

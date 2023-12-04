@@ -6,6 +6,7 @@ import com.example.estheteadminservice.exception.UserErrorResult;
 import com.example.estheteadminservice.exception.UserException;
 import com.example.estheteadminservice.repository.UserRepository;
 import com.example.estheteadminservice.security.JwtTokenProvider;
+import com.example.estheteadminservice.vo.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Slf4j
@@ -83,5 +85,29 @@ public class UserServiceImpl implements UserService {
         final Page<UserDto.ManagerDto> readAllNanagerPage = userRepository.findAllManager(pageable);
 
         return readAllNanagerPage;
+    }
+
+    @Override
+    public UserDto.DeleteManagerResponse deleteManager(Long managerId) {
+
+            final User user = userRepository.findById(managerId)
+                    .orElseThrow(() -> new UserException(UserErrorResult.USER_NOT_FOUND));
+
+            if (user.getRole().equals(Role.ADMIN)) {
+                throw new UserException(UserErrorResult.USER_NOT_MANAGER);
+            }
+
+            try {
+                userRepository.delete(user);
+            } catch (Exception e) {
+                throw new UserException(UserErrorResult.USER_DELETE_FAILED);
+            }
+
+            final UserDto.DeleteManagerResponse deleteManagerResponse = UserDto.DeleteManagerResponse.builder()
+                    .managerName(user.getUsername())
+                    .deletedAt(LocalDateTime.now().toString())
+                    .build();
+
+            return deleteManagerResponse;
     }
 }

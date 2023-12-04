@@ -31,4 +31,12 @@ public class ManagerController {
 
         return ResponseEntity.status(HttpStatus.OK).body(readAllManagerPage);
     }
+
+    @DeleteMapping("/{managerId}")
+    public ResponseEntity<UserDto.DeleteManagerResponse> deleteManager(@PathVariable("managerId") Long managerId) {
+
+        UserDto.DeleteManagerResponse deleteManagerResponse = userService.deleteManager(managerId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(deleteManagerResponse);
+    }
 }

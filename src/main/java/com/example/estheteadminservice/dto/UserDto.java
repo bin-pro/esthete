@@ -77,4 +77,15 @@ public class UserDto {
             this.role = user.getRole().getRole();
         }
     }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class DeleteManagerResponse {
+        private String managerName;
+        private String deletedAt;
+    }
 }
