@@ -79,6 +79,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getPhotoErrorResult().getHttpStatus()).body(errorDto);
     }
 
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<ErrorDto> handleUserException(UserException e) {
+
+        log.error("UserException", e);
+
+        final ErrorDto errorDto = ErrorDto.builder()
+                .error(e.getUserErrorResult().getMessage())
+                .build();
+
+        return ResponseEntity.status(e.getUserErrorResult().getHttpStatus()).body(errorDto);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorDto> handleRuntimeException(RuntimeException e) {
 

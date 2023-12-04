@@ -1,6 +1,7 @@
 package com.example.estheteadminservice.repository;
 
 import com.example.estheteadminservice.dto.GuestBookAbusingReportDto;
+import com.example.estheteadminservice.entity.GuestBook;
 import com.example.estheteadminservice.entity.GuestBookAbusingReport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,4 +23,6 @@ public interface GuestBookAbusingReportRepository extends JpaRepository<GuestBoo
     findDetailedInfoOfReportedGuestBook(@Param("guestBookId") UUID guestBookId, Pageable pageable);
 
     Optional<GuestBookAbusingReport> findByReportId(UUID reportId);
+
+    void deleteAllByGuestBook(GuestBook guestBook);
 }

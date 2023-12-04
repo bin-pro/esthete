@@ -52,7 +52,7 @@ public class AbusingReportController {
         return ResponseEntity.status(HttpStatus.OK).body(readDetailedInfoResponsePage);
     }
 
-    @DeleteMapping("/photos/{photoAbusingReportId}")
+    @DeleteMapping("/photos/details/{photoAbusingReportId}")
     public ResponseEntity<PhotoAbusingReportDto.DeleteResponse>
     deletePhotoAbusingReport(@PathVariable("photoAbusingReportId") UUID photoAbusingReportId) {
 
@@ -60,6 +60,16 @@ public class AbusingReportController {
                 = photoAbusingReportService.deletePhotoAbusingReport(photoAbusingReportId);
 
         return ResponseEntity.status(HttpStatus.OK).body(photoAbusingReportDeleteResponse);
+    }
+
+    @DeleteMapping("/photos/{photoId}")
+    public ResponseEntity<PhotoAbusingReportDto.DeleteAllResponse>
+    deleteAllPhotoAbusingReportByPhotoId(@PathVariable("photoId") UUID photoId) {
+
+        PhotoAbusingReportDto.DeleteAllResponse photoAbusingReportDeleteAllResponse
+                = photoAbusingReportService.deleteAllPhotoAbusingReportByPhotoId(photoId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(photoAbusingReportDeleteAllResponse);
     }
 
     @PostMapping("/guest-books")
@@ -94,12 +104,23 @@ public class AbusingReportController {
         return ResponseEntity.status(HttpStatus.OK).body(readDetailedInfoResponsePage);
     }
 
-    @DeleteMapping("/guest-books/{guestBookAbusingReportId}")
+    @DeleteMapping("/guest-books/details/{guestBookAbusingReportId}")
     public ResponseEntity<GuestBookAbusingReportDto.DeleteResponse>
     deleteGuestBookAbusingReport(@PathVariable("guestBookAbusingReportId") UUID guestBookAbusingReportId) {
 
-        GuestBookAbusingReportDto.DeleteResponse guestBookAbusingReportDeleteResponse = guestBookAbusingReportService.deleteGuestBookAbusingReport(guestBookAbusingReportId);
+        GuestBookAbusingReportDto.DeleteResponse guestBookAbusingReportDeleteResponse
+                = guestBookAbusingReportService.deleteGuestBookAbusingReport(guestBookAbusingReportId);
 
         return ResponseEntity.status(HttpStatus.OK).body(guestBookAbusingReportDeleteResponse);
+    }
+
+    @DeleteMapping("/guest-books/{guestBookId}")
+    public ResponseEntity<GuestBookAbusingReportDto.DeleteAllResponse>
+    deleteAllGuestBookAbusingReportByGuestBookId(@PathVariable("guestBookId") UUID guestBookId) {
+
+        GuestBookAbusingReportDto.DeleteAllResponse guestBookAbusingReportDeleteAllResponse
+                = guestBookAbusingReportService.deleteAllGuestBookAbusingReportByGuestBookId(guestBookId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(guestBookAbusingReportDeleteAllResponse);
     }
 }
