@@ -3,7 +3,7 @@ import Image from "next/image";
 import Background from "@/../public/images/background.jpg";
 import Header from "@/components/statistic/Header";
 
-export const Admin: React.FC = () => {
+const Admin: React.FC = () => {
   return (
     <>
       <S.Container>
