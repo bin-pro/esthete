@@ -9,7 +9,7 @@ import Header from "@/components/statistic/Header";
 import MasonryComponent from "@/components/management/MasonryComponent";
 import SwiperComponent from "@/components/management/SwiperComponent";
 
-const Management = () => {
+const Management: React.FC = () => {
   const [isSelect, setIsSelect] = useState<Boolean>(false);
 
   const handleSelect = () => {
