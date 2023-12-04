@@ -1,9 +1,11 @@
+"use client";
+
 import * as S from "@/components/statistic/Styled";
 import Image from "next/image";
 import Background from "@/../public/images/background.jpg";
 import Header from "@/components/statistic/Header";
 
-const Administor: React.FC = () => {
+const Admin: React.FC = () => {
   return (
     <>
       <S.Container>
@@ -21,4 +23,4 @@ const Administor: React.FC = () => {
   );
 };
 
-export default Administor;
+export default Admin;
