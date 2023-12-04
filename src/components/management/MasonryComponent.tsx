@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import * as M from "@/components/management/Styled";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
@@ -78,9 +78,6 @@ const MasonryComponent: React.FC = () => {
 
   const handleModal = async (modalData: ModalDataProps, photoId: string) => {
     setModalData(modalData);
-    // const detailData = await Instance.get(`abusing-reports/photos/details`, {
-    //   photoId: photoId,
-    // });
     setModal(true);
   };
 

@@ -73,17 +73,7 @@ const Statistic: React.FC = () => {
   const [guestBookCount, setGuestBookCount] = useState({});
 
   // useEffect--------------------------------------------------
-  useEffect(() => {
-    (async () => {
-      // const userCountData = await Instance.get("/statistics/user/count/daily");
-      // const exhibitionCountData = await Instance.get("/statistics/exhibition/count/daily");
-      // const photoCountData = await Instance.get("/statistics/abusing-reports/photos/count/daily");
-      // const guestBookCountData = await Instance.get(
-      //   "/statistics/abusing-reports/guest-books/count/daily"
-      // );
-      // console.log(userCountData);
-    })();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>

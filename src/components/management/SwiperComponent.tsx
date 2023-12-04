@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+"use client";
+
+import { useState } from "react";
 import { Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
-import { EffectCoverflow, Autoplay, Pagination, Navigation } from "swiper/modules";
+import {
+  EffectCoverflow,
+  Autoplay,
+  Pagination,
+  Navigation,
+} from "swiper/modules";
 import * as M from "@/components/management/Styled";
 import { GUEST_BOOK_DATA } from "../../../DummyData";
 import Image from "next/image";

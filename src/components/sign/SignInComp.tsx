@@ -7,7 +7,6 @@ import Background from "@/../public/images/background.jpg";
 import { ImageBackground } from "./Styled";
 import Image from "next/image";
 import * as S from "./Styled";
-import axios from "axios";
 
 export const SignInComp: React.FC = () => {
   // Auto login----------------------------

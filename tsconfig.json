@@ -27,7 +27,11 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+<<<<<<< HEAD
     "src/app/not-found.js"
+=======
+    "src/app/not-found.tsx"
+>>>>>>> 65f420f77c0e7eb3d45e19c9699e779677208b84
   ],
   "exclude": ["node_modules"]
 }

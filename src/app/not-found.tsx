@@ -1,4 +1,4 @@
-import { NotFoundComp } from "@/components/not-found/NotFoundComp";
+import NotFoundComp from "@/components/not-found/NotFoundComp";
 
 export default function NotFound() {
   return (
