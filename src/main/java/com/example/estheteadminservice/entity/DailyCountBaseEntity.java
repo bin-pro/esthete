@@ -15,13 +15,13 @@ import java.time.LocalDate;
 public class DailyCountBaseEntity {
 
     @Column(name = "aggregate_date")
-    private LocalDate date;
+    private LocalDate aggregateDate;
 
     @Column(name = "daily_count")
-    private Long count;
+    private Long dailyCount;
 
     public DailyCountBaseEntity(Long count) {
-        this.date = LocalDate.now();
-        this.count = count;
+        this.aggregateDate = LocalDate.now();
+        this.dailyCount = count;
     }
 }

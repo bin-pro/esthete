@@ -27,7 +27,7 @@ public class DailyCountDto {
     public static class Exhibition extends DailyCountDto {
         @Builder
         public Exhibition(ExhibitionDailyCount exhibitionDailyCount) {
-            super(exhibitionDailyCount.getCount(), exhibitionDailyCount.getDate().toString());
+            super(exhibitionDailyCount.getDailyCount(), exhibitionDailyCount.getAggregateDate().toString());
         }
     }
 
@@ -37,7 +37,7 @@ public class DailyCountDto {
     public static class User extends DailyCountDto {
         @Builder
         public User(UserDailyCount userDailyCount) {
-            super(userDailyCount.getCount(), userDailyCount.getDate().toString());
+            super(userDailyCount.getDailyCount(), userDailyCount.getAggregateDate().toString());
         }
     }
 
@@ -47,7 +47,7 @@ public class DailyCountDto {
     public static class GuestBookAbusingReport extends DailyCountDto {
         @Builder
         public GuestBookAbusingReport(GuestBookAbusingReportDailyCount guestBookAbusingReportDailyCount) {
-            super(guestBookAbusingReportDailyCount.getCount(), guestBookAbusingReportDailyCount.getDate().toString());
+            super(guestBookAbusingReportDailyCount.getDailyCount(), guestBookAbusingReportDailyCount.getAggregateDate().toString());
         }
     }
 
@@ -57,7 +57,7 @@ public class DailyCountDto {
     public static class PhotoAbusingReport extends DailyCountDto {
         @Builder
         public PhotoAbusingReport(PhotoAbusingReportDailyCount photoAbusingReportDailyCount) {
-            super(photoAbusingReportDailyCount.getCount(), photoAbusingReportDailyCount.getDate().toString());
+            super(photoAbusingReportDailyCount.getDailyCount(), photoAbusingReportDailyCount.getAggregateDate().toString());
         }
     }
 }
