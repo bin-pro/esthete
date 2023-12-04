@@ -5,7 +5,6 @@ import * as S from "@/components/sign/Styled";
 import Image from "next/image";
 import MainLogo from "@/../public/icons/mainLogo.png";
 import Background from "@/../public/images/background.jpg";
-import Warning from "@/../public/icons/warning.png";
 import { ImageBackground } from "@/components/sign/Styled";
 
 const DUMMUY_DATA = [

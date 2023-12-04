@@ -15,7 +15,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
-import { Instance } from "@/api/axios";
 
 const BACKGROUND_COLORS = [
   "rgba(255, 99, 132, 0.2)",
@@ -37,7 +36,14 @@ const BORDER_COLORS = [
   "rgba(255, 99, 132, 1)",
 ];
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const OPTIONS = {
   responsive: true,
@@ -67,17 +73,7 @@ const Statistic: React.FC = () => {
   const [guestBookCount, setGuestBookCount] = useState({});
 
   // useEffect--------------------------------------------------
-  useEffect(() => {
-    (async () => {
-      // const userCountData = await Instance.get("/statistics/user/count/daily");
-      // const exhibitionCountData = await Instance.get("/statistics/exhibition/count/daily");
-      // const photoCountData = await Instance.get("/statistics/abusing-reports/photos/count/daily");
-      // const guestBookCountData = await Instance.get(
-      //   "/statistics/abusing-reports/guest-books/count/daily"
-      // );
-      // console.log(userCountData);
-    })();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>

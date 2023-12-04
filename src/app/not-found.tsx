@@ -1,11 +1,11 @@
-"use client";
-
 import { NotFoundComp } from "@/components/not-found/NotFoundComp";
 
-export default function NotFound() {
+const NotFound: React.FC = () => {
   return (
     <>
       <NotFoundComp />
     </>
   );
-}
+};
+
+export default NotFound;

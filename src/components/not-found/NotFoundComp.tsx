@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import * as N from "./Styled";
 import Image from "next/image";
