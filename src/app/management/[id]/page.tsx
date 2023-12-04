@@ -6,7 +6,6 @@ import * as M from "@/components/management/Styled";
 import Image from "next/image";
 import Background from "@/../public/images/background.jpg";
 import Header from "@/components/statistic/Header";
-import { DUMMY_DATA } from "../../../../DummyData";
 import MasonryComponent from "@/components/management/MasonryComponent";
 import SwiperComponent from "@/components/management/SwiperComponent";
 
@@ -29,10 +28,16 @@ const Management = () => {
         />
         <Header param="management" />
         <M.SelectSection>
-          <M.SelectText $isSelect={!isSelect ? true : false} onClick={handleSelect}>
+          <M.SelectText
+            $isSelect={!isSelect ? true : false}
+            onClick={handleSelect}
+          >
             Post
           </M.SelectText>
-          <M.SelectText $isSelect={isSelect ? true : false} onClick={handleSelect}>
+          <M.SelectText
+            $isSelect={isSelect ? true : false}
+            onClick={handleSelect}
+          >
             Guest Book
           </M.SelectText>
         </M.SelectSection>
