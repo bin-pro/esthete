@@ -6,10 +6,11 @@ import com.example.estheteadminservice.exception.UserErrorResult;
 import com.example.estheteadminservice.exception.UserException;
 import com.example.estheteadminservice.repository.UserRepository;
 import com.example.estheteadminservice.security.JwtTokenProvider;
-import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
             final User savedUser = userRepository.save(user);
 
-            UserDto.CreatedManagerDto createdUser = UserDto.CreatedManagerDto.builder()
+            UserDto.ManagerDto createdUser = UserDto.ManagerDto.builder()
                     .userId(savedUser.getId().toString())
                     .username(savedUser.getUsername())
                     .password(savedUser.getPassword())
@@ -72,5 +73,15 @@ public class UserServiceImpl implements UserService {
         }
 
         return createManagerResponse;
+    }
+
+    @Override
+    public Page<UserDto.ManagerDto> readAllManager(Integer page, Integer size) {
+
+        final Pageable pageable = PageRequest.of(page, size);
+
+        final Page<UserDto.ManagerDto> readAllNanagerPage = userRepository.findAllManager(pageable);
+
+        return readAllNanagerPage;
     }
 }

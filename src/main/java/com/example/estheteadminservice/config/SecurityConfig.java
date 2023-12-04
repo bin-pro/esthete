@@ -4,11 +4,13 @@ import com.example.estheteadminservice.entity.User;
 import com.example.estheteadminservice.repository.UserRepository;
 import com.example.estheteadminservice.security.JwtAuthenticationEntryPoint;
 import com.example.estheteadminservice.security.JwtAuthenticationFilter;
+import com.example.estheteadminservice.vo.Role;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -39,6 +41,7 @@ public class SecurityConfig {
                                 .requestMatchers("/admin/users/sign-in").permitAll()
                                 .requestMatchers("/admin/swagger-ui/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()
+                                .requestMatchers("/admin/manager/**").hasRole(Role.ADMIN.getRole())
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(
