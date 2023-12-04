@@ -7,12 +7,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -23,8 +24,8 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(columnDefinition = "BINARY(16)", name = "user_uuid", unique = true)
-    private String userId;
+    @Column(name = "user_name", unique = true)
+    private String username;
 
     @Column(name = "user_password", unique = true)
     private String password;
@@ -32,10 +33,17 @@ public class User {
     @Column(name = "user_role")
     private Role role;
 
+    @Builder(builderMethodName = "createAdmin")
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.role = Role.ADMIN;
+    }
+
     @PostPersist
     public void postPersist() {
-        if (this.userId == null) {
-            this.userId = "manager" + this.id;
+        if (this.username == null) {
+            this.username = "manager" + this.id;
         }
         if (this.password == null) {
             this.password = UUID.randomUUID().toString();
