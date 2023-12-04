@@ -62,7 +62,7 @@ public class AbusingReportController {
         return ResponseEntity.status(HttpStatus.OK).body(photoAbusingReportDeleteResponse);
     }
 
-    @GetMapping("/photos/{photoId}")
+    @DeleteMapping("/photos/{photoId}")
     public ResponseEntity<PhotoAbusingReportDto.DeleteAllResponse>
     deleteAllPhotoAbusingReportByPhotoId(@PathVariable("photoId") UUID photoId) {
 
@@ -114,7 +114,7 @@ public class AbusingReportController {
         return ResponseEntity.status(HttpStatus.OK).body(guestBookAbusingReportDeleteResponse);
     }
 
-    @GetMapping("/guest-books/{guestBookId}")
+    @DeleteMapping("/guest-books/{guestBookId}")
     public ResponseEntity<GuestBookAbusingReportDto.DeleteAllResponse>
     deleteAllGuestBookAbusingReportByGuestBookId(@PathVariable("guestBookId") UUID guestBookId) {
 
