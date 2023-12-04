@@ -7,7 +7,6 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { DUMMY_DATA } from "../../../DummyData";
 import { useParams, useRouter } from "next/navigation";
 import PostDetailModal from "../detail/PostDetailModal";
-import { Instance } from "@/api/axios";
 const ITEMS_PER_PAGE = 5;
 
 interface ModalDataProps {
@@ -135,8 +134,12 @@ const MasonryComponent: React.FC = () => {
                     <M.CardHalfBox>
                       <M.SmallText>{data.photo_id}</M.SmallText>
                       <M.SmallText>{data.photographer_nickname}</M.SmallText>
-                      <M.SmallText>{data.photo_abusing_report_count}</M.SmallText>
-                      <M.SmallText>{data.photographer_photo_abusing_report_count}</M.SmallText>
+                      <M.SmallText>
+                        {data.photo_abusing_report_count}
+                      </M.SmallText>
+                      <M.SmallText>
+                        {data.photographer_photo_abusing_report_count}
+                      </M.SmallText>
                     </M.CardHalfBox>
                   </M.CardIageHoverBox>
                   <M.CardFooter>

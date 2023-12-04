@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StyledComponentsRegistry from "./lib/registry";
-import ContextProvider from "@/context/ContextProvider";
 import { Providers } from "./ThemeProvider";
 
 export const metadata: Metadata = {
@@ -12,15 +11,17 @@ export const metadata: Metadata = {
   // },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html>
       <body id="root">
-        <ContextProvider>
-          <Providers>
-            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-          </Providers>
-        </ContextProvider>
+        <Providers>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        </Providers>
       </body>
     </html>
   );
