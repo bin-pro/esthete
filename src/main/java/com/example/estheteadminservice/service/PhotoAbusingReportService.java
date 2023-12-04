@@ -13,4 +13,6 @@ public interface PhotoAbusingReportService {
     Page<PhotoAbusingReportDto.ReadDetailedInfoResponse> readDetailedInfoOfReportedPhoto(UUID photoId, Integer page, Integer size);
 
     PhotoAbusingReportDto.DeleteResponse deletePhotoAbusingReport(UUID photoAbusingReportId);
+
+    PhotoAbusingReportDto.DeleteAllResponse deleteAllPhotoAbusingReportByPhotoId(UUID photoId);
 }

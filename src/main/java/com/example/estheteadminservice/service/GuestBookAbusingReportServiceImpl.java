@@ -4,6 +4,8 @@ import com.example.estheteadminservice.dto.GuestBookAbusingReportDto;
 import com.example.estheteadminservice.entity.*;
 import com.example.estheteadminservice.exception.AbusingReportException;
 import com.example.estheteadminservice.exception.AbusingReportErrorResult;
+import com.example.estheteadminservice.exception.GuestBookErrorResult;
+import com.example.estheteadminservice.exception.GuestBookException;
 import com.example.estheteadminservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -125,5 +127,19 @@ public class GuestBookAbusingReportServiceImpl implements GuestBookAbusingReport
         return GuestBookAbusingReportDto.DeleteResponse.builder()
                 .guestBookAbusingReportId(guestBookAbusingReportId)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public GuestBookAbusingReportDto.DeleteAllResponse deleteAllGuestBookAbusingReportByGuestBookId(UUID guestBookId) {
+
+        final GuestBook guestBook = guestBookRepository.findByGuestBookId(guestBookId)
+                    .orElseThrow(() -> new GuestBookException(GuestBookErrorResult.GUEST_BOOK_NOT_FOUND));
+
+        guestBookAbusingReportRepository.deleteAllByGuestBook(guestBook);
+
+        return GuestBookAbusingReportDto.DeleteAllResponse.builder()
+                    .guestBookId(guestBookId)
+                    .build();
     }
 }

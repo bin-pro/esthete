@@ -1,6 +1,7 @@
 package com.example.estheteadminservice.repository;
 
 import com.example.estheteadminservice.dto.PhotoAbusingReportDto;
+import com.example.estheteadminservice.entity.Photo;
 import com.example.estheteadminservice.entity.PhotoAbusingReport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,6 @@ public interface PhotoAbusingReportRepository extends JpaRepository<PhotoAbusing
     Page<PhotoAbusingReportDto.ReadDetailedInfoResponse> findDetailedInfoOfReportedPhoto(@Param("photoId") UUID photoId, Pageable pageable);
 
     Optional<PhotoAbusingReport> findByReportId(UUID reportId);
+
+    void deleteAllByPhoto(Photo photo);
 }

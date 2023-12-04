@@ -7,6 +7,8 @@ import com.example.estheteadminservice.entity.PhotoAbusingReport;
 import com.example.estheteadminservice.entity.Photographer;
 import com.example.estheteadminservice.exception.AbusingReportException;
 import com.example.estheteadminservice.exception.AbusingReportErrorResult;
+import com.example.estheteadminservice.exception.PhotoErrorResult;
+import com.example.estheteadminservice.exception.PhotoException;
 import com.example.estheteadminservice.repository.AbusingReporterRepository;
 import com.example.estheteadminservice.repository.PhotoAbusingReportRepository;
 import com.example.estheteadminservice.repository.PhotoRepository;
@@ -122,5 +124,22 @@ public class PhotoAbusingReportServiceImpl implements PhotoAbusingReportService 
                 .build();
 
         return photoAbusingReportDeleteResponse;
+    }
+
+    @Override
+    @Transactional
+    public PhotoAbusingReportDto.DeleteAllResponse deleteAllPhotoAbusingReportByPhotoId(UUID photoId) {
+
+        final Photo photo = photoRepository.findByPhotoId(photoId)
+                .orElseThrow(() -> new PhotoException(PhotoErrorResult.PHOTO_NOT_FOUND));
+
+        photoAbusingReportRepository.deleteAllByPhoto(photo);
+
+        final PhotoAbusingReportDto.DeleteAllResponse photoAbusingReportDeleteAllResponse
+                = PhotoAbusingReportDto.DeleteAllResponse.builder()
+                .photoId(photoId)
+                .build();
+
+        return photoAbusingReportDeleteAllResponse;
     }
 }

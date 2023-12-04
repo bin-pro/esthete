@@ -111,4 +111,20 @@ public class GuestBookAbusingReportDto {
             this.deletedAt = LocalDateTime.now().toString();
         }
     }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class DeleteAllResponse {
+        private String guestBookId;
+        private String deletedAt;
+
+        @Builder
+        public DeleteAllResponse(UUID guestBookId) {
+            this.guestBookId = guestBookId.toString();
+            this.deletedAt = LocalDateTime.now().toString();
+        }
+    }
 }
