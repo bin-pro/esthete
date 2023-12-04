@@ -62,7 +62,11 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
   handleReject,
 }) => {
   return (
-    <Modal isOpen={modal} onRequestClose={() => setModal(false)} style={customStyles}>
+    <Modal
+      isOpen={modal}
+      onRequestClose={() => setModal(false)}
+      style={customStyles}
+    >
       <D.Container>
         <D.DetailBox>
           <D.LeftBox>
