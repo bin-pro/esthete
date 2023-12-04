@@ -1,6 +1,6 @@
 import { NotFoundComp } from "@/components/not-found/NotFoundComp";
 
-export const NotFound: React.FC = () => {
+const NotFound: React.FC = () => {
   return (
     <>
       <NotFoundComp />
