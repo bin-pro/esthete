@@ -15,7 +15,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
-import { Instance } from "@/api/axios";
 
 const BACKGROUND_COLORS = [
   "rgba(255, 99, 132, 0.2)",
@@ -37,7 +36,14 @@ const BORDER_COLORS = [
   "rgba(255, 99, 132, 1)",
 ];
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const OPTIONS = {
   responsive: true,
