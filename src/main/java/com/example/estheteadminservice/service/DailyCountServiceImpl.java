@@ -1,14 +1,13 @@
 package com.example.estheteadminservice.service;
 
 import com.example.estheteadminservice.dto.DailyCountDto;
+import com.example.estheteadminservice.dto.ExhibitionDailyCountDto;
+import com.example.estheteadminservice.dto.UserDailyCountDto;
 import com.example.estheteadminservice.entity.ExhibitionDailyCount;
 import com.example.estheteadminservice.entity.GuestBookAbusingReportDailyCount;
 import com.example.estheteadminservice.entity.PhotoAbusingReportDailyCount;
 import com.example.estheteadminservice.entity.UserDailyCount;
-import com.example.estheteadminservice.repository.ExhibitionDailyCountRepository;
-import com.example.estheteadminservice.repository.GuestBookAbusingReportDailyCountRepository;
-import com.example.estheteadminservice.repository.PhotoAbusingReportDailyCountRepository;
-import com.example.estheteadminservice.repository.UserDailyCountRepository;
+import com.example.estheteadminservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +31,9 @@ public class DailyCountServiceImpl implements DailyCountService {
     private final ExhibitionDailyCountRepository exhibitionDailyCountRepository;
     private final UserDailyCountRepository userDailyCountRepository;
     private final GuestBookAbusingReportDailyCountRepository guestBookAbusingReportDailyCountRepository;
+    private final GuestBookAbusingReportRepository guestBookAbusingReportRepository;
     private final PhotoAbusingReportDailyCountRepository photoAbusingReportDailyCountRepository;
+    private final PhotoAbusingReportRepository photoAbusingReportRepository;
 
     @Value("${services.core-service}")
     private String CORE_SERVICE;
@@ -51,17 +52,23 @@ public class DailyCountServiceImpl implements DailyCountService {
                 .baseUrl(CORE_SERVICE)
                 .build();
 
+        ExhibitionDailyCountDto exhibitionDailyCountDto;
         ExhibitionDailyCount exhibitionDailyCount;
 
         try {
-            exhibitionDailyCount = webClient.get()
-                    .uri("/statistics/exhibitions/daily-count?interval=" + COUNT_INTERVAL_MINUTES + "&now=" + LocalDateTime.now())
+            exhibitionDailyCountDto = webClient.get()
+                    .uri("/statistics/exhibitions/count?interval=" + COUNT_INTERVAL_MINUTES + "&now=" + LocalDateTime.now())
                     .retrieve()
                     .onStatus(HttpStatusCode::isError, clientResponse -> {
                         throw new RuntimeException();
                     })
-                    .bodyToMono(ExhibitionDailyCount.class)
+                    .bodyToMono(ExhibitionDailyCountDto.class)
                     .block();
+
+            exhibitionDailyCount = ExhibitionDailyCount.generateExhibitionDailyCount()
+                    .count(exhibitionDailyCountDto.getCount())
+                    .build();
+
         } catch (Exception e) {
             log.error("일일 전시 등록 수 통계를 가져오는데 실패했습니다.");
             log.error(e.getMessage());
@@ -84,17 +91,23 @@ public class DailyCountServiceImpl implements DailyCountService {
                 .baseUrl(CORE_SERVICE)
                 .build();
 
+        UserDailyCountDto userDailyCountDto;
         UserDailyCount userDailyCount;
 
         try {
-            userDailyCount = webClient.get()
-                    .uri("/statistics/users/daily-count")
+            userDailyCountDto = webClient.get()
+                    .uri("/statistics/users/count?interval=" + COUNT_INTERVAL_MINUTES + "&now=" + LocalDateTime.now())
                     .retrieve()
                     .onStatus(HttpStatusCode::isError, clientResponse -> {
                         throw new RuntimeException();
                     })
-                    .bodyToMono(UserDailyCount.class)
+                    .bodyToMono(UserDailyCountDto.class)
                     .block();
+
+            userDailyCount = UserDailyCount.generateUserDailyCount()
+                    .count(userDailyCountDto.getCount())
+                    .build();
+
         } catch (Exception e) {
             log.error("일일 가입자 수 통계를 가져오는데 실패했습니다.");
             log.error(e.getMessage());
@@ -116,7 +129,7 @@ public class DailyCountServiceImpl implements DailyCountService {
         GuestBookAbusingReportDailyCount guestBookAbusingReportDailyCount;
 
         try {
-            guestBookAbusingReportDailyCount = guestBookAbusingReportDailyCountRepository.getDailyCount(LocalDateTime.now(), COUNT_INTERVAL_MINUTES);
+            guestBookAbusingReportDailyCount = guestBookAbusingReportRepository.getDailyCount(LocalDateTime.now(), COUNT_INTERVAL_MINUTES);
         } catch (Exception e) {
             log.error("일일 방명록 신고 수 통계를 가져오는데 실패했습니다.");
             log.error(e.getMessage());
@@ -138,7 +151,7 @@ public class DailyCountServiceImpl implements DailyCountService {
         PhotoAbusingReportDailyCount photoAbusingReportDailyCount;
 
         try {
-            photoAbusingReportDailyCount = photoAbusingReportDailyCountRepository.getDailyCount(LocalDateTime.now(), COUNT_INTERVAL_MINUTES);
+            photoAbusingReportDailyCount = photoAbusingReportRepository.getDailyCount(LocalDateTime.now(), COUNT_INTERVAL_MINUTES);
         } catch (Exception e) {
             log.error("일일 사진 신고 수 통계를 가져오는데 실패했습니다.");
             log.error(e.getMessage());
