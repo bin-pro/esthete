@@ -1,13 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MainLogo from "@/../public/icons/mainLogo.png";
 import Background from "@/../public/images/background.jpg";
 import { ImageBackground } from "./Styled";
 import Image from "next/image";
 import * as S from "./Styled";
-import { Instance } from "@/api/axios";
+import axios from "axios";
 import { AxiosError } from "axios";
 import { setCookie } from "@/Cookie";
 
@@ -30,10 +30,13 @@ export const SignInComp: React.FC = () => {
   const handleSignIn = async (e: any) => {
     e.preventDefault();
     try {
-      const result = await Instance.post(`/users/sign-in`, {
-        username: userName,
-        password: password,
-      });
+      const result = await axios.post(
+        `https://api.esthete.roberniro-projects.xyz/admin/users/sign-in`,
+        {
+          username: userName,
+          password: password,
+        }
+      );
       if (result.status === 200) {
         setCookie("accessToken", result.data.access_token, {});
         setCookie("userId", result.data.user_id, {});
@@ -42,6 +45,8 @@ export const SignInComp: React.FC = () => {
         router.push(`/statistic/${result.data.user_id}`);
       }
     } catch (err) {
+      console.log(err);
+
       if (err instanceof AxiosError) {
         if (err.response?.status === 404) {
           alert(err.response.data.error);
@@ -54,6 +59,13 @@ export const SignInComp: React.FC = () => {
   const goToSignUp = () => {
     router.push("/sign-up");
   };
+
+  // Hydration--------------------------------------------
+  const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
+  useEffect(() => {
+    setElement(document.getElementsByTagName("html"));
+  }, []);
+  if (!element) return <></>;
 
   return (
     <>

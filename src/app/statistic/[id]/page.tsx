@@ -16,7 +16,9 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import { Instance } from "@/api/axios";
-import { getCookie } from "@/Cookie";
+import { getCookie, removeCookie } from "@/Cookie";
+import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
 
 const BACKGROUND_COLORS = [
   "rgba(255, 99, 132, 0.2)",
@@ -78,7 +80,8 @@ const CHART_DEFAULT_OPTIONS = {
 };
 
 const Statistic: React.FC = () => {
-  const accesToken = getCookie("access_token");
+  const accessToken = getCookie("accessToken");
+  const router = useRouter();
 
   // state--------------------------------------------------
   const [userCount, setUserCount] = useState([]);
@@ -86,20 +89,41 @@ const Statistic: React.FC = () => {
   const [photoCount, setPhotoCount] = useState([]);
   const [guestBookCount, setGuestBookCount] = useState([]);
 
+  const LogOut = () => {
+    removeCookie("accessToken", {});
+    removeCookie("user_id", {});
+    removeCookie("user_name", {});
+    removeCookie("user_role", {});
+    router.push("/");
+  };
+
   // useEffect--------------------------------------------------
   useEffect(() => {
     (async () => {
       try {
-        const res1 = await Instance.get(`/statistics/user/count/daily`);
-        const res2 = await Instance.get(`/statistics/exhibition/count/daily`);
-        const res3 = await Instance.get(`/statistics/abusing-reports/photo/count/daily`);
-        const res4 = await Instance.get(`/statistics/abusing-reports/guest-books/count/daily`);
-        console.log(res1.data);
+        // const res1 = await Instance.get(`/statistics/user/count/daily`);
+        // const res2 = await Instance.get(`/statistics/exhibition/count/daily`);
+        const res3 = await Instance.get(`/statistics/abusing-reports/photos/count/daily`);
+        // const res4 = await Instance.get(`/statistics/abusing-reports/guest-books/count/daily`);
+        console.log(res3);
       } catch (err) {
-        console.log(err);
+        if (err instanceof AxiosError) {
+          console.log(err);
+          // if (err?.response.status === 401) {
+          //   alert("Please login");
+          //   LogOut();
+          // }
+        }
       }
     })();
   }, []);
+
+  // Hydration--------------------------------------------
+  const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
+  useEffect(() => {
+    setElement(document.getElementsByTagName("html"));
+  }, []);
+  if (!element) return <></>;
 
   return (
     <>
