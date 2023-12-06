@@ -19,24 +19,14 @@ import { Instance } from "@/api/axios";
 import { getCookie, removeCookie } from "@/Cookie";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
-
-const BACKGROUND_COLORS = [
-  "rgba(255, 99, 132, 0.2)",
-  "rgba(54, 162, 235, 0.2)",
-  "rgba(255, 206, 86, 0.2)",
-  "rgba(75, 192, 192, 0.2)",
-  "rgba(153, 102, 255, 0.2)",
-  "rgba(255, 159, 64, 0.2)",
-];
-
-const BORDER_COLORS = [
-  "rgba(255, 99, 132, 1)",
-  "rgba(54, 162, 235, 1)",
-  "rgba(255, 206, 86, 1)",
-  "rgba(75, 192, 192, 1)",
-  "rgba(153, 102, 255, 1)",
-  "rgba(255, 159, 64, 1)",
-];
+import {
+  BACKGROUND_COLORS,
+  BORDER_COLORS,
+  CHART_DUMMY_OPTIONS1,
+  CHART_DUMMY_OPTIONS2,
+  CHART_DUMMY_OPTIONS3,
+  CHART_DUMMY_OPTIONS4,
+} from "../../../../DummyData";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -55,39 +45,32 @@ const OPTIONS = {
   },
 };
 
-const CHART_DEFAULT_OPTIONS = {
-  labels: [
-    "11-15",
-    "11-16",
-    "11-17",
-    "11-18",
-    "11-19",
-    "11-20",
-    "11-21",
-    "11-22",
-    "11-23",
-    "11-24",
-  ],
-  datasets: [
-    {
-      label: "Number of Access user / day",
-      data: [65, 59, 80, 81, 56, 55, 40, 65, 59, 80],
-      backgroundColor: BACKGROUND_COLORS,
-      borderColor: BORDER_COLORS,
-      borderWidth: 1,
-    },
-  ],
-};
+interface dataProps {
+  count: number;
+  date: string;
+}
 
 const Statistic: React.FC = () => {
   const accessToken = getCookie("accessToken");
   const router = useRouter();
 
   // state--------------------------------------------------
-  const [userCount, setUserCount] = useState([]);
-  const [exhibitionCount, setExhibitionCount] = useState([]);
-  const [photoCount, setPhotoCount] = useState([]);
-  const [guestBookCount, setGuestBookCount] = useState([]);
+  const [userCount, setUserCount] = useState<{ content?: dataProps[] }>({
+    content: [],
+  });
+  const [exhibitionCount, setExhibitionCount] = useState<{
+    content?: dataProps[];
+  }>({
+    content: [],
+  });
+  const [photoCount, setPhotoCount] = useState<{ content?: dataProps[] }>({
+    content: [],
+  });
+  const [guestBookCount, setGuestBookCount] = useState<{
+    content?: dataProps[];
+  }>({
+    content: [],
+  });
 
   const LogOut = () => {
     removeCookie("accessToken", {});
@@ -101,11 +84,14 @@ const Statistic: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        // const res1 = await Instance.get(`/statistics/user/count/daily`);
-        // const res2 = await Instance.get(`/statistics/exhibition/count/daily`);
+        const res1 = await Instance.get(`/statistics/user/count/daily`);
+        const res2 = await Instance.get(`/statistics/exhibition/count/daily`);
         const res3 = await Instance.get(`/statistics/abusing-reports/photos/count/daily`);
-        // const res4 = await Instance.get(`/statistics/abusing-reports/guest-books/count/daily`);
-        console.log(res3);
+        const res4 = await Instance.get(`/statistics/abusing-reports/guest-books/count/daily`);
+        setUserCount(res1.data);
+        setExhibitionCount(res2.data);
+        setPhotoCount(res3.data);
+        setGuestBookCount(res4.data);
       } catch (err) {
         if (err instanceof AxiosError) {
           console.log(err);
@@ -125,6 +111,58 @@ const Statistic: React.FC = () => {
   }, []);
   if (!element) return <></>;
 
+  const userCountData = {
+    labels: userCount.content?.map((uc: any) => uc.date.slice(5)),
+    datasets: [
+      {
+        label: "",
+        data: userCount.content?.map((uc: any) => uc.count),
+        backgroundColor: BACKGROUND_COLORS,
+        borderColor: BORDER_COLORS,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const exhibitionCountData = {
+    labels: exhibitionCount.content?.map((ec: any) => ec.date.slice(5)),
+    datasets: [
+      {
+        label: "",
+        data: exhibitionCount.content?.map((ec: any) => ec.count),
+        backgroundColor: BACKGROUND_COLORS,
+        borderColor: BORDER_COLORS,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const photoCountData = {
+    labels: photoCount.content?.map((pc: any) => pc.date.slice(5)),
+    datasets: [
+      {
+        label: "",
+        data: photoCount.content?.map((pc: any) => pc.count),
+        backgroundColor: BACKGROUND_COLORS,
+        borderColor: BORDER_COLORS,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const guestBookCountData = {
+    labels: guestBookCount.content?.map((gc: any) => gc.date.slice(5)),
+    datasets: [
+      {
+        label: "",
+        data: guestBookCount.content?.map((gc: any) => gc.count),
+        backgroundColor: BACKGROUND_COLORS,
+        borderColor: BORDER_COLORS,
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <>
       <S.Container>
@@ -141,13 +179,29 @@ const Statistic: React.FC = () => {
           <S.RowSection>
             <S.GraphBox>
               <S.Graph>
-                <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+                <Bar
+                  data={
+                    userCount?.content && userCount.content[0]?.date && userCount.content[9]?.date
+                      ? CHART_DUMMY_OPTIONS1
+                      : userCountData
+                  }
+                  options={OPTIONS}
+                />
               </S.Graph>
               <S.GraphTitle>* Number of user</S.GraphTitle>
             </S.GraphBox>
             <S.GraphBox>
               <S.Graph>
-                <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+                <Bar
+                  data={
+                    exhibitionCount?.content &&
+                    exhibitionCount.content[0]?.date &&
+                    exhibitionCount.content[9]?.date
+                      ? CHART_DUMMY_OPTIONS2
+                      : exhibitionCountData
+                  }
+                  options={OPTIONS}
+                />
               </S.Graph>
               <S.GraphTitle>* Number of Exhibition Upload</S.GraphTitle>
             </S.GraphBox>
@@ -155,13 +209,31 @@ const Statistic: React.FC = () => {
           <S.RowSection>
             <S.GraphBox>
               <S.Graph>
-                <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+                <Bar
+                  data={
+                    photoCount?.content &&
+                    photoCount.content[0]?.date &&
+                    photoCount.content[9]?.date
+                      ? CHART_DUMMY_OPTIONS3
+                      : photoCountData
+                  }
+                  options={OPTIONS}
+                />
               </S.Graph>
               <S.GraphTitle>* Number of Photo Infringment</S.GraphTitle>
             </S.GraphBox>
             <S.GraphBox>
               <S.Graph>
-                <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+                <Bar
+                  data={
+                    guestBookCount?.content &&
+                    guestBookCount.content[0]?.date &&
+                    guestBookCount.content[9]?.date
+                      ? CHART_DUMMY_OPTIONS4
+                      : guestBookCountData
+                  }
+                  options={OPTIONS}
+                />
               </S.Graph>
               <S.GraphTitle>* Number of Guestbook Infringment</S.GraphTitle>
             </S.GraphBox>
