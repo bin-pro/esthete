@@ -15,6 +15,8 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
+import { Instance } from "@/api/axios";
+import { getCookie } from "@/Cookie";
 
 const BACKGROUND_COLORS = [
   "rgba(255, 99, 132, 0.2)",
@@ -23,7 +25,6 @@ const BACKGROUND_COLORS = [
   "rgba(75, 192, 192, 0.2)",
   "rgba(153, 102, 255, 0.2)",
   "rgba(255, 159, 64, 0.2)",
-  "rgba(255, 99, 132, 0.2)",
 ];
 
 const BORDER_COLORS = [
@@ -33,17 +34,9 @@ const BORDER_COLORS = [
   "rgba(75, 192, 192, 1)",
   "rgba(153, 102, 255, 1)",
   "rgba(255, 159, 64, 1)",
-  "rgba(255, 99, 132, 1)",
 ];
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const OPTIONS = {
   responsive: true,
@@ -62,31 +55,21 @@ const OPTIONS = {
 
 const CHART_DEFAULT_OPTIONS = {
   labels: [
-    "2021-09-01",
-    "2021-09-02",
-    "2021-09-03",
-    "2021-09-04",
-    "2021-09-05",
-    "2021-09-06",
-    "2021-09-07",
-    "2021-09-08",
-    "2021-09-09",
-    "2021-09-10",
-    "2021-09-11",
-    "2021-09-12",
-    "2021-09-13",
-    "2021-09-14",
-    "2021-09-15",
-    "2021-09-16",
-    "2021-09-17",
-    "2021-09-18",
+    "11-15",
+    "11-16",
+    "11-17",
+    "11-18",
+    "11-19",
+    "11-20",
+    "11-21",
+    "11-22",
+    "11-23",
+    "11-24",
   ],
   datasets: [
     {
       label: "Number of Access user / day",
-      data: [
-        65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80,
-      ],
+      data: [65, 59, 80, 81, 56, 55, 40, 65, 59, 80],
       backgroundColor: BACKGROUND_COLORS,
       borderColor: BORDER_COLORS,
       borderWidth: 1,
@@ -95,14 +78,28 @@ const CHART_DEFAULT_OPTIONS = {
 };
 
 const Statistic: React.FC = () => {
+  const accesToken = getCookie("access_token");
+
   // state--------------------------------------------------
-  const [userCount, setUserCount] = useState({});
-  const [exhibitionCount, setExhibitionCount] = useState({});
-  const [photoCount, setPhotoCount] = useState({});
-  const [guestBookCount, setGuestBookCount] = useState({});
+  const [userCount, setUserCount] = useState([]);
+  const [exhibitionCount, setExhibitionCount] = useState([]);
+  const [photoCount, setPhotoCount] = useState([]);
+  const [guestBookCount, setGuestBookCount] = useState([]);
 
   // useEffect--------------------------------------------------
-  useEffect(() => {}, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res1 = await Instance.get(`/statistics/user/count/daily`);
+        const res2 = await Instance.get(`/statistics/exhibition/count/daily`);
+        const res3 = await Instance.get(`/statistics/abusing-reports/photo/count/daily`);
+        const res4 = await Instance.get(`/statistics/abusing-reports/guest-books/count/daily`);
+        console.log(res1.data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   return (
     <>
@@ -122,13 +119,13 @@ const Statistic: React.FC = () => {
               <S.Graph>
                 <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
               </S.Graph>
-              <S.GraphTitle>* Number of Access user / day</S.GraphTitle>
+              <S.GraphTitle>* Number of user</S.GraphTitle>
             </S.GraphBox>
             <S.GraphBox>
               <S.Graph>
                 <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
               </S.Graph>
-              <S.GraphTitle>* Number of Infringement / day</S.GraphTitle>
+              <S.GraphTitle>* Number of Exhibition Upload</S.GraphTitle>
             </S.GraphBox>
           </S.RowSection>
           <S.RowSection>
@@ -136,13 +133,13 @@ const Statistic: React.FC = () => {
               <S.Graph>
                 <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
               </S.Graph>
-              <S.GraphTitle>* Number of Active user / day</S.GraphTitle>
+              <S.GraphTitle>* Number of Photo Infringment</S.GraphTitle>
             </S.GraphBox>
             <S.GraphBox>
               <S.Graph>
                 <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
               </S.Graph>
-              <S.GraphTitle>* Number of Bad / day</S.GraphTitle>
+              <S.GraphTitle>* Number of Guestbook Infringment</S.GraphTitle>
             </S.GraphBox>
           </S.RowSection>
         </S.BodySection>

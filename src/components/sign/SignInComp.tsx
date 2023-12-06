@@ -36,14 +36,13 @@ export const SignInComp: React.FC = () => {
       });
       if (result.status === 200) {
         setCookie("accessToken", result.data.access_token, {});
-        localStorage.setItem("userId", result.data.user_id);
-        localStorage.setItem("userName", result.data.username);
-        localStorage.setItem("userRole", result.data.role);
+        setCookie("userId", result.data.user_id, {});
+        setCookie("userName", result.data.username, {});
+        setCookie("userRole", result.data.role, {});
         router.push(`/statistic/${result.data.user_id}`);
       }
     } catch (err) {
       if (err instanceof AxiosError) {
-        console.log(err);
         if (err.response?.status === 404) {
           alert(err.response.data.error);
         }
