@@ -21,14 +21,6 @@ public class AbusingReportController {
 
     private final GuestBookAbusingReportService guestBookAbusingReportService;
 
-    @PostMapping("/photos")
-    public ResponseEntity createPhotoAbusingReport(@RequestBody PhotoAbusingReportDto.CreateRequest photoAbusingReportCreateRequest) {
-
-        photoAbusingReportService.createPhotoAbusingReport(photoAbusingReportCreateRequest);
-
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("/photos")
     public ResponseEntity<Page<PhotoAbusingReportDto.ReadReportedPhotoResponse>>
     readAllReportedPhoto(@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -70,15 +62,6 @@ public class AbusingReportController {
                 = photoAbusingReportService.deleteAllPhotoAbusingReportByPhotoId(photoId);
 
         return ResponseEntity.status(HttpStatus.OK).body(photoAbusingReportDeleteAllResponse);
-    }
-
-    @PostMapping("/guest-books")
-    public ResponseEntity createGuestBookAbusingReport(
-            @RequestBody GuestBookAbusingReportDto.CreateRequest guestBookAbusingReportCreateRequest) {
-
-        guestBookAbusingReportService.createGuestBookAbusingReport(guestBookAbusingReportCreateRequest);
-
-        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/guest-books")
