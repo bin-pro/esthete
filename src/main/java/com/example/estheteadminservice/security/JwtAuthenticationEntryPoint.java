@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws java.io.IOException {
-        log.error("유효하지 않은 토큰입니다.");
+        log.error(request.getRequestURI()
+                + ": 유효하지 않은 토큰입니다.");
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
     }
 }
