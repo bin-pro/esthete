@@ -15,18 +15,6 @@ import java.time.LocalDateTime;
 @Repository
 public interface PhotoAbusingReportDailyCountRepository extends JpaRepository<PhotoAbusingReportDailyCount, Long> {
 
-    default PhotoAbusingReportDailyCount getDailyCount(LocalDateTime now, Integer countIntervalMinutes) {
-        LocalDateTime start = now.minusMinutes(countIntervalMinutes);
-        LocalDateTime end = now;
-        return getDailyCount(start, end);
-    }
-
-    @Query("SELECT new com.example.estheteadminservice.entity.PhotoAbusingReportDailyCount(count(pa)) " +
-            "FROM PhotoAbusingReport pa " +
-            "WHERE pa.createdAt >= :start " +
-            "AND pa.createdAt < :end ")
-    PhotoAbusingReportDailyCount getDailyCount(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
-
     @Query("SELECT new com.example.estheteadminservice.dto.DailyCountDto$PhotoAbusingReport(pa) " +
             "FROM PhotoAbusingReportDailyCount pa " +
             "ORDER BY pa.aggregateDate DESC")
