@@ -55,6 +55,10 @@ public class SecurityConfig {
 
     @PostConstruct
     public void init() {
+        if (userRepository.findByUsername(adminUsername).isPresent()) {
+            return;
+        }
+
         User user = User.createAdmin()
                 .username(adminUsername)
                 .password(adminPassword)
