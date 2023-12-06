@@ -3,8 +3,6 @@ server:
   forward-headers-strategy: FRAMEWORK
 
 spring:
-  profiles:
-    active: dev
   application:
     name: esthete-admin
   datasource:
