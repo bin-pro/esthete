@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "@/components/statistic/Styled";
 import * as M from "@/components/management/Styled";
 import Image from "next/image";
@@ -15,6 +15,13 @@ const Management: React.FC = () => {
   const handleSelect = () => {
     setIsSelect(!isSelect);
   };
+
+  // Hydration--------------------------------------------
+  const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
+  useEffect(() => {
+    setElement(document.getElementsByTagName("html"));
+  }, []);
+  if (!element) return <></>;
   return (
     <>
       <S.Container>
@@ -28,16 +35,10 @@ const Management: React.FC = () => {
         />
         <Header param="management" />
         <M.SelectSection>
-          <M.SelectText
-            $isSelect={!isSelect ? true : false}
-            onClick={handleSelect}
-          >
+          <M.SelectText $isSelect={!isSelect ? true : false} onClick={handleSelect}>
             Post
           </M.SelectText>
-          <M.SelectText
-            $isSelect={isSelect ? true : false}
-            onClick={handleSelect}
-          >
+          <M.SelectText $isSelect={isSelect ? true : false} onClick={handleSelect}>
             Guest Book
           </M.SelectText>
         </M.SelectSection>

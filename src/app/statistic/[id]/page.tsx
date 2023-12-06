@@ -15,35 +15,20 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
+import { Instance } from "@/api/axios";
+import { getCookie, removeCookie } from "@/Cookie";
+import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
+import {
+  BACKGROUND_COLORS,
+  BORDER_COLORS,
+  CHART_DUMMY_OPTIONS1,
+  CHART_DUMMY_OPTIONS2,
+  CHART_DUMMY_OPTIONS3,
+  CHART_DUMMY_OPTIONS4,
+} from "../../../../DummyData";
 
-const BACKGROUND_COLORS = [
-  "rgba(255, 99, 132, 0.2)",
-  "rgba(54, 162, 235, 0.2)",
-  "rgba(255, 206, 86, 0.2)",
-  "rgba(75, 192, 192, 0.2)",
-  "rgba(153, 102, 255, 0.2)",
-  "rgba(255, 159, 64, 0.2)",
-  "rgba(255, 99, 132, 0.2)",
-];
-
-const BORDER_COLORS = [
-  "rgba(255, 99, 132, 1)",
-  "rgba(54, 162, 235, 1)",
-  "rgba(255, 206, 86, 1)",
-  "rgba(75, 192, 192, 1)",
-  "rgba(153, 102, 255, 1)",
-  "rgba(255, 159, 64, 1)",
-  "rgba(255, 99, 132, 1)",
-];
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const OPTIONS = {
   responsive: true,
@@ -60,49 +45,123 @@ const OPTIONS = {
   },
 };
 
-const CHART_DEFAULT_OPTIONS = {
-  labels: [
-    "2021-09-01",
-    "2021-09-02",
-    "2021-09-03",
-    "2021-09-04",
-    "2021-09-05",
-    "2021-09-06",
-    "2021-09-07",
-    "2021-09-08",
-    "2021-09-09",
-    "2021-09-10",
-    "2021-09-11",
-    "2021-09-12",
-    "2021-09-13",
-    "2021-09-14",
-    "2021-09-15",
-    "2021-09-16",
-    "2021-09-17",
-    "2021-09-18",
-  ],
-  datasets: [
-    {
-      label: "Number of Access user / day",
-      data: [
-        65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80,
-      ],
-      backgroundColor: BACKGROUND_COLORS,
-      borderColor: BORDER_COLORS,
-      borderWidth: 1,
-    },
-  ],
-};
+interface dataProps {
+  count: number;
+  date: string;
+}
 
 const Statistic: React.FC = () => {
+  const accessToken = getCookie("accessToken");
+  const router = useRouter();
+
   // state--------------------------------------------------
-  const [userCount, setUserCount] = useState({});
-  const [exhibitionCount, setExhibitionCount] = useState({});
-  const [photoCount, setPhotoCount] = useState({});
-  const [guestBookCount, setGuestBookCount] = useState({});
+  const [userCount, setUserCount] = useState<{ content?: dataProps[] }>({
+    content: [],
+  });
+  const [exhibitionCount, setExhibitionCount] = useState<{
+    content?: dataProps[];
+  }>({
+    content: [],
+  });
+  const [photoCount, setPhotoCount] = useState<{ content?: dataProps[] }>({
+    content: [],
+  });
+  const [guestBookCount, setGuestBookCount] = useState<{
+    content?: dataProps[];
+  }>({
+    content: [],
+  });
+
+  const LogOut = () => {
+    removeCookie("accessToken", {});
+    removeCookie("user_id", {});
+    removeCookie("user_name", {});
+    removeCookie("user_role", {});
+    router.push("/");
+  };
 
   // useEffect--------------------------------------------------
-  useEffect(() => {}, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res1 = await Instance.get(`/statistics/user/count/daily`);
+        const res2 = await Instance.get(`/statistics/exhibition/count/daily`);
+        const res3 = await Instance.get(`/statistics/abusing-reports/photos/count/daily`);
+        const res4 = await Instance.get(`/statistics/abusing-reports/guest-books/count/daily`);
+        setUserCount(res1.data);
+        setExhibitionCount(res2.data);
+        setPhotoCount(res3.data);
+        setGuestBookCount(res4.data);
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          console.log(err);
+          // if (err?.response.status === 401) {
+          //   alert("Please login");
+          //   LogOut();
+          // }
+        }
+      }
+    })();
+  }, []);
+
+  // Hydration--------------------------------------------
+  const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
+  useEffect(() => {
+    setElement(document.getElementsByTagName("html"));
+  }, []);
+  if (!element) return <></>;
+
+  const userCountData = {
+    labels: userCount.content?.map((uc: any) => uc.date.slice(5)),
+    datasets: [
+      {
+        label: "",
+        data: userCount.content?.map((uc: any) => uc.count),
+        backgroundColor: BACKGROUND_COLORS,
+        borderColor: BORDER_COLORS,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const exhibitionCountData = {
+    labels: exhibitionCount.content?.map((ec: any) => ec.date.slice(5)),
+    datasets: [
+      {
+        label: "",
+        data: exhibitionCount.content?.map((ec: any) => ec.count),
+        backgroundColor: BACKGROUND_COLORS,
+        borderColor: BORDER_COLORS,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const photoCountData = {
+    labels: photoCount.content?.map((pc: any) => pc.date.slice(5)),
+    datasets: [
+      {
+        label: "",
+        data: photoCount.content?.map((pc: any) => pc.count),
+        backgroundColor: BACKGROUND_COLORS,
+        borderColor: BORDER_COLORS,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const guestBookCountData = {
+    labels: guestBookCount.content?.map((gc: any) => gc.date.slice(5)),
+    datasets: [
+      {
+        label: "",
+        data: guestBookCount.content?.map((gc: any) => gc.count),
+        backgroundColor: BACKGROUND_COLORS,
+        borderColor: BORDER_COLORS,
+        borderWidth: 1,
+      },
+    ],
+  };
 
   return (
     <>
@@ -120,29 +179,63 @@ const Statistic: React.FC = () => {
           <S.RowSection>
             <S.GraphBox>
               <S.Graph>
-                <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+                <Bar
+                  data={
+                    userCount?.content && userCount.content[0]?.date && userCount.content[9]?.date
+                      ? CHART_DUMMY_OPTIONS1
+                      : userCountData
+                  }
+                  options={OPTIONS}
+                />
               </S.Graph>
-              <S.GraphTitle>* Number of Access user / day</S.GraphTitle>
+              <S.GraphTitle>* Number of user</S.GraphTitle>
             </S.GraphBox>
             <S.GraphBox>
               <S.Graph>
-                <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+                <Bar
+                  data={
+                    exhibitionCount?.content &&
+                    exhibitionCount.content[0]?.date &&
+                    exhibitionCount.content[9]?.date
+                      ? CHART_DUMMY_OPTIONS2
+                      : exhibitionCountData
+                  }
+                  options={OPTIONS}
+                />
               </S.Graph>
-              <S.GraphTitle>* Number of Infringement / day</S.GraphTitle>
+              <S.GraphTitle>* Number of Exhibition Upload</S.GraphTitle>
             </S.GraphBox>
           </S.RowSection>
           <S.RowSection>
             <S.GraphBox>
               <S.Graph>
-                <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+                <Bar
+                  data={
+                    photoCount?.content &&
+                    photoCount.content[0]?.date &&
+                    photoCount.content[9]?.date
+                      ? CHART_DUMMY_OPTIONS3
+                      : photoCountData
+                  }
+                  options={OPTIONS}
+                />
               </S.Graph>
-              <S.GraphTitle>* Number of Active user / day</S.GraphTitle>
+              <S.GraphTitle>* Number of Photo Infringment</S.GraphTitle>
             </S.GraphBox>
             <S.GraphBox>
               <S.Graph>
-                <Bar data={CHART_DEFAULT_OPTIONS} options={OPTIONS} />
+                <Bar
+                  data={
+                    guestBookCount?.content &&
+                    guestBookCount.content[0]?.date &&
+                    guestBookCount.content[9]?.date
+                      ? CHART_DUMMY_OPTIONS4
+                      : guestBookCountData
+                  }
+                  options={OPTIONS}
+                />
               </S.Graph>
-              <S.GraphTitle>* Number of Bad / day</S.GraphTitle>
+              <S.GraphTitle>* Number of Guestbook Infringment</S.GraphTitle>
             </S.GraphBox>
           </S.RowSection>
         </S.BodySection>

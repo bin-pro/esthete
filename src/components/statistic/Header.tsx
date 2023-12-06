@@ -3,7 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import * as S from "./Styled";
 import Image from "next/image";
 import MainLogo from "@/../public/icons/mainLogo.png";
-import { removeCookie } from "@/Cookie";
+import { getCookie, removeCookie } from "@/Cookie";
 
 interface HeaderProps {
   param: string;
@@ -11,13 +11,13 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ param }) => {
   const router = useRouter();
   const { id } = useParams();
-  const userName = localStorage.getItem("userName");
+  const userName = getCookie("userName");
 
   // UseEffect--------------------------------------------
   useEffect(() => {
-    if (!localStorage.getItem("userName")) {
+    if (!getCookie("userName")) {
       alert("Please login");
-      router.push("/");
+      handleLogout();
     }
   }, []);
 
@@ -26,9 +26,9 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
     router.push(`/${page}/${id}`);
   };
   const handleLogout = () => {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userRole");
+    removeCookie("userId", {});
+    removeCookie("userName", {});
+    removeCookie("userRole", {});
     removeCookie("accessToken", {});
     router.push("/");
   };
