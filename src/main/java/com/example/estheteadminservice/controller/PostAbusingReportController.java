@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/admin/post-abusing-reports")
+@RequestMapping("/admin/post-abusing-report")
 @RequiredArgsConstructor
 public class PostAbusingReportController {
 
