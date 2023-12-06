@@ -54,6 +54,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable);
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        http
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers("/admin/users/sign-in").permitAll()
