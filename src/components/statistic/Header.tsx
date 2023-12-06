@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import * as S from "./Styled";
 import Image from "next/image";
 import MainLogo from "@/../public/icons/mainLogo.png";
+import { removeCookie } from "@/Cookie";
 
 interface HeaderProps {
   param: string;
@@ -9,10 +11,25 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ param }) => {
   const router = useRouter();
   const { id } = useParams();
+  const userName = localStorage.getItem("userName");
+
+  // UseEffect--------------------------------------------
+  useEffect(() => {
+    if (!localStorage.getItem("userName")) {
+      alert("Please login");
+      router.push("/");
+    }
+  }, []);
+
+  // Function---------------------------------------------
   const goToPage = (page: string) => {
     router.push(`/${page}/${id}`);
   };
   const handleLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userRole");
+    removeCookie("accessToken", {});
     router.push("/");
   };
 
@@ -43,7 +60,7 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
           </S.NavBox>
         </S.LogoBox>
         <S.InfoBox>
-          Manager, JUN SEO
+          Manager, {userName && userName}
           <br />
           <S.LogoutSpan onClick={handleLogout}>Logout</S.LogoutSpan>
         </S.InfoBox>
