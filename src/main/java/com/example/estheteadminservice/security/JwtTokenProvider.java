@@ -20,10 +20,13 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
+    @Value("${jwt.valid-hours}")
+    private int VALID_HOURS;
+
     // 토큰 생성
     public String create(User user) {
         Date now = new Date(); // 현재 시간
-        Date accessTokenValidity = new Date(now.getTime() + 1000 * 60 * 60); // 60분 뒤 만료
+        Date accessTokenValidity = new Date(now.getTime() + 1000 * 60 * 60 * VALID_HOURS); // 60분 뒤 만료
         String accessToken = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .setSubject(user.getUsername())
