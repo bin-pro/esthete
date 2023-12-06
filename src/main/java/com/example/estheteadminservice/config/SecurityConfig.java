@@ -40,6 +40,7 @@ public class SecurityConfig {
                         authorize -> authorize
                                 .requestMatchers("/admin/users/sign-in").permitAll()
                                 .requestMatchers("/admin/swagger-ui/**").permitAll()
+                                .requestMatchers("/admin/post-abusing-report/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()
                                 .requestMatchers("/admin/manager/**").hasRole(Role.ADMIN.getRole())
                                 .anyRequest().authenticated()
