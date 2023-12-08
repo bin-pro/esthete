@@ -39,4 +39,6 @@ public interface GuestBookAbusingReportRepository extends JpaRepository<GuestBoo
     Optional<GuestBookAbusingReport> findByReportId(UUID reportId);
 
     void deleteAllByGuestBook(GuestBook guestBook);
+
+    long countByGuestBook(GuestBook guestBook);
 }

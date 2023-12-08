@@ -38,4 +38,6 @@ public interface PhotoAbusingReportRepository extends JpaRepository<PhotoAbusing
     Optional<PhotoAbusingReport> findByReportId(UUID reportId);
 
     void deleteAllByPhoto(Photo photo);
+
+    long countByPhoto(Photo photo);
 }

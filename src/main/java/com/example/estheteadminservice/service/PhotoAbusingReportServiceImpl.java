@@ -118,6 +118,12 @@ public class PhotoAbusingReportServiceImpl implements PhotoAbusingReportService 
 
         photoAbusingReportRepository.delete(photoAbusingReport);
 
+        long count = photoAbusingReportRepository.countByPhoto(photoAbusingReport.getPhoto());
+
+        if (count == 0) {
+            photoRepository.delete(photoAbusingReport.getPhoto());
+        }
+
         final PhotoAbusingReportDto.DeleteResponse photoAbusingReportDeleteResponse
                 = PhotoAbusingReportDto.DeleteResponse.builder()
                 .photoAbusingReportId(photoAbusingReportId)
@@ -134,6 +140,8 @@ public class PhotoAbusingReportServiceImpl implements PhotoAbusingReportService 
                 .orElseThrow(() -> new PhotoException(PhotoErrorResult.PHOTO_NOT_FOUND));
 
         photoAbusingReportRepository.deleteAllByPhoto(photo);
+
+        photoRepository.delete(photo);
 
         final PhotoAbusingReportDto.DeleteAllResponse photoAbusingReportDeleteAllResponse
                 = PhotoAbusingReportDto.DeleteAllResponse.builder()
