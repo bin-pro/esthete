@@ -89,6 +89,7 @@ const Statistic: React.FC = () => {
             alert("Please login");
             removeAllCookies();
             router.push("/");
+            console.clear();
           }
         }
       }

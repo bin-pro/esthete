@@ -4,6 +4,7 @@ import { SwiperSlide } from "swiper/react";
 
 export const SelectSection = styled.section`
   width: 90%;
+  min-width: 300px;
   height: 20px;
   display: flex;
   justify-content: center;
@@ -163,21 +164,13 @@ export const StyledPagination = styled(ReactPaginate).attrs({
 // Swiper-----------------------------------
 export const SwiperContainer = styled.div`
   width: 90%;
+  min-width: 300px;
   height: calc(100% - 170px);
-  min-width: 700px;
   max-height: calc(100% - 170px);
   display: flex;
   align-items: center;
   padding: 5% 0;
   overflow-y: auto;
-  @media all and (max-width: 705px) {
-    width: 500px;
-    height: 400px;
-  }
-  @media all and (max-width: 505px) {
-    width: 350px;
-    height: 300px;
-  }
 `;
 
 export const SwiperCard = styled(SwiperSlide)`
@@ -186,12 +179,26 @@ export const SwiperCard = styled(SwiperSlide)`
   display: flex;
   background-color: #000;
   border: 1px solid #fff;
+  @media (max-width: 900px) {
+    width: 400px;
+    height: 200px;
+  }
+  @media (max-width: 600px) {
+    width: 300px;
+    height: 150px;
+  }
 `;
 
 export const ImageBox = styled.section`
   width: 200px;
   height: 100%;
   position: relative;
+  @media (max-width: 900px) {
+    width: 150px;
+  }
+  @media (max-width: 600px) {
+    width: 100px;
+  }
 `;
 
 export const SwiperImageStyle: React.CSSProperties = {
@@ -206,6 +213,12 @@ export const InfoSection = styled.section`
   justify-content: center;
   gap: 10px;
   border-left: 1px solid #fff;
+  @media (max-width: 900px) {
+    width: calc(100% - 150px);
+  }
+  @media (max-width: 600px) {
+    width: calc(100% - 100px);
+  }
 `;
 
 export const InfoBox = styled.section`
@@ -239,6 +252,12 @@ export const InfoSpan = styled.span<InfoSpanProps>`
   font-size: 14px;
   color: ${(props) =>
     props.$attr === "title" ? "#7EC9FF" : props.$attr === "log" ? "#FF6D6D" : "#fff"};
+  @media (max-width: 900px) {
+    font-size: 12px;
+  }
+  @media (max-width: 600px) {
+    font-size: 10px;
+  }
 `;
 
 export const ColLogBox = styled.section`
@@ -246,7 +265,9 @@ export const ColLogBox = styled.section`
   height: 60%;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   gap: 10px;
+  overflow-y: auto;
 `;
 
 export const ActionBox = styled.section`
@@ -275,4 +296,10 @@ export const ActionButton = styled.button<ActionButtonProps>`
   font-size: 14px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
+  @media (max-width: 900px) {
+    font-size: 12px;
+  }
+  @media (max-width: 600px) {
+    font-size: 10px;
+  }
 `;

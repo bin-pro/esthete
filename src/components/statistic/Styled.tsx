@@ -48,6 +48,7 @@ export const HeaderSection = styled.header`
 
 export const HeaderLine = styled.section`
   width: 90%;
+  min-width: 300px;
   height: 0px;
   position: sticky;
   top: 150px;
@@ -77,20 +78,26 @@ export const LogoBox = styled.section`
 
 export const NavBox = styled.section`
   width: 100%;
+  min-width: 300px;
   display: flex;
   gap: 40px;
   @media all and (max-width: 900px) {
     justify-content: space-between;
     align-items: center;
     font-size: 14px;
+    gap: 30px;
   }
   @media all and (max-width: 500px) {
+    justify-content: space-between;
     max-width: 480px;
     font-size: 12px;
+    gap: 20px;
   }
   @media all and (max-width: 436px) {
+    justify-content: space-between;
     max-width: 380px;
     font-size: 10px;
+    gap: 10px;
   }
 `;
 

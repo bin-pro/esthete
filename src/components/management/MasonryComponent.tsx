@@ -5,6 +5,8 @@ import * as M from "@/components/management/Styled";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import PostDetailModal from "../detail/PostDetailModal";
 import { Instance } from "@/api/axios";
+import { useRouter } from "next/navigation";
+import { removeAllCookies } from "@/Cookie";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -32,6 +34,7 @@ interface ModalDetailProps {
 }
 
 const MasonryComponent: React.FC = () => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   // Hover-------------------------------------------
@@ -52,8 +55,17 @@ const MasonryComponent: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const result = await Instance.get(`abusing-reports/photos`);
-      if (result.status === 200) setPhotoReport(result.data);
+      try {
+        const result = await Instance.get(`abusing-reports/photos`);
+        if (result.status === 200) setPhotoReport(result.data);
+      } catch (err: any) {
+        if (err?.response.status === 403 || err?.response.status === 401) {
+          alert("로그인이 필요합니다.");
+          removeAllCookies();
+          router.push("/");
+          console.clear();
+        }
+      }
     })();
   }, [photoReport.content]);
 

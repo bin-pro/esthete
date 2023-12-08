@@ -1,37 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
-import {
-  EffectCoverflow,
-  Autoplay,
-  Pagination,
-  Navigation,
-} from "swiper/modules";
+import { EffectCoverflow, Autoplay, Pagination, Navigation } from "swiper/modules";
 import * as M from "@/components/management/Styled";
 import { GUEST_BOOK_DATA } from "../../../DummyData";
 import Image from "next/image";
+import { Instance } from "@/api/axios";
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 
 const SwiperComponent: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemOffSet, setItemOffSet] = useState(0);
+  // State-------------------------------------------
+  const [currentPage, setCurrentPage] = useState(0);
 
-  // useEffect(() => {
-  //   setCurrentPage(Math.ceil(GUEST_BOOK_DATA.length / ITEMS_PER_PAGE));
-  // }, [itemOffSet, ITEMS_PER_PAGE]);
+  // Handling----------------------------------------
 
-  const offSet = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentData = GUEST_BOOK_DATA.slice(offSet, offSet + ITEMS_PER_PAGE);
+  // componentDidMount-------------------------------
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await Instance.get(`abusing-reports/guest-books`, {
+          params: {
+            page: currentPage,
+            size: ITEMS_PER_PAGE,
+          },
+        });
+        console.log(result);
+      } catch (err: any) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
-  const handlePageClick = (data: { selected: number }) => {
-    setCurrentPage(data.selected);
-  };
   return (
     <>
       <M.SwiperContainer>
