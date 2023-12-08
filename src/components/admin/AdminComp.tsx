@@ -91,7 +91,6 @@ const AdminComp: React.FC = () => {
         if (result.status === 200) {
           setManagerList(result.data.content);
           setTotalPage(result.data.totalPages);
-          console.log(result.data);
         }
       } catch (err: any) {
         if (err?.response.status === 401) {
