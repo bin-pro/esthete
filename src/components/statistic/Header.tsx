@@ -3,7 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import * as S from "./Styled";
 import Image from "next/image";
 import MainLogo from "@/../public/icons/mainLogo.png";
-import { getCookie, removeCookie } from "@/Cookie";
+import { getCookie, removeAllCookies } from "@/Cookie";
 
 interface HeaderProps {
   param: string;
@@ -12,6 +12,7 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
   const router = useRouter();
   const { id } = useParams();
   const userName = getCookie("userName");
+  const role = getCookie("userRole");
 
   // UseEffect--------------------------------------------
   useEffect(() => {
@@ -26,10 +27,7 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
     router.push(`/${page}/${id}`);
   };
   const handleLogout = () => {
-    removeCookie("userId", {});
-    removeCookie("userName", {});
-    removeCookie("userRole", {});
-    removeCookie("accessToken", {});
+    removeAllCookies();
     router.push("/");
   };
 
@@ -53,6 +51,7 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
             </S.ManagementNav>
             <S.AdminNav
               $isCurrent={param === "admin" ? true : false}
+              $role={role}
               onClick={() => goToPage("admin")}
             >
               Admin

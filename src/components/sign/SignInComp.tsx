@@ -45,8 +45,6 @@ export const SignInComp: React.FC = () => {
         router.push(`/statistic/${result.data.user_id}`);
       }
     } catch (err) {
-      console.log(err);
-
       if (err instanceof AxiosError) {
         if (err.response?.status === 404) {
           alert(err.response.data.error);
@@ -96,9 +94,7 @@ export const SignInComp: React.FC = () => {
         <br />
         <S.Input placeholder="userName" type="text" name="userName" onChange={handleChange} />
         <S.Input placeholder="password" type="password" name="password" onChange={handleChange} />
-        <S.RightBox>
-          <S.SmallText onClick={goToSignUp}>sign up</S.SmallText>
-        </S.RightBox>
+        <S.RightBox>{/* <S.SmallText onClick={goToSignUp}>sign up</S.SmallText> */}</S.RightBox>
         <S.Button>Sign In</S.Button>
       </S.Container>
     </>

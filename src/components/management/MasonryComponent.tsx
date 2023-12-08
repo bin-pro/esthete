@@ -81,9 +81,7 @@ const MasonryComponent: React.FC = () => {
   const handleDelete = async (photoId: string) => {
     try {
       if (window.confirm("해당 저작권 신고 게시물을 정말 삭제하시겠습니까?")) {
-        const result = await Instance.delete(
-          `abusing-reports/photos/${photoId}`
-        );
+        const result = await Instance.delete(`abusing-reports/photos/${photoId}`);
         if (result.status === 200) {
           alert("삭제되었습니다.");
           setModal(false);
@@ -137,16 +135,11 @@ const MasonryComponent: React.FC = () => {
                       <M.SmallText>{pr.photo_id}</M.SmallText>
                       <M.SmallText>{pr.photographer_nickname}</M.SmallText>
                       <M.SmallText>{pr.photo_abusing_report_count}</M.SmallText>
-                      <M.SmallText>
-                        {pr.photographer_photo_abusing_report_count}
-                      </M.SmallText>
+                      <M.SmallText>{pr.photographer_photo_abusing_report_count}</M.SmallText>
                     </M.CardHalfBox>
                   </M.CardIageHoverBox>
                   <M.CardFooter>
-                    <M.CardButton
-                      $attr={"delete"}
-                      onClick={() => handleDelete(pr.photo_id)}
-                    >
+                    <M.CardButton $attr={"delete"} onClick={() => handleDelete(pr.photo_id)}>
                       DELETE
                     </M.CardButton>
                     <M.CardButton $attr={"reject"} onClick={handleReject}>

@@ -26,31 +26,30 @@ export const Body = styled.div`
 `;
 
 export const FormBox = styled.form`
+  min-width: 300px;
   width: 90%;
   max-width: 900px;
   height: 150px;
   min-height: 150px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-`;
-
-export const InputBox = styled.div`
-  width: 83%;
-  height: 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 15px;
 `;
 
 export const Input = styled.input`
-  width: 49%;
+  width: 30%;
+  min-width: 100px;
   height: 50px;
   font-family: "Syncopate", sans-serif;
   background-color: transparent;
   border: 1px solid #fff;
   border-radius: 5px;
   padding: 0 10px;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    padding: 8px;
+  }
 `;
 
 export const SubmitButton = styled.button`
@@ -66,6 +65,7 @@ export const SubmitButton = styled.button`
 `;
 
 export const ListBox = styled.div`
+  min-width: 300px;
   width: 90%;
   max-width: 900px;
   min-height: 150px;
@@ -79,6 +79,7 @@ export const ListBox = styled.div`
 `;
 
 export const ListEmptyBox = styled.section`
+  min-width: 300px;
   width: 100%;
   height: 100%;
   min-height: 150px;
@@ -106,14 +107,21 @@ export const ListTextBox = styled.section`
   align-items: center;
 `;
 
-export const ListText = styled.p`
+interface ListTextProps {
+  $title?: boolean;
+}
+export const ListText = styled.p<ListTextProps>`
   width: 48%;
+  min-width: 150px;
+  font-size: ${(props) => (props.$title ? "14px" : "12px")};
+  color: ${(props) => (props.$title ? "#7EC9FF" : "#dddddd")};
+  overflow-x: auto;
 `;
 
 export const ListDeleteButton = styled(SubmitButton)`
   width: 10%;
   height: 40px;
   background-color: #000;
-  color: #fff;
+  color: #ff6d6d;
   border: 1px solid #fff;
 `;

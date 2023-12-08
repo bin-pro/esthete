@@ -7,6 +7,7 @@ import Image from "next/image";
 import Background from "@/../public/images/background.jpg";
 import Header from "@/components/statistic/Header";
 import { Instance } from "@/api/axios";
+import { useRouter } from "next/navigation";
 
 interface ManagerProps {
   user_id: string;
@@ -16,18 +17,16 @@ interface ManagerProps {
 }
 
 const AdminComp: React.FC = () => {
+  const router = useRouter();
   // State-----------------------------------------------
-  const [managerId, setManagerId] = useState<string>("");
-  const [managerPw, setManagerPw] = useState<string>("");
+  const [createNumber, setCreateNumber] = useState<number>(1);
   const [managerList, setManagerList] = useState<ManagerProps[]>([]);
 
   // Handling--------------------------------------------
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === "manager-id") {
-      setManagerId(value);
-    } else if (name === "manager-pw") {
-      setManagerPw(value);
+    const { value } = e.target;
+    if (/^\d+$/.test(value) && parseInt(value) >= 1 && parseInt(value) <= 10) {
+      setCreateNumber(Number(e.target.value));
     }
   };
 
@@ -35,15 +34,22 @@ const AdminComp: React.FC = () => {
     e.preventDefault();
     try {
       const result = await Instance.post(`/managers`, {
-        createNumber: 1,
-        username: managerId,
-        password: managerPw,
+        create_number: createNumber,
       });
       if (result.status === 200) {
         console.log(result);
-        // setManagerList([...managerList, managerId, managerPw]);
-        setManagerId("");
-        setManagerPw("");
+      }
+    } catch (err: any) {
+      console.log(err);
+      console.log(createNumber);
+    }
+  };
+
+  const handleDelete = async (userId: string) => {
+    try {
+      const result = await Instance.delete(`/managers/${userId}`);
+      if (result.status === 200) {
+        console.log(result);
       }
     } catch (err: any) {
       console.log(err);
@@ -56,18 +62,20 @@ const AdminComp: React.FC = () => {
       try {
         const result = await Instance.get(`/managers`);
         if (result.status === 200) {
-          console.log(result.data);
           setManagerList(result.data.content);
         }
       } catch (err: any) {
         console.log(err);
+        if (err?.response.status === 401) {
+          alert("관리자만 접근 가능합니다.");
+          router.push("/");
+        }
       }
     })();
   }, []);
 
   // Hydration--------------------------------------------
-  const [element, setElement] =
-    useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
+  const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
   useEffect(() => {
     setElement(document.getElementsByTagName("html"));
   }, []);
@@ -89,37 +97,42 @@ const AdminComp: React.FC = () => {
         <Header param="admin" />
         <A.Body>
           <A.FormBox onSubmit={handleOnSubmit}>
-            <A.InputBox>
-              <A.Input
-                type="text"
-                name="manager-id"
-                placeholder="Manager ID"
-                onChange={handleOnChange}
-              />
-              <A.Input
-                type="text"
-                name="manager-pw"
-                placeholder="Manager PW"
-                onChange={handleOnChange}
-              />
-            </A.InputBox>
-            <A.SubmitButton>Add</A.SubmitButton>
+            <A.Input
+              type="number"
+              min={1}
+              max={10}
+              name="create-manager"
+              value={createNumber}
+              placeholder="How many Manager accounts do u create?"
+              onChange={handleOnChange}
+            />
+            <A.SubmitButton type="submit">Create</A.SubmitButton>
           </A.FormBox>
           <A.ListBox>
             {managerList.length === 0 ? (
               <A.ListEmptyBox>* Add your Manager *</A.ListEmptyBox>
             ) : (
-              managerList.map((manager: ManagerProps) => {
-                return (
-                  <A.ListUnit key={manager.user_id}>
-                    <A.ListTextBox>
-                      <A.ListText>{manager.username}</A.ListText>
-                      <A.ListText>{manager.password}</A.ListText>
-                    </A.ListTextBox>
-                    <A.ListDeleteButton>DEL</A.ListDeleteButton>
-                  </A.ListUnit>
-                );
-              })
+              <>
+                <A.ListUnit>
+                  <A.ListTextBox>
+                    <A.ListText $title={true}>username</A.ListText>
+                    <A.ListText $title={true}>password</A.ListText>
+                  </A.ListTextBox>
+                </A.ListUnit>
+                {managerList.map((manager: ManagerProps) => {
+                  return (
+                    <A.ListUnit key={manager.user_id}>
+                      <A.ListTextBox>
+                        <A.ListText>{manager.username}</A.ListText>
+                        <A.ListText>{manager.password}</A.ListText>
+                      </A.ListTextBox>
+                      <A.ListDeleteButton onClick={() => handleDelete(manager.user_id)}>
+                        DEL
+                      </A.ListDeleteButton>
+                    </A.ListUnit>
+                  );
+                })}
+              </>
             )}
           </A.ListBox>
         </A.Body>
