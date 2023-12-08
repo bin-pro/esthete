@@ -49,7 +49,7 @@ interface PostDetailModalProps {
     reporter_photo_abusing_report_count: number | null;
     created_at: string;
   };
-  handleDelete: () => void;
+  handleDelete: (photoId: string) => void;
   handleReject: () => void;
 }
 
@@ -62,7 +62,11 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
   handleReject,
 }) => {
   return (
-    <Modal isOpen={modal} onRequestClose={() => setModal(false)} style={customStyles}>
+    <Modal
+      isOpen={modal}
+      onRequestClose={() => setModal(false)}
+      style={customStyles}
+    >
       <D.Container>
         <D.DetailBox>
           <D.LeftBox>
@@ -92,9 +96,14 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
           </D.LeftBox>
           <D.RightBox>
             <D.PostImageBox>
-              <D.FullImage src={photoReport?.photo_url || DefaultLogo} alt="post-image" />
+              <D.FullImage
+                src={photoReport?.photo_url || DefaultLogo}
+                alt="post-image"
+              />
             </D.PostImageBox>
-            <D.DescriptionBox>{photoReport?.photo_description}</D.DescriptionBox>
+            <D.DescriptionBox>
+              {photoReport?.photo_description}
+            </D.DescriptionBox>
             <D.ActionBox>
               <D.ActionButton $attr="delete" onClick={handleDelete}>
                 DELETE

@@ -8,7 +8,6 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  transition: all 0.3s ease-in-out;
 `;
 
 export const ImageBackground: React.CSSProperties = {
@@ -33,7 +32,6 @@ export const HeaderSection = styled.header`
   position: sticky;
   top: 0;
   backdrop-filter: blur(2px);
-  transition: all 0.3s ease-in-out;
   padding: 0 5%;
   margin-bottom: 15px;
   z-index: 1;

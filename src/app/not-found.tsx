@@ -1,11 +1,9 @@
 import NotFoundComp from "@/components/not-found/NotFoundComp";
 
-const NotFound: React.FC = () => {
+export default function NotFound() {
   return (
     <>
       <NotFoundComp />
     </>
   );
-};
-
-export default NotFound;
+}
