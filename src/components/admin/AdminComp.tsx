@@ -8,6 +8,7 @@ import Background from "@/../public/images/background.jpg";
 import Header from "@/components/statistic/Header";
 import { Instance } from "@/api/axios";
 import { useRouter } from "next/navigation";
+import { removeAllCookies } from "@/Cookie";
 
 interface ManagerProps {
   user_id: string;
@@ -21,6 +22,7 @@ const AdminComp: React.FC = () => {
   // State-----------------------------------------------
   const [createNumber, setCreateNumber] = useState<number>(1);
   const [managerList, setManagerList] = useState<ManagerProps[]>([]);
+  const [render, setRender] = useState<boolean>(false);
 
   // Handling--------------------------------------------
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,11 +39,14 @@ const AdminComp: React.FC = () => {
         create_number: createNumber,
       });
       if (result.status === 200) {
-        console.log(result);
+        setRender(!render);
       }
     } catch (err: any) {
-      console.log(err);
-      console.log(createNumber);
+      if (err?.response.status === 401) {
+        alert("관리자만 접근 가능합니다.");
+        removeAllCookies();
+        router.push("/");
+      }
     }
   };
 
@@ -49,11 +54,9 @@ const AdminComp: React.FC = () => {
     try {
       const result = await Instance.delete(`/managers/${userId}`);
       if (result.status === 200) {
-        console.log(result);
+        setRender(!render);
       }
-    } catch (err: any) {
-      console.log(err);
-    }
+    } catch (err: any) {}
   };
 
   // useEffect--------------------------------------------
@@ -65,14 +68,14 @@ const AdminComp: React.FC = () => {
           setManagerList(result.data.content);
         }
       } catch (err: any) {
-        console.log(err);
         if (err?.response.status === 401) {
           alert("관리자만 접근 가능합니다.");
+          removeAllCookies();
           router.push("/");
         }
       }
     })();
-  }, []);
+  }, [render]);
 
   // Hydration--------------------------------------------
   const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
