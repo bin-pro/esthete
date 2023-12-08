@@ -124,6 +124,12 @@ public class GuestBookAbusingReportServiceImpl implements GuestBookAbusingReport
 
         guestBookAbusingReportRepository.delete(guestBookAbusingReport);
 
+        long count = guestBookAbusingReportRepository.countByGuestBook(guestBookAbusingReport.getGuestBook());
+
+        if (count == 0) {
+            guestBookRepository.delete(guestBookAbusingReport.getGuestBook());
+        }
+
         return GuestBookAbusingReportDto.DeleteResponse.builder()
                 .guestBookAbusingReportId(guestBookAbusingReportId)
                 .build();
@@ -137,6 +143,8 @@ public class GuestBookAbusingReportServiceImpl implements GuestBookAbusingReport
                     .orElseThrow(() -> new GuestBookException(GuestBookErrorResult.GUEST_BOOK_NOT_FOUND));
 
         guestBookAbusingReportRepository.deleteAllByGuestBook(guestBook);
+
+        guestBookRepository.delete(guestBook);
 
         return GuestBookAbusingReportDto.DeleteAllResponse.builder()
                     .guestBookId(guestBookId)
