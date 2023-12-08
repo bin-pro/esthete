@@ -9,6 +9,7 @@ import Header from "@/components/statistic/Header";
 import { Instance } from "@/api/axios";
 import { useRouter } from "next/navigation";
 import { removeAllCookies } from "@/Cookie";
+import { StyledPagination } from "../management/Styled";
 
 interface ManagerProps {
   user_id: string;
@@ -17,12 +18,24 @@ interface ManagerProps {
   role: string;
 }
 
+const ITEMS_PER_PAGE = 10;
+
 const AdminComp: React.FC = () => {
   const router = useRouter();
   // State-----------------------------------------------
   const [createNumber, setCreateNumber] = useState<number>(1);
   const [managerList, setManagerList] = useState<ManagerProps[]>([]);
   const [render, setRender] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const currentPageData = managerList.slice(0, 10);
+  const handlePageClick = (data: { selected: number }) => {
+    setCurrentPage(data.selected);
+    const paginationItems = document.querySelectorAll(".page-item");
+    paginationItems.forEach((item) => {
+      item.classList.remove("active");
+    });
+  };
 
   // Handling--------------------------------------------
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +68,12 @@ const AdminComp: React.FC = () => {
       const result = await Instance.delete(`/managers/${userId}`);
       if (result.status === 200) {
         setRender(!render);
+        if (currentPageData.length === 1) {
+          setCurrentPage(currentPage - 1);
+
+          const paginationItems = document.querySelectorAll(".page-item");
+          paginationItems[currentPage].classList.add("active");
+        }
       }
     } catch (err: any) {}
   };
@@ -63,9 +82,16 @@ const AdminComp: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const result = await Instance.get(`/managers`);
+        const result = await Instance.get(`/managers`, {
+          params: {
+            page: currentPage,
+            size: 10,
+          },
+        });
         if (result.status === 200) {
           setManagerList(result.data.content);
+          setTotalPage(result.data.totalPages);
+          console.log(result.data);
         }
       } catch (err: any) {
         if (err?.response.status === 401) {
@@ -75,7 +101,7 @@ const AdminComp: React.FC = () => {
         }
       }
     })();
-  }, [render]);
+  }, [render, currentPage]);
 
   // Hydration--------------------------------------------
   const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
@@ -122,7 +148,7 @@ const AdminComp: React.FC = () => {
                     <A.ListText $title={true}>password</A.ListText>
                   </A.ListTextBox>
                 </A.ListUnit>
-                {managerList.map((manager: ManagerProps) => {
+                {currentPageData.map((manager: ManagerProps) => {
                   return (
                     <A.ListUnit key={manager.user_id}>
                       <A.ListTextBox>
@@ -138,6 +164,23 @@ const AdminComp: React.FC = () => {
               </>
             )}
           </A.ListBox>
+          <StyledPagination
+            previousLabel={"〈"}
+            nextLabel={"〉"}
+            breakLabel={"..."}
+            pageCount={totalPage}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={2}
+            onPageChange={handlePageClick}
+            containerClassName="pagination justify-content-center"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            activeClassName="active"
+          />
         </A.Body>
       </A.Container>
     </>
