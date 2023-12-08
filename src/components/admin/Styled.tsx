@@ -55,7 +55,7 @@ export const Input = styled.input`
 
 export const SubmitButton = styled.button`
   width: 15%;
-  min-width: 100px;
+  min-width: 80px;
   height: 50px;
   font-family: "Syncopate", sans-serif;
   background-color: #fff;
@@ -68,14 +68,24 @@ export const SubmitButton = styled.button`
 export const ListBox = styled.div`
   width: 90%;
   max-width: 900px;
+  min-height: 150px;
   height: calc(100% - 100px);
   max-height: calc(100% - 100px);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   padding-right: 15px;
   overflow-y: auto;
+`;
+
+export const ListEmptyBox = styled.section`
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.7;
 `;
 
 export const ListUnit = styled.section`
@@ -102,7 +112,6 @@ export const ListText = styled.p`
 
 export const ListDeleteButton = styled(SubmitButton)`
   width: 10%;
-  min-width: 80px;
   height: 40px;
   background-color: #000;
   color: #fff;
