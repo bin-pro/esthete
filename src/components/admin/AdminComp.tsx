@@ -48,7 +48,7 @@ const AdminComp: React.FC = () => {
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const result = await Instance.post(`/managers`, {
+      const result = await Instance.post(`/api/v1/admin/manager`, {
         create_number: createNumber,
       });
       if (result.status === 200) {
@@ -65,7 +65,7 @@ const AdminComp: React.FC = () => {
 
   const handleDelete = async (userId: string) => {
     try {
-      const result = await Instance.delete(`/managers/${userId}`);
+      const result = await Instance.delete(`/api/v1/admin/manager/delete/${userId}`);
       if (result.status === 200) {
         setRender(!render);
         if (currentPageData.length === 1) {
@@ -82,7 +82,7 @@ const AdminComp: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const result = await Instance.get(`/managers`, {
+        const result = await Instance.get(`/api/v1/admin/manager`, {
           params: {
             page: currentPage,
             size: 10,

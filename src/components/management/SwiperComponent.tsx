@@ -43,7 +43,7 @@ const SwiperComponent: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const result = await Instance.get(`abusing-reports/guest-books`, {
+        const result = await Instance.get(`/api/v1/management/guestbooks`, {
           params: {
             page: currentPage,
             size: ITEMS_PER_PAGE,
