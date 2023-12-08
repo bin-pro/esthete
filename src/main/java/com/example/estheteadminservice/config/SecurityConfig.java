@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -52,10 +53,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .httpBasic(AbstractHttpConfigurer::disable)
+
                 .csrf(AbstractHttpConfigurer::disable)
+
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
                 .authorizeHttpRequests(
                         authorize -> authorize
+                                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                                 .requestMatchers("/admin/users/sign-in").permitAll()
                                 .requestMatchers("/admin/swagger-ui/**").permitAll()
                                 .requestMatchers("/admin/post-abusing-report/**").permitAll()
