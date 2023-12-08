@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import * as S from "./Styled";
 import Image from "next/image";
 import MainLogo from "@/../public/icons/mainLogo.png";
+import { getCookie, removeCookie } from "@/Cookie";
 
 interface HeaderProps {
   param: string;
@@ -9,10 +11,25 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ param }) => {
   const router = useRouter();
   const { id } = useParams();
+  const userName = getCookie("userName");
+
+  // UseEffect--------------------------------------------
+  useEffect(() => {
+    if (!getCookie("userName")) {
+      alert("Please login");
+      handleLogout();
+    }
+  }, []);
+
+  // Function---------------------------------------------
   const goToPage = (page: string) => {
     router.push(`/${page}/${id}`);
   };
   const handleLogout = () => {
+    removeCookie("userId", {});
+    removeCookie("userName", {});
+    removeCookie("userRole", {});
+    removeCookie("accessToken", {});
     router.push("/");
   };
 
@@ -43,7 +60,7 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
           </S.NavBox>
         </S.LogoBox>
         <S.InfoBox>
-          Manager, JUN SEO
+          Manager, {userName && userName}
           <br />
           <S.LogoutSpan onClick={handleLogout}>Logout</S.LogoutSpan>
         </S.InfoBox>

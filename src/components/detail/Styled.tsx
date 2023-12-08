@@ -42,6 +42,15 @@ export const ProfileBox = styled.div`
   border: none;
 `;
 
+interface FullImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  src?: string;
+}
+export const FullImage = styled.img<FullImageProps>`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
 export const ImageStyle: React.CSSProperties = {
   objectFit: "cover",
   border: "none",

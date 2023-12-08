@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 // Sign In---------------------------------
-export const Container = styled.div`
+export const Container = styled.form`
   max-width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -124,11 +124,7 @@ export const UploadStatusText = styled.p<UploadStatusProps>`
   font-family: "Syncopate", sans-serif;
   text-align: center;
   color: ${(props) =>
-    props.status === "success"
-      ? "#7EC9FF"
-      : props.status === "fail"
-      ? "#FF6D6D"
-      : "#fff"};
+    props.status === "success" ? "#7EC9FF" : props.status === "fail" ? "#FF6D6D" : "#fff"};
 `;
 
 export const UploadInput = styled.input`

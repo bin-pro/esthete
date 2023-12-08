@@ -56,6 +56,13 @@ export const CardContainer = styled.div`
   }
 `;
 
+export const CardImage = styled.img`
+  width: 100%;
+  height: 100%;
+  min-height: calc(100% - 30px);
+  object-fit: cover;
+`;
+
 interface CardImageProps {
   $isHover: Boolean;
 }
@@ -68,11 +75,15 @@ export const CardIageHoverBox = styled.section<CardImageProps>`
   left: ${(props) => (props.$isHover ? "0" : "-250px")};
   border: 1px solid #fff;
   background-color: rgba(0, 0, 0, 0.8);
+  overflow-x: hidden;
   overflow-y: auto;
 `;
 
-export const CardHalfBox = styled.section`
-  width: 50%;
+interface CardHalfBoxProps {
+  $left: Boolean;
+}
+export const CardHalfBox = styled.section<CardHalfBoxProps>`
+  width: ${(props) => (props.$left ? "45%" : "65%")};
   height: 100%;
   display: flex;
   flex-direction: column;

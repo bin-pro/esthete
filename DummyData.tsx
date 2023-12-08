@@ -123,3 +123,117 @@ export const GUEST_BOOK_DATA = [
     guestBook: "I'm Angry",
   },
 ];
+
+export const BACKGROUND_COLORS = [
+  "rgba(255, 99, 132, 0.2)",
+  "rgba(54, 162, 235, 0.2)",
+  "rgba(255, 206, 86, 0.2)",
+  "rgba(75, 192, 192, 0.2)",
+  "rgba(153, 102, 255, 0.2)",
+  "rgba(255, 159, 64, 0.2)",
+];
+
+export const BORDER_COLORS = [
+  "rgba(255, 99, 132, 1)",
+  "rgba(54, 162, 235, 1)",
+  "rgba(255, 206, 86, 1)",
+  "rgba(75, 192, 192, 1)",
+  "rgba(153, 102, 255, 1)",
+  "rgba(255, 159, 64, 1)",
+];
+
+export const CHART_DUMMY_OPTIONS1 = {
+  labels: [
+    "12-01",
+    "12-02",
+    "12-03",
+    "12-04",
+    "12-05",
+    "12-06",
+    "12-07",
+    "12-08",
+    "12-09",
+    "12-10",
+  ],
+  datasets: [
+    {
+      label: "",
+      data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5],
+      backgroundColor: BACKGROUND_COLORS,
+      borderColor: BORDER_COLORS,
+      borderWidth: 1,
+    },
+  ],
+};
+
+export const CHART_DUMMY_OPTIONS2 = {
+  labels: [
+    "12-01",
+    "12-02",
+    "12-03",
+    "12-04",
+    "12-05",
+    "12-06",
+    "12-07",
+    "12-08",
+    "12-09",
+    "12-10",
+  ],
+  datasets: [
+    {
+      label: "",
+      data: [5, 2, 3, 12, 23, 3, 5, 12, 19, 3],
+      backgroundColor: BACKGROUND_COLORS,
+      borderColor: BORDER_COLORS,
+      borderWidth: 1,
+    },
+  ],
+};
+
+export const CHART_DUMMY_OPTIONS3 = {
+  labels: [
+    "12-01",
+    "12-02",
+    "12-03",
+    "12-04",
+    "12-05",
+    "12-06",
+    "12-07",
+    "12-08",
+    "12-09",
+    "12-10",
+  ],
+  datasets: [
+    {
+      label: "",
+      data: [2, 3, 12, 19, 3, 5, 12, 19, 3, 5],
+      backgroundColor: BACKGROUND_COLORS,
+      borderColor: BORDER_COLORS,
+      borderWidth: 1,
+    },
+  ],
+};
+
+export const CHART_DUMMY_OPTIONS4 = {
+  labels: [
+    "12-01",
+    "12-02",
+    "12-03",
+    "12-04",
+    "12-05",
+    "12-06",
+    "12-07",
+    "12-08",
+    "12-09",
+    "12-10",
+  ],
+  datasets: [
+    {
+      label: "",
+      data: [24, 12, 19, 3, 5, 2, 3, 12, 19, 3],
+      backgroundColor: BACKGROUND_COLORS,
+      borderColor: BORDER_COLORS,
+      borderWidth: 1,
+    },
+  ],
+};

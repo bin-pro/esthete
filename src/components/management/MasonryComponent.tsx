@@ -1,23 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
-import Image, { StaticImageData } from "next/image";
+import React, { useEffect, useState } from "react";
 import * as M from "@/components/management/Styled";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { DUMMY_DATA } from "../../../DummyData";
 import { useParams, useRouter } from "next/navigation";
 import PostDetailModal from "../detail/PostDetailModal";
-const ITEMS_PER_PAGE = 5;
+import { Instance } from "@/api/axios";
+import { DUMMY_DATA } from "../../../DummyData";
 
-interface ModalDataProps {
+const ITEMS_PER_PAGE = 10;
+
+interface PhotoReportProps {
   photo_id: string;
   photo_title: string;
   photo_description: string;
-  photo_url: string | StaticImageData;
+  photo_url: string | undefined;
   photo_created_at: string;
   photographer_id: string;
   photographer_nickname: string;
-  photographer_profile_img: string | StaticImageData;
+  photographer_profile_img: string | undefined;
   photo_abusing_report_count: number | null;
   photographer_photo_abusing_report_count: number | null;
 }
@@ -26,7 +27,7 @@ interface ModalDetailProps {
   report_id: string;
   reporter_id: string;
   reporter_nickname: string;
-  reporter_profile_img: string | StaticImageData;
+  reporter_profile_img: string | undefined;
   report_reason: string;
   reporter_photo_abusing_report_count: number | null;
   created_at: string;
@@ -37,32 +38,16 @@ const MasonryComponent: React.FC = () => {
   const { id } = useParams();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemOffSet, setItemOffSet] = useState<number>(0);
-
   // Hover-------------------------------------------
   const [hover, setHover] = useState<string>("-1");
 
   // Modal-------------------------------------------
   const [modal, setModal] = useState<boolean>(false);
-  const [modalData, setModalData] = useState<ModalDataProps>({
-    photo_id: "",
-    photo_title: "",
-    photo_description: "",
-    photo_url: "",
-    photo_created_at: "",
-    photographer_id: "",
-    photographer_nickname: "",
-    photographer_profile_img: "",
-    photo_abusing_report_count: null,
-    photographer_photo_abusing_report_count: null,
+  const [photoReport, setPhotoReport] = useState<{ content?: PhotoReportProps[] }>({
+    content: [],
   });
-  const [modalDetail, setModalDetail] = useState<ModalDetailProps>({
-    report_id: "",
-    reporter_id: "",
-    reporter_nickname: "",
-    reporter_profile_img: "",
-    report_reason: "",
-    reporter_photo_abusing_report_count: null,
-    created_at: "",
+  const [modalDetail, setModalDetail] = useState<{ content?: ModalDetailProps[] }>({
+    content: [],
   });
 
   // useEffect(() => {
@@ -72,20 +57,36 @@ const MasonryComponent: React.FC = () => {
   // const offSet = currentPage - 1 * ITEMS_PER_PAGE;
   // const currentData = DUMMY_DATA.slice(offSet, offSet + ITEMS_PER_PAGE);
 
+  useEffect(() => {
+    (async () => {
+      const result = await Instance.get(`abusing-reports/photos`);
+      if (result.status === 200) setPhotoReport(result.data);
+    })();
+  }, [photoReport.content]);
+
   const handlePageClick = (data: { selected: number }) => {
     setCurrentPage(data.selected + 1);
   };
 
-  const handleModal = async (modalData: ModalDataProps, photoId: string) => {
-    setModalData(modalData);
+  const handleModal = async (modalData: PhotoReportProps, photoId: string) => {
+    setPhotoReport({ content: [modalData] });
     setModal(true);
   };
+  // console.log(photoReport.content);
 
-  const handleDelete = async () => {
-    if (window.confirm("해당 저작권 신고 게시물을 정말 삭제하시겠습니까?")) {
-      console.log("delete");
-    } else {
-      return;
+  const handleDelete = async (photoId: string) => {
+    try {
+      if (window.confirm("해당 저작권 신고 게시물을 정말 삭제하시겠습니까?")) {
+        const result = await Instance.delete(`abusing-reports/photos/${photoId}`);
+        if (result.status === 200) {
+          alert("삭제되었습니다.");
+          setModal(false);
+        }
+      } else {
+        return;
+      }
+    } catch (err: any) {
+      console.log(err);
     }
   };
 
@@ -105,42 +106,36 @@ const MasonryComponent: React.FC = () => {
           style={M.ResMasonryStyle}
         >
           <Masonry gutter="30px" style={M.MasonryStyle}>
-            {DUMMY_DATA.map((data) => {
+            {photoReport.content?.map((pr: any) => {
               return (
-                <M.CardContainer key={data.photo_id}>
-                  <Image
-                    src={data.photo_url}
+                <M.CardContainer key={pr.photo_id}>
+                  <M.CardImage
+                    src={pr.photo_url}
                     alt="postImage"
-                    width={250}
-                    style={M.CardImageStyle}
                     onMouseEnter={() => {
-                      setHover(data.photo_id);
+                      setHover(pr.photo_id);
                     }}
                   />
                   <M.CardIageHoverBox
-                    $isHover={hover === data.photo_id}
+                    $isHover={hover === pr.photo_id}
                     onMouseLeave={() => setHover("-1")}
-                    onClick={() => handleModal(data, data.photo_id)}
+                    onClick={() => handleModal(pr, pr.photo_id)}
                   >
-                    <M.CardHalfBox>
+                    <M.CardHalfBox $left={true}>
                       <M.SmallText>user-id</M.SmallText>
                       <M.SmallText>name</M.SmallText>
                       <M.SmallText>post</M.SmallText>
                       <M.SmallText>accounts</M.SmallText>
                     </M.CardHalfBox>
-                    <M.CardHalfBox>
-                      <M.SmallText>{data.photo_id}</M.SmallText>
-                      <M.SmallText>{data.photographer_nickname}</M.SmallText>
-                      <M.SmallText>
-                        {data.photo_abusing_report_count}
-                      </M.SmallText>
-                      <M.SmallText>
-                        {data.photographer_photo_abusing_report_count}
-                      </M.SmallText>
+                    <M.CardHalfBox $left={false}>
+                      <M.SmallText>{pr.photo_id}</M.SmallText>
+                      <M.SmallText>{pr.photographer_nickname}</M.SmallText>
+                      <M.SmallText>{pr.photo_abusing_report_count}</M.SmallText>
+                      <M.SmallText>{pr.photographer_photo_abusing_report_count}</M.SmallText>
                     </M.CardHalfBox>
                   </M.CardIageHoverBox>
                   <M.CardFooter>
-                    <M.CardButton $attr={"delete"} onClick={handleDelete}>
+                    <M.CardButton $attr={"delete"} onClick={() => handleDelete(pr.photo_id)}>
                       DELETE
                     </M.CardButton>
                     <M.CardButton $attr={"reject"} onClick={handleReject}>
@@ -174,8 +169,8 @@ const MasonryComponent: React.FC = () => {
       <PostDetailModal
         modal={modal}
         setModal={setModal}
-        modalData={modalData}
-        modalDetail={modalDetail}
+        photoReport={photoReport.content ? photoReport.content[0] : undefined}
+        modalDetail={modalDetail.content ? modalDetail.content[0] : undefined}
         handleDelete={handleDelete}
         handleReject={handleReject}
       />
