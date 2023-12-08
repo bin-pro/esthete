@@ -8,6 +8,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  overflow: hidden;
 `;
 
 export const ImageBackground: React.CSSProperties = {
@@ -67,9 +68,9 @@ export const LogoBox = styled.section`
   flex-direction: column;
   justify-content: flex-end;
   gap: 25px;
-  transition: all 0.3s ease-in-out;
   @media all and (max-width: 900px) {
     width: 100%;
+    min-width: auto;
     height: 150px;
   }
 `;
@@ -81,15 +82,25 @@ export const NavBox = styled.section`
   @media all and (max-width: 900px) {
     justify-content: space-between;
     align-items: center;
+    font-size: 14px;
+  }
+  @media all and (max-width: 500px) {
+    max-width: 480px;
+    font-size: 12px;
+  }
+  @media all and (max-width: 436px) {
+    max-width: 380px;
+    font-size: 10px;
   }
 `;
 
 interface NavSpanProps {
   $isCurrent: Boolean;
+  $role?: string;
 }
 export const StatisticNav = styled.span<NavSpanProps>`
   opacity: ${(props) => (props.$isCurrent ? 1 : 0.5)};
-  transition: all 0.3s ease-in-out;
+  display: ${(props) => (props.$role === "MANAGER" ? "none" : "block")};
   cursor: pointer;
 `;
 
@@ -110,6 +121,15 @@ export const InfoBox = styled.section`
     height: 150px;
     justify-content: center;
     align-items: flex-end;
+    font-size: 14px;
+  }
+  @media all and (max-width: 500px) {
+    max-width: 480px;
+    font-size: 12px;
+  }
+  @media all and (max-width: 436px) {
+    max-width: 380px;
+    font-size: 10px;
   }
 `;
 
@@ -118,6 +138,9 @@ export const LogoutSpan = styled.span`
   opacity: 0.75;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  @media all and (max-width: 500px) {
+    font-size: 8px;
+  }
   &:hover {
     opacity: 1;
   }

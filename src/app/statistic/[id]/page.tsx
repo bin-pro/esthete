@@ -16,7 +16,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import { Instance } from "@/api/axios";
-import { getCookie, removeCookie } from "@/Cookie";
+import { getCookie, removeAllCookies } from "@/Cookie";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import {
@@ -51,7 +51,6 @@ interface dataProps {
 }
 
 const Statistic: React.FC = () => {
-  const accessToken = getCookie("accessToken");
   const router = useRouter();
 
   // state--------------------------------------------------
@@ -72,14 +71,6 @@ const Statistic: React.FC = () => {
     content: [],
   });
 
-  const LogOut = () => {
-    removeCookie("accessToken", {});
-    removeCookie("user_id", {});
-    removeCookie("user_name", {});
-    removeCookie("user_role", {});
-    router.push("/");
-  };
-
   // useEffect--------------------------------------------------
   useEffect(() => {
     (async () => {
@@ -93,12 +84,12 @@ const Statistic: React.FC = () => {
         setPhotoCount(res3.data);
         setGuestBookCount(res4.data);
       } catch (err) {
-        if (err instanceof AxiosError) {
-          console.log(err);
-          // if (err?.response.status === 401) {
-          //   alert("Please login");
-          //   LogOut();
-          // }
+        if (err instanceof AxiosError && err.response) {
+          if (err?.response.status === 401) {
+            alert("Please login");
+            removeAllCookies();
+            router.push("/");
+          }
         }
       }
     })();

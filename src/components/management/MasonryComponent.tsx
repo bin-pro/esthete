@@ -3,10 +3,8 @@
 import React, { useEffect, useState } from "react";
 import * as M from "@/components/management/Styled";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { useParams, useRouter } from "next/navigation";
 import PostDetailModal from "../detail/PostDetailModal";
 import { Instance } from "@/api/axios";
-import { DUMMY_DATA } from "../../../DummyData";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -34,10 +32,8 @@ interface ModalDetailProps {
 }
 
 const MasonryComponent: React.FC = () => {
-  const router = useRouter();
-  const { id } = useParams();
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemOffSet, setItemOffSet] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+
   // Hover-------------------------------------------
   const [hover, setHover] = useState<string>("-1");
 
@@ -54,19 +50,12 @@ const MasonryComponent: React.FC = () => {
     content: [],
   });
 
-  // useEffect(() => {
-  //   setCurrentPage(Math.ceil(DUMMY_DATA.length / ITEMS_PER_PAGE));
-  // }, [itemOffSet]);
-
-  // const offSet = currentPage - 1 * ITEMS_PER_PAGE;
-  // const currentData = DUMMY_DATA.slice(offSet, offSet + ITEMS_PER_PAGE);
-
   useEffect(() => {
     (async () => {
       const result = await Instance.get(`abusing-reports/photos`);
       if (result.status === 200) setPhotoReport(result.data);
     })();
-  }, []);
+  }, [photoReport.content]);
 
   const handlePageClick = (data: { selected: number }) => {
     setCurrentPage(data.selected + 1);
@@ -76,17 +65,15 @@ const MasonryComponent: React.FC = () => {
     setPhotoReport({ content: [modalData] });
     setModal(true);
   };
-  // console.log(photoReport.content);
 
   const handleDelete = async (photoId: string) => {
     try {
       if (window.confirm("해당 저작권 신고 게시물을 정말 삭제하시겠습니까?")) {
-        const result = await Instance.delete(
-          `abusing-reports/photos/${photoId}`
-        );
+        const result = await Instance.delete(`/photos/${photoId}`);
         if (result.status === 200) {
           alert("삭제되었습니다.");
           setModal(false);
+          console.log(result);
         }
       } else {
         return;
@@ -96,11 +83,19 @@ const MasonryComponent: React.FC = () => {
     }
   };
 
-  const handleReject = async () => {
-    if (window.confirm("해당 저작권 신고 게시물을 유보 처리하시겠습니까?")) {
-      console.log("reject");
-    } else {
-      return;
+  const handleReject = async (photoId: string) => {
+    try {
+      if (window.confirm("해당 저작권 신고를 반려 처리하시겠습니까?")) {
+        const result = await Instance.delete(`/abusing-reports/photos/${photoId}`);
+        if (result.status === 200) {
+          alert("신고 반려 처리되었습니다.");
+          setModal(false);
+        }
+      } else {
+        return;
+      }
+    } catch (err: any) {
+      console.log(err);
     }
   };
 
@@ -134,22 +129,19 @@ const MasonryComponent: React.FC = () => {
                       <M.SmallText>accounts</M.SmallText>
                     </M.CardHalfBox>
                     <M.CardHalfBox $left={false}>
-                      <M.SmallText>{pr.photo_id}</M.SmallText>
+                      <M.SmallText>
+                        {pr.photo_id.length > 9 ? pr.photo_id.slice(0, 9) + "..." : pr.photo_id}
+                      </M.SmallText>
                       <M.SmallText>{pr.photographer_nickname}</M.SmallText>
                       <M.SmallText>{pr.photo_abusing_report_count}</M.SmallText>
-                      <M.SmallText>
-                        {pr.photographer_photo_abusing_report_count}
-                      </M.SmallText>
+                      <M.SmallText>{pr.photographer_photo_abusing_report_count}</M.SmallText>
                     </M.CardHalfBox>
                   </M.CardIageHoverBox>
                   <M.CardFooter>
-                    <M.CardButton
-                      $attr={"delete"}
-                      onClick={() => handleDelete(pr.photo_id)}
-                    >
+                    <M.CardButton $attr={"delete"} onClick={() => handleDelete(pr.photo_id)}>
                       DELETE
                     </M.CardButton>
-                    <M.CardButton $attr={"reject"} onClick={handleReject}>
+                    <M.CardButton $attr={"reject"} onClick={() => handleReject(pr.photo_id)}>
                       REJECT
                     </M.CardButton>
                   </M.CardFooter>

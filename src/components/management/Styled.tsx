@@ -123,7 +123,7 @@ export const CardButton = styled.section<CardButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${(props) => (props.$attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
+  color: ${(props) => (props.$attr === "delete" ? "#FF6D6D" : "#7EC9FF")};
   background-color: #000;
   font-size: 12px;
   cursor: pointer;
@@ -270,7 +270,7 @@ export const ActionButton = styled.button<ActionButtonProps>`
   border: none;
   border-right: ${(props) => (props.$attr === "delete" ? "1px solid #fff" : "none")};
   font-family: "Syncopate", sans-serif;
-  color: ${(props) => (props.$attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
+  color: ${(props) => (props.$attr === "delete" ? "#FF6D6D" : "#7EC9FF")};
   background-color: transparent;
   font-size: 14px;
   transition: all 0.3s ease-in-out;
