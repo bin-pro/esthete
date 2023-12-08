@@ -92,7 +92,13 @@ export const SignInComp: React.FC = () => {
           </S.Title>
         </S.TitleBox>
         <br />
-        <S.Input placeholder="userName" type="text" name="userName" onChange={handleChange} />
+        <S.Input
+          placeholder="userName"
+          type="text"
+          name="userName"
+          onChange={handleChange}
+          autoFocus
+        />
         <S.Input placeholder="password" type="password" name="password" onChange={handleChange} />
         <S.RightBox>{/* <S.SmallText onClick={goToSignUp}>sign up</S.SmallText> */}</S.RightBox>
         <S.Button>Sign In</S.Button>

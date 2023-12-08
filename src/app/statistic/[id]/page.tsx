@@ -75,10 +75,10 @@ const Statistic: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res1 = await Instance.get(`/statistics/user/count/daily`);
-        const res2 = await Instance.get(`/statistics/exhibition/count/daily`);
-        const res3 = await Instance.get(`/statistics/abusing-reports/photos/count/daily`);
-        const res4 = await Instance.get(`/statistics/abusing-reports/guest-books/count/daily`);
+        const res1 = await Instance.get(`/api/v1/statistics/users`);
+        const res2 = await Instance.get(`/api/v1/statistics/exhibition`);
+        const res3 = await Instance.get(`/api/v1/statistics/photos/infringement`);
+        const res4 = await Instance.get(`/api/v1/statistics/guestbooks/infringement`);
         setUserCount(res1.data);
         setExhibitionCount(res2.data);
         setPhotoCount(res3.data);
@@ -89,6 +89,8 @@ const Statistic: React.FC = () => {
             alert("Please login");
             removeAllCookies();
             router.push("/");
+            console.clear();
+            console.log(err);
           }
         }
       }

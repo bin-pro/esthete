@@ -1,6 +1,7 @@
 import Modal from "react-modal";
 import * as D from "./Styled";
 import DefaultLogo from "@/../public/images/OG-Thumbnail.png";
+import { StaticImageData } from "next/image";
 
 const customStyles = {
   content: {
@@ -28,15 +29,15 @@ Modal.setAppElement("#root");
 interface PostDetailModalProps {
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
-  photoReport?: {
+  modalData?: {
     photo_id: string;
     photo_title: string;
     photo_description: string;
-    photo_url: string | undefined;
+    photo_url: string | StaticImageData;
     photo_created_at: string;
     photographer_id: string;
     photographer_nickname: string;
-    photographer_profile_img: string | undefined;
+    photographer_profile_img: string | StaticImageData;
     photo_abusing_report_count: number | null;
     photographer_photo_abusing_report_count: number | null;
   };
@@ -50,29 +51,25 @@ interface PostDetailModalProps {
     created_at: string;
   };
   handleDelete: (photoId: string) => void;
-  handleReject: () => void;
+  handleReject: (photoId: string) => void;
 }
 
 const PostDetailModal: React.FC<PostDetailModalProps> = ({
   modal,
   setModal,
-  photoReport,
+  modalData,
   modalDetail,
   handleDelete,
   handleReject,
 }) => {
   return (
-    <Modal
-      isOpen={modal}
-      onRequestClose={() => setModal(false)}
-      style={customStyles}
-    >
+    <Modal isOpen={modal} onRequestClose={() => setModal(false)} style={customStyles}>
       <D.Container>
         <D.DetailBox>
           <D.LeftBox>
             <D.ProfileBox>
               <D.FullImage
-                src={photoReport?.photographer_profile_img || DefaultLogo}
+                src={modalData?.photographer_profile_img || DefaultLogo}
                 alt="profile-image"
               />
             </D.ProfileBox>
@@ -80,35 +77,36 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
               <D.InfoText>
                 user-id
                 <br />
-                {photoReport?.photographer_id}
+                {modalData?.photographer_id}
               </D.InfoText>
               <D.InfoText>
                 user-nickname
                 <br />
-                {photoReport?.photographer_nickname}
+                {modalData?.photographer_nickname}
               </D.InfoText>
               <D.InfoText>
                 user-report-count
                 <br />
-                {photoReport?.photographer_photo_abusing_report_count}
+                {modalData?.photographer_photo_abusing_report_count}
               </D.InfoText>
             </D.InfoBox>
           </D.LeftBox>
           <D.RightBox>
             <D.PostImageBox>
-              <D.FullImage
-                src={photoReport?.photo_url || DefaultLogo}
-                alt="post-image"
-              />
+              <D.FullImage src={modalData?.photo_url || DefaultLogo} alt="post-image" />
             </D.PostImageBox>
-            <D.DescriptionBox>
-              {photoReport?.photo_description}
-            </D.DescriptionBox>
+            <D.DescriptionBox>{modalData?.photo_description}</D.DescriptionBox>
             <D.ActionBox>
-              <D.ActionButton $attr="delete" onClick={handleDelete}>
+              <D.ActionButton
+                $attr="delete"
+                onClick={() => handleDelete(modalData?.photo_id ?? "")}
+              >
                 DELETE
               </D.ActionButton>
-              <D.ActionButton $attr="reject" onClick={handleReject}>
+              <D.ActionButton
+                $attr="reject"
+                onClick={() => handleReject(modalData?.photo_id ?? "")}
+              >
                 REJECT
               </D.ActionButton>
             </D.ActionBox>

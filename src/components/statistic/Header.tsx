@@ -29,6 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ param }) => {
   const handleLogout = () => {
     removeAllCookies();
     router.push("/");
+    console.clear();
   };
 
   return (

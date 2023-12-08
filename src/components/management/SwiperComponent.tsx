@@ -1,37 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
-import {
-  EffectCoverflow,
-  Autoplay,
-  Pagination,
-  Navigation,
-} from "swiper/modules";
+import { EffectCoverflow, Autoplay, Pagination, Navigation } from "swiper/modules";
 import * as M from "@/components/management/Styled";
 import { GUEST_BOOK_DATA } from "../../../DummyData";
 import Image from "next/image";
+import { Instance } from "@/api/axios";
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
+
+interface GuestBookProps {
+  guest_book_author_id: number;
+  guest_book_author_profile_img: string;
+  guest_book_author_nickname: string;
+  guest_book_content: string;
+}
 
 const SwiperComponent: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemOffSet, setItemOffSet] = useState(0);
+  // State-------------------------------------------
+  const [guestBookList, setGuestBookList] = useState<GuestBookProps[]>([]);
 
-  // useEffect(() => {
-  //   setCurrentPage(Math.ceil(GUEST_BOOK_DATA.length / ITEMS_PER_PAGE));
-  // }, [itemOffSet, ITEMS_PER_PAGE]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [render, setRender] = useState<boolean>(false);
+  const currentPageData = guestBookList.slice(0, 10);
 
-  const offSet = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentData = GUEST_BOOK_DATA.slice(offSet, offSet + ITEMS_PER_PAGE);
-
+  // Handling----------------------------------------
   const handlePageClick = (data: { selected: number }) => {
     setCurrentPage(data.selected);
+    const paginationItems = document.querySelectorAll(".page-item");
+    paginationItems.forEach((item) => {
+      item.classList.remove("active");
+    });
   };
+
+  // componentDidMount-------------------------------
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await Instance.get(`/api/v1/management/guestbooks`, {
+          params: {
+            page: currentPage,
+            size: ITEMS_PER_PAGE,
+          },
+        });
+        setGuestBookList(result.data.content);
+        setTotalPage(result.data.totalPages);
+      } catch (err: any) {
+        console.log(err);
+      }
+    })();
+  }, [render, currentPage]);
+
   return (
     <>
       <M.SwiperContainer>
@@ -52,15 +77,15 @@ const SwiperComponent: React.FC = () => {
             slideShadows: true,
           }}
           modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
-          style={{ overflow: GUEST_BOOK_DATA.length === 0 ? "visible" : "" }}
+          style={{ overflow: guestBookList.length === 0 ? "visible" : "" }}
         >
-          {GUEST_BOOK_DATA.map((data) => {
+          {currentPageData.map((data) => {
             return (
-              <M.SwiperCard key={data.id}>
+              <M.SwiperCard key={data.guest_book_author_id}>
                 <M.ImageBox>
                   <Image
-                    src={data.profile}
-                    alt="user-profile"
+                    src={data.guest_book_author_profile_img}
+                    alt="author-profile"
                     fill
                     style={M.SwiperImageStyle}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -74,13 +99,13 @@ const SwiperComponent: React.FC = () => {
                         <M.InfoSpan $attr="title">name</M.InfoSpan>
                       </M.ColHalfBox>
                       <M.ColHalfBox>
-                        <M.InfoSpan>{data.id}</M.InfoSpan>
-                        <M.InfoSpan>{data.name}</M.InfoSpan>
+                        <M.InfoSpan>{data.guest_book_author_id}</M.InfoSpan>
+                        <M.InfoSpan>{data.guest_book_author_nickname}</M.InfoSpan>
                       </M.ColHalfBox>
                     </M.ColHeadBox>
                     <M.ColLogBox>
                       <M.InfoSpan $attr="log">Log</M.InfoSpan>
-                      <M.InfoSpan>{data.guestBook}</M.InfoSpan>
+                      <M.InfoSpan>{data.guest_book_content}</M.InfoSpan>
                     </M.ColLogBox>
                   </M.InfoBox>
                   <M.ActionBox>
@@ -94,13 +119,13 @@ const SwiperComponent: React.FC = () => {
         </Swiper>
       </M.SwiperContainer>
       <M.StyledPagination
-        forcePage={1}
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={2}
-        marginPagesDisplayed={3}
+        pageCount={totalPage}
+        marginPagesDisplayed={2}
         pageRangeDisplayed={2}
+        onPageChange={handlePageClick}
         containerClassName="pagination justify-content-center"
         pageClassName="page-item"
         pageLinkClassName="page-link"

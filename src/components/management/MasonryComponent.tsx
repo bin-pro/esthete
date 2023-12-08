@@ -5,6 +5,8 @@ import * as M from "@/components/management/Styled";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import PostDetailModal from "../detail/PostDetailModal";
 import { Instance } from "@/api/axios";
+import { useRouter } from "next/navigation";
+import { removeAllCookies } from "@/Cookie";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -32,48 +34,89 @@ interface ModalDetailProps {
 }
 
 const MasonryComponent: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const router = useRouter();
 
   // Hover-------------------------------------------
   const [hover, setHover] = useState<string>("-1");
 
   // Modal-------------------------------------------
   const [modal, setModal] = useState<boolean>(false);
-  const [photoReport, setPhotoReport] = useState<{
-    content?: PhotoReportProps[];
-  }>({
-    content: [],
-  });
+  const [photoReportList, setPhotoReportList] = useState<PhotoReportProps[]>([]);
   const [modalDetail, setModalDetail] = useState<{
     content?: ModalDetailProps[];
   }>({
     content: [],
   });
 
-  useEffect(() => {
-    (async () => {
-      const result = await Instance.get(`abusing-reports/photos`);
-      if (result.status === 200) setPhotoReport(result.data);
-    })();
-  }, [photoReport.content]);
-
+  // Pagination--------------------------------------
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [render, setRender] = useState<boolean>(false);
+  const currentPageData = photoReportList.slice(0, 10);
+  // Handling----------------------------------------
   const handlePageClick = (data: { selected: number }) => {
-    setCurrentPage(data.selected + 1);
+    setCurrentPage(data.selected);
+    const paginationItems = document.querySelectorAll(".page-item");
+    paginationItems.forEach((item) => {
+      item.classList.remove("active");
+    });
   };
 
-  const handleModal = async (modalData: PhotoReportProps, photoId: string) => {
-    setPhotoReport({ content: [modalData] });
-    setModal(true);
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await Instance.get(`/api/v1/management/photos`, {
+          params: {
+            page: currentPage,
+            size: ITEMS_PER_PAGE,
+          },
+        });
+
+        if (result.status === 200) {
+          setPhotoReportList(result.data.content);
+          setTotalPage(result.data.totalPages);
+        }
+      } catch (err: any) {
+        if (err?.response.status === 403 || err?.response.status === 401) {
+          alert("로그인이 필요합니다.");
+          removeAllCookies();
+          router.push("/");
+          console.clear();
+        }
+      }
+    })();
+  }, [render, currentPage]);
+  // console.log(photoReport);
+
+  const handleModal = async (photoId: string) => {
+    try {
+      setModal(true);
+      const result = await Instance.get(`/api/v1/management/photos/details`, {
+        params: {
+          photoId,
+        },
+      });
+      if (result.status === 200) {
+        setModalDetail(result.data.content);
+      }
+    } catch (err: any) {
+      console.log(err);
+    }
   };
 
   const handleDelete = async (photoId: string) => {
     try {
       if (window.confirm("해당 저작권 신고 게시물을 정말 삭제하시겠습니까?")) {
-        const result = await Instance.delete(`/photos/${photoId}`);
+        const result = await Instance.delete(`/api/v1/management/photos/delete/${photoId}`);
         if (result.status === 200) {
+          setRender(!render);
           alert("삭제되었습니다.");
           setModal(false);
-          console.log(result);
+          if (currentPageData.length === 1) {
+            setCurrentPage(currentPage - 1);
+            const paginationItems = document.querySelectorAll(".page-item");
+            paginationItems[currentPage].classList.add("active");
+          }
         }
       } else {
         return;
@@ -86,10 +129,16 @@ const MasonryComponent: React.FC = () => {
   const handleReject = async (photoId: string) => {
     try {
       if (window.confirm("해당 저작권 신고를 반려 처리하시겠습니까?")) {
-        const result = await Instance.delete(`/abusing-reports/photos/${photoId}`);
+        const result = await Instance.delete(`/api/v1/management/photos/reject/${photoId}`);
         if (result.status === 200) {
+          setRender(!render);
           alert("신고 반려 처리되었습니다.");
           setModal(false);
+          if (currentPageData.length === 1) {
+            setCurrentPage(currentPage - 1);
+            const paginationItems = document.querySelectorAll(".page-item");
+            paginationItems[currentPage].classList.add("active");
+          }
         }
       } else {
         return;
@@ -107,57 +156,66 @@ const MasonryComponent: React.FC = () => {
           style={M.ResMasonryStyle}
         >
           <Masonry gutter="30px" style={M.MasonryStyle}>
-            {photoReport.content?.map((pr: any) => {
+            {currentPageData?.map((pr: any) => {
               return (
-                <M.CardContainer key={pr.photo_id}>
-                  <M.CardImage
-                    src={pr.photo_url}
-                    alt="postImage"
-                    onMouseEnter={() => {
-                      setHover(pr.photo_id);
-                    }}
+                <React.Fragment key={pr.photo_id}>
+                  <M.CardContainer>
+                    <M.CardImage
+                      src={pr.photo_url}
+                      alt="postImage"
+                      onMouseEnter={() => {
+                        setHover(pr.photo_id);
+                      }}
+                    />
+                    <M.CardIageHoverBox
+                      $isHover={hover === pr.photo_id}
+                      onMouseLeave={() => setHover("-1")}
+                      onClick={() => handleModal(pr.photo_id)}
+                    >
+                      <M.CardHalfBox $left={true}>
+                        <M.SmallText>user-id</M.SmallText>
+                        <M.SmallText>name</M.SmallText>
+                        <M.SmallText>post</M.SmallText>
+                        <M.SmallText>accounts</M.SmallText>
+                      </M.CardHalfBox>
+                      <M.CardHalfBox $left={false}>
+                        <M.SmallText>
+                          {pr.photo_id.length > 9 ? pr.photo_id.slice(0, 9) + "..." : pr.photo_id}
+                        </M.SmallText>
+                        <M.SmallText>{pr.photographer_nickname}</M.SmallText>
+                        <M.SmallText>{pr.photo_abusing_report_count}</M.SmallText>
+                        <M.SmallText>{pr.photographer_photo_abusing_report_count}</M.SmallText>
+                      </M.CardHalfBox>
+                    </M.CardIageHoverBox>
+                    <M.CardFooter>
+                      <M.CardButton $attr={"delete"} onClick={() => handleDelete(pr.photo_id)}>
+                        DELETE
+                      </M.CardButton>
+                      <M.CardButton $attr={"reject"} onClick={() => handleReject(pr.photo_id)}>
+                        REJECT
+                      </M.CardButton>
+                    </M.CardFooter>
+                  </M.CardContainer>
+                  <PostDetailModal
+                    modal={modal}
+                    setModal={setModal}
+                    modalData={pr}
+                    modalDetail={modalDetail.content ? modalDetail.content[0] : undefined}
+                    handleDelete={handleDelete}
+                    handleReject={handleReject}
                   />
-                  <M.CardIageHoverBox
-                    $isHover={hover === pr.photo_id}
-                    onMouseLeave={() => setHover("-1")}
-                    onClick={() => handleModal(pr, pr.photo_id)}
-                  >
-                    <M.CardHalfBox $left={true}>
-                      <M.SmallText>user-id</M.SmallText>
-                      <M.SmallText>name</M.SmallText>
-                      <M.SmallText>post</M.SmallText>
-                      <M.SmallText>accounts</M.SmallText>
-                    </M.CardHalfBox>
-                    <M.CardHalfBox $left={false}>
-                      <M.SmallText>
-                        {pr.photo_id.length > 9 ? pr.photo_id.slice(0, 9) + "..." : pr.photo_id}
-                      </M.SmallText>
-                      <M.SmallText>{pr.photographer_nickname}</M.SmallText>
-                      <M.SmallText>{pr.photo_abusing_report_count}</M.SmallText>
-                      <M.SmallText>{pr.photographer_photo_abusing_report_count}</M.SmallText>
-                    </M.CardHalfBox>
-                  </M.CardIageHoverBox>
-                  <M.CardFooter>
-                    <M.CardButton $attr={"delete"} onClick={() => handleDelete(pr.photo_id)}>
-                      DELETE
-                    </M.CardButton>
-                    <M.CardButton $attr={"reject"} onClick={() => handleReject(pr.photo_id)}>
-                      REJECT
-                    </M.CardButton>
-                  </M.CardFooter>
-                </M.CardContainer>
+                </React.Fragment>
               );
             })}
           </Masonry>
         </ResponsiveMasonry>
       </M.MasonryContainer>
       <M.StyledPagination
-        forcePage={1}
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={4}
-        marginPagesDisplayed={3}
+        pageCount={totalPage}
+        marginPagesDisplayed={2}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}
         containerClassName="pagination justify-content-center"
@@ -168,14 +226,6 @@ const MasonryComponent: React.FC = () => {
         nextClassName="page-item"
         nextLinkClassName="page-link"
         activeClassName="active"
-      />
-      <PostDetailModal
-        modal={modal}
-        setModal={setModal}
-        photoReport={photoReport.content ? photoReport.content[0] : undefined}
-        modalDetail={modalDetail.content ? modalDetail.content[0] : undefined}
-        handleDelete={handleDelete}
-        handleReject={handleReject}
       />
     </>
   );
