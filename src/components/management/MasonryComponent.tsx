@@ -35,29 +35,41 @@ interface ModalDetailProps {
 
 const MasonryComponent: React.FC = () => {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState<number>(0);
 
   // Hover-------------------------------------------
   const [hover, setHover] = useState<string>("-1");
 
   // Modal-------------------------------------------
   const [modal, setModal] = useState<boolean>(false);
-  const [photoReport, setPhotoReport] = useState<{
-    content?: PhotoReportProps[];
-  }>({
-    content: [],
-  });
+  const [photoReport, setPhotoReport] = useState<PhotoReportProps[]>([]);
   const [modalDetail, setModalDetail] = useState<{
     content?: ModalDetailProps[];
   }>({
     content: [],
   });
 
+  // Pagination--------------------------------------
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [render, setRender] = useState<boolean>(false);
+  const currentPageData = photoReport.slice(0, 10);
+  // Handling----------------------------------------
+  const handlePageClick = (data: { selected: number }) => {
+    setCurrentPage(data.selected);
+    const paginationItems = document.querySelectorAll(".page-item");
+    paginationItems.forEach((item) => {
+      item.classList.remove("active");
+    });
+  };
+
   useEffect(() => {
     (async () => {
       try {
         const result = await Instance.get(`abusing-reports/photos`);
-        if (result.status === 200) setPhotoReport(result.data);
+        if (result.status === 200) {
+          setPhotoReport(result.data.content);
+          setTotalPage(result.data.totalPages);
+        }
       } catch (err: any) {
         if (err?.response.status === 403 || err?.response.status === 401) {
           alert("로그인이 필요합니다.");
@@ -67,14 +79,10 @@ const MasonryComponent: React.FC = () => {
         }
       }
     })();
-  }, [photoReport.content]);
+  }, [render, currentPage]);
+  console.log(photoReport);
 
-  const handlePageClick = (data: { selected: number }) => {
-    setCurrentPage(data.selected + 1);
-  };
-
-  const handleModal = async (modalData: PhotoReportProps, photoId: string) => {
-    setPhotoReport({ content: [modalData] });
+  const handleModal = async (photoId: string) => {
     setModal(true);
   };
 
@@ -83,6 +91,7 @@ const MasonryComponent: React.FC = () => {
       if (window.confirm("해당 저작권 신고 게시물을 정말 삭제하시겠습니까?")) {
         const result = await Instance.delete(`/photos/${photoId}`);
         if (result.status === 200) {
+          setRender(!render);
           alert("삭제되었습니다.");
           setModal(false);
           console.log(result);
@@ -100,6 +109,7 @@ const MasonryComponent: React.FC = () => {
       if (window.confirm("해당 저작권 신고를 반려 처리하시겠습니까?")) {
         const result = await Instance.delete(`/abusing-reports/photos/${photoId}`);
         if (result.status === 200) {
+          setRender(!render);
           alert("신고 반려 처리되었습니다.");
           setModal(false);
         }
@@ -119,7 +129,7 @@ const MasonryComponent: React.FC = () => {
           style={M.ResMasonryStyle}
         >
           <Masonry gutter="30px" style={M.MasonryStyle}>
-            {photoReport.content?.map((pr: any) => {
+            {photoReport?.map((pr: any) => {
               return (
                 <M.CardContainer key={pr.photo_id}>
                   <M.CardImage
@@ -132,7 +142,7 @@ const MasonryComponent: React.FC = () => {
                   <M.CardIageHoverBox
                     $isHover={hover === pr.photo_id}
                     onMouseLeave={() => setHover("-1")}
-                    onClick={() => handleModal(pr, pr.photo_id)}
+                    onClick={() => handleModal(pr.photo_id)}
                   >
                     <M.CardHalfBox $left={true}>
                       <M.SmallText>user-id</M.SmallText>
@@ -164,12 +174,11 @@ const MasonryComponent: React.FC = () => {
         </ResponsiveMasonry>
       </M.MasonryContainer>
       <M.StyledPagination
-        forcePage={1}
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={4}
-        marginPagesDisplayed={3}
+        pageCount={totalPage}
+        marginPagesDisplayed={2}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}
         containerClassName="pagination justify-content-center"
@@ -184,7 +193,7 @@ const MasonryComponent: React.FC = () => {
       <PostDetailModal
         modal={modal}
         setModal={setModal}
-        photoReport={photoReport.content ? photoReport.content[0] : undefined}
+        photoReport={photoReport ? photoReport[0] : undefined}
         modalDetail={modalDetail.content ? modalDetail.content[0] : undefined}
         handleDelete={handleDelete}
         handleReject={handleReject}

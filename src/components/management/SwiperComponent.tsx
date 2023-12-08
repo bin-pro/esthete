@@ -14,11 +14,30 @@ import { Instance } from "@/api/axios";
 
 const ITEMS_PER_PAGE = 10;
 
+interface GuestBookProps {
+  guest_book_author_id: number;
+  guest_book_author_profile_img: string;
+  guest_book_author_nickname: string;
+  guest_book_content: string;
+}
+
 const SwiperComponent: React.FC = () => {
   // State-------------------------------------------
+  const [guestBookList, setGuestBookList] = useState<GuestBookProps[]>([]);
+
   const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [render, setRender] = useState<boolean>(false);
+  const currentPageData = guestBookList.slice(0, 10);
 
   // Handling----------------------------------------
+  const handlePageClick = (data: { selected: number }) => {
+    setCurrentPage(data.selected);
+    const paginationItems = document.querySelectorAll(".page-item");
+    paginationItems.forEach((item) => {
+      item.classList.remove("active");
+    });
+  };
 
   // componentDidMount-------------------------------
   useEffect(() => {
@@ -30,12 +49,13 @@ const SwiperComponent: React.FC = () => {
             size: ITEMS_PER_PAGE,
           },
         });
-        console.log(result);
+        setGuestBookList(result.data.content);
+        setTotalPage(result.data.totalPages);
       } catch (err: any) {
         console.log(err);
       }
     })();
-  }, []);
+  }, [render, currentPage]);
 
   return (
     <>
@@ -57,15 +77,15 @@ const SwiperComponent: React.FC = () => {
             slideShadows: true,
           }}
           modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
-          style={{ overflow: GUEST_BOOK_DATA.length === 0 ? "visible" : "" }}
+          style={{ overflow: guestBookList.length === 0 ? "visible" : "" }}
         >
-          {GUEST_BOOK_DATA.map((data) => {
+          {currentPageData.map((data) => {
             return (
-              <M.SwiperCard key={data.id}>
+              <M.SwiperCard key={data.guest_book_author_id}>
                 <M.ImageBox>
                   <Image
-                    src={data.profile}
-                    alt="user-profile"
+                    src={data.guest_book_author_profile_img}
+                    alt="author-profile"
                     fill
                     style={M.SwiperImageStyle}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -79,13 +99,13 @@ const SwiperComponent: React.FC = () => {
                         <M.InfoSpan $attr="title">name</M.InfoSpan>
                       </M.ColHalfBox>
                       <M.ColHalfBox>
-                        <M.InfoSpan>{data.id}</M.InfoSpan>
-                        <M.InfoSpan>{data.name}</M.InfoSpan>
+                        <M.InfoSpan>{data.guest_book_author_id}</M.InfoSpan>
+                        <M.InfoSpan>{data.guest_book_author_nickname}</M.InfoSpan>
                       </M.ColHalfBox>
                     </M.ColHeadBox>
                     <M.ColLogBox>
                       <M.InfoSpan $attr="log">Log</M.InfoSpan>
-                      <M.InfoSpan>{data.guestBook}</M.InfoSpan>
+                      <M.InfoSpan>{data.guest_book_content}</M.InfoSpan>
                     </M.ColLogBox>
                   </M.InfoBox>
                   <M.ActionBox>
@@ -99,13 +119,13 @@ const SwiperComponent: React.FC = () => {
         </Swiper>
       </M.SwiperContainer>
       <M.StyledPagination
-        forcePage={1}
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={2}
-        marginPagesDisplayed={3}
+        pageCount={totalPage}
+        marginPagesDisplayed={2}
         pageRangeDisplayed={2}
+        onPageChange={handlePageClick}
         containerClassName="pagination justify-content-center"
         pageClassName="page-item"
         pageLinkClassName="page-link"

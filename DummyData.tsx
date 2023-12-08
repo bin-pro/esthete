@@ -99,28 +99,28 @@ export const DUMMY_DATA = [
 
 export const GUEST_BOOK_DATA = [
   {
-    id: 1,
-    profile: ProfileImage1,
-    name: "JUN SEO",
-    guestBook: "Hello World!",
+    guest_book_author_id: 1,
+    guest_book_author_profile_img: ProfileImage1,
+    guest_book_author_nickname: "JUN SEO",
+    guest_book_content: "Hello World!",
   },
   {
-    id: 2,
-    profile: ProfileImage2,
-    name: "Han Kyeol",
-    guestBook: "I'm Sad",
+    guest_book_author_id: 2,
+    guest_book_author_profile_img: ProfileImage2,
+    guest_book_author_nickname: "Han Kyeol",
+    guest_book_content: "I'm Sad",
   },
   {
-    id: 3,
-    profile: ProfileImage3,
-    name: "Je Koo",
-    guestBook: "I'm Happy",
+    iguest_book_author_id: 3,
+    guest_book_author_profile_img: ProfileImage3,
+    guest_book_author_nickname: "Je Koo",
+    guest_book_content: "I'm Happy",
   },
   {
-    id: 4,
-    profile: ProfileImage4,
-    name: "Su bin",
-    guestBook: "I'm Angry",
+    guest_book_author_id: 4,
+    guest_book_author_profile_img: ProfileImage4,
+    guest_book_author_nickname: "Su bin",
+    guest_book_content: "I'm Angry",
   },
 ];
 
