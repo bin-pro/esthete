@@ -12,10 +12,6 @@ import SwiperComponent from "@/components/management/SwiperComponent";
 const Management: React.FC = () => {
   const [isSelect, setIsSelect] = useState<Boolean>(false);
 
-  const handleSelect = () => {
-    setIsSelect(!isSelect);
-  };
-
   // Hydration--------------------------------------------
   const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
   useEffect(() => {
@@ -35,10 +31,10 @@ const Management: React.FC = () => {
         />
         <Header param="management" />
         <M.SelectSection>
-          <M.SelectText $isSelect={!isSelect ? true : false} onClick={handleSelect}>
+          <M.SelectText $isSelect={!isSelect ? true : false} onClick={() => setIsSelect(false)}>
             Post
           </M.SelectText>
-          <M.SelectText $isSelect={isSelect ? true : false} onClick={handleSelect}>
+          <M.SelectText $isSelect={isSelect ? true : false} onClick={() => setIsSelect(true)}>
             Guest Book
           </M.SelectText>
         </M.SelectSection>

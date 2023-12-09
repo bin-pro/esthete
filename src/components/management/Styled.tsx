@@ -179,6 +179,7 @@ export const SwiperCard = styled(SwiperSlide)`
   display: flex;
   background-color: #000;
   border: 1px solid #fff;
+  z-index: 1;
   @media (max-width: 900px) {
     width: 400px;
     height: 200px;
@@ -203,6 +204,7 @@ export const ImageBox = styled.section`
 
 export const SwiperImageStyle: React.CSSProperties = {
   objectFit: "cover",
+  borderBottom: "1px solid #fff",
 };
 
 export const InfoSection = styled.section`

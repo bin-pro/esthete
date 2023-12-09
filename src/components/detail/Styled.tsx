@@ -42,6 +42,9 @@ export const FullImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ImageStyle: React.CSSProperties = {
@@ -142,9 +145,9 @@ export const ActionButton = styled.button<ActionButtonProps>`
 export const StyledPagination = styled(ReactPaginate).attrs({
   activeClassName: "active",
 })`
-  margin-top: 10px;
   display: flex;
   justify-content: center;
+  margin-top: 15px;
   list-style-type: none;
   li a {
     border-radius: 7px;
@@ -167,4 +170,48 @@ export const StyledPagination = styled(ReactPaginate).attrs({
   li.disabled a {
     cursor: default;
   }
+`;
+
+// GuestBookDetailModal--------------------------
+export const ColumnDetailBox = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+export const RowBox = styled.div`
+  width: 100%;
+  height: 33.3%;
+  display: flex;
+`;
+
+export const ImageBox = styled.section`
+  width: 40%;
+  height: 100%;
+  position: relative;
+  border: 1px solid #fff;
+`;
+
+interface InfoSectionProps {
+  $rel?: boolean;
+}
+export const InfoSection = styled.section<InfoSectionProps>`
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: ${(props) => (props.$rel ? "relative" : "none")};
+  padding: 15px;
+  overflow-y: ${(props) => (props.$rel ? "auto" : "none")};
+  border: 1px solid #fff;
+`;
+
+export const InfoEmptySection = styled.section`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
 `;

@@ -15,7 +15,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: API_URL,
+        hostname: "db3o78f1kbvk.cloudfront.net",
       },
     ],
   },
@@ -96,6 +96,11 @@ const nextConfig = {
         // abusing-reports guestbooks 반려하기
         source: "/api/v1/management/guestbooks/reject/:guestBookId",
         destination: `${API_URL}/abusing-reports/guest-books/:guestBookId`,
+      },
+      {
+        // abusing-reports guestbooks detail 삭제하기
+        source: "/api/v1/management/guestbooks/details/delete/:guestBookAbusingReportId",
+        destination: `${API_URL}/abusing-reports/guest-books/details/:guestBookAbusingReportId`,
       },
       // Admin-----------------------------------------------------
       {

@@ -38,11 +38,11 @@ interface PostDetailModalProps {
     photo_id: string;
     photo_title: string;
     photo_description: string;
-    photo_url: string | undefined;
+    photo_url: string;
     photo_created_at: string;
     photographer_id: string;
     photographer_nickname: string;
-    photographer_profile_img: string | undefined;
+    photographer_profile_img: string;
     photo_abusing_report_count: number | null;
     photographer_photo_abusing_report_count: number | null;
   };
@@ -54,7 +54,7 @@ interface ModalDetailProps {
   report_id: string;
   reporter_id: string;
   reporter_nickname: string;
-  reporter_profile_img: string | undefined;
+  reporter_profile_img: string;
   report_reason: string;
   reporter_photo_abusing_report_count: number | null;
   created_at: string;
@@ -113,12 +113,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
     try {
       if (window.confirm("해당 저작권 신고 건을 삭제하시겠습니까?")) {
         const result = await Instance.delete(
-          `/api/v1/management/photos/details/delete/${photoAbusingReportId}`,
-          {
-            params: {
-              photoAbusingReportId,
-            },
-          }
+          `/api/v1/management/photos/details/delete/${photoAbusingReportId}`
         );
         if (result.status === 200) {
           setRender(!render);
@@ -137,15 +132,17 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
   };
 
   return (
-    <Modal isOpen={modal} onRequestClose={() => setModal(false)} style={customStyles}>
+    <Modal
+      isOpen={modal}
+      onRequestClose={() => setModal(false)}
+      style={customStyles}
+      shouldCloseOnOverlayClick={true}
+    >
       <D.Container>
         <D.DetailBox>
           <D.LeftBox>
             <D.ProfileBox>
-              <D.FullImage
-                src={modalData?.photographer_profile_img || DefaultLogo}
-                alt="profile-image"
-              />
+              <D.FullImage src={modalData?.photographer_profile_img} alt="profile-image" />
             </D.ProfileBox>
             <D.InfoBox>
               <D.InfoText>user-id</D.InfoText>
@@ -166,7 +163,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
           </D.LeftBox>
           <D.RightBox>
             <D.PostImageBox>
-              <D.FullImage src={modalData?.photo_url || DefaultLogo} alt="post-image" />
+              <D.FullImage src={modalData?.photo_url} alt="post-image" />
             </D.PostImageBox>
             <D.ReportDetailBox>
               {currentDetailPageData.length === 0 ? (
