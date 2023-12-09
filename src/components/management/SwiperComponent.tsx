@@ -15,7 +15,7 @@ import { Instance } from "@/api/axios";
 const ITEMS_PER_PAGE = 10;
 
 interface GuestBookProps {
-  guest_book_author_id: number;
+  guest_book_author_id: string;
   guest_book_author_profile_img: string;
   guest_book_author_nickname: string;
   guest_book_content: string;
@@ -99,7 +99,11 @@ const SwiperComponent: React.FC = () => {
                         <M.InfoSpan $attr="title">name</M.InfoSpan>
                       </M.ColHalfBox>
                       <M.ColHalfBox>
-                        <M.InfoSpan>{data.guest_book_author_id}</M.InfoSpan>
+                        <M.InfoSpan>
+                          {data.guest_book_author_id.length > 7
+                            ? data.guest_book_author_id.slice(0, 7) + "..."
+                            : data.guest_book_author_id}
+                        </M.InfoSpan>
                         <M.InfoSpan>{data.guest_book_author_nickname}</M.InfoSpan>
                       </M.ColHalfBox>
                     </M.ColHeadBox>

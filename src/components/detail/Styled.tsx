@@ -1,3 +1,4 @@
+import ReactPaginate from "react-paginate";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -13,11 +14,6 @@ export const DetailBox = styled.div`
   height: 100%;
   display: flex;
   justify-content: space-between;
-  transition: all 0.3s ease;
-  @media (max-width: 768px) {
-    width: 90%;
-    height: 90%;
-  }
 `;
 
 export const LeftBox = styled.div`
@@ -42,10 +38,7 @@ export const ProfileBox = styled.div`
   border: none;
 `;
 
-interface FullImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  src?: string;
-}
-export const FullImage = styled.img<FullImageProps>`
+export const FullImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -61,13 +54,30 @@ export const InfoBox = styled.div`
   height: 60%;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  justify-content: space-between;
   border-top: 1px solid #fff;
   padding: 15px;
 `;
 
-export const InfoText = styled.p`
-  font-size: 14px;
+export const TextBox = styled.section`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const InfoText = styled.span`
+  font-size: 12px;
+  color: #7ec9ff;
+`;
+
+export const SmallText = styled.span`
+  font-size: 10px;
+`;
+
+export const BorderLine = styled.section`
+  width: 100%;
+  border-bottom: 1px solid #a6a6a6;
+  margin: 15px 0;
 `;
 
 export const PostImageBox = styled.div`
@@ -76,11 +86,31 @@ export const PostImageBox = styled.div`
   position: relative;
 `;
 
-export const DescriptionBox = styled.div`
+export const ReportDetailBox = styled.div`
   width: 100%;
   height: calc(35% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
   padding: 15px;
   border-top: 1px solid #fff;
+  overflow-y: auto;
+`;
+
+export const ReportDetailDelete = styled.button`
+  width: 60px;
+  height: 30px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #000;
+  font-family: "Syncopate", sans-serif;
+  font-size: 12px;
+  color: #ff6d6d;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  cursor: pointer;
 `;
 
 export const ActionBox = styled.div`
@@ -105,6 +135,36 @@ export const ActionButton = styled.button<ActionButtonProps>`
   border: none;
   border-right: ${(props) => (props.$attr === "delete" ? "1px solid #fff" : "none")};
   background-color: transparent;
-  color: ${(props) => (props.$attr === "delete" ? "#7EC9FF" : "#FF6D6D")};
+  color: ${(props) => (props.$attr === "delete" ? "#FF6D6D" : "#7EC9FF")};
   cursor: pointer;
+`;
+
+export const StyledPagination = styled(ReactPaginate).attrs({
+  activeClassName: "active",
+})`
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  li a {
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a {
+    color: #7ec9ff;
+  }
+  li.active a {
+    color: #7ec9ff;
+    font-weight: 700;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: #fff;
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
 `;

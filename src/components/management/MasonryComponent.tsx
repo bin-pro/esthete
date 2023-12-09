@@ -23,16 +23,6 @@ interface PhotoReportProps {
   photographer_photo_abusing_report_count: number | null;
 }
 
-interface ModalDetailProps {
-  report_id: string;
-  reporter_id: string;
-  reporter_nickname: string;
-  reporter_profile_img: string | undefined;
-  report_reason: string;
-  reporter_photo_abusing_report_count: number | null;
-  created_at: string;
-}
-
 const MasonryComponent: React.FC = () => {
   const router = useRouter();
 
@@ -42,11 +32,6 @@ const MasonryComponent: React.FC = () => {
   // Modal-------------------------------------------
   const [modal, setModal] = useState<boolean>(false);
   const [photoReportList, setPhotoReportList] = useState<PhotoReportProps[]>([]);
-  const [modalDetail, setModalDetail] = useState<{
-    content?: ModalDetailProps[];
-  }>({
-    content: [],
-  });
 
   // Pagination--------------------------------------
   const [currentPage, setCurrentPage] = useState(0);
@@ -71,7 +56,6 @@ const MasonryComponent: React.FC = () => {
             size: ITEMS_PER_PAGE,
           },
         });
-
         if (result.status === 200) {
           setPhotoReportList(result.data.content);
           setTotalPage(result.data.totalPages);
@@ -86,22 +70,9 @@ const MasonryComponent: React.FC = () => {
       }
     })();
   }, [render, currentPage]);
-  // console.log(photoReport);
 
   const handleModal = async (photoId: string) => {
-    try {
-      setModal(true);
-      const result = await Instance.get(`/api/v1/management/photos/details`, {
-        params: {
-          photoId,
-        },
-      });
-      if (result.status === 200) {
-        setModalDetail(result.data.content);
-      }
-    } catch (err: any) {
-      console.log(err);
-    }
+    setModal(true);
   };
 
   const handleDelete = async (photoId: string) => {
@@ -200,7 +171,6 @@ const MasonryComponent: React.FC = () => {
                     modal={modal}
                     setModal={setModal}
                     modalData={pr}
-                    modalDetail={modalDetail.content ? modalDetail.content[0] : undefined}
                     handleDelete={handleDelete}
                     handleReject={handleReject}
                   />

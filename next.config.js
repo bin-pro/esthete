@@ -71,6 +71,11 @@ const nextConfig = {
         source: "/api/v1/management/photos/reject/:photoId",
         destination: `${API_URL}/abusing-reports/photos/:photoId`,
       },
+      {
+        // abusing-reports photos detail 삭제하기
+        source: "/api/v1/management/photos/details/delete/:photoAbusingReportId",
+        destination: `${API_URL}/abusing-reports/photos/details/:photoAbusingReportId`,
+      },
       // ---------------------------------------------------------
       {
         // abusing-reports guestbooks 리스트 불러오기
