@@ -23,10 +23,8 @@ const nextConfig = {
       },
     ],
   },
-  assetPrefix:
-    process.env.NODE_ENV === "production"
-      ? "https://github.com/dgu-web-t3-blackshoe/esthete-cms.git"
-      : undefined,
+
+  assertPrefix: "http://43.201.218.137/",
 
   async rewrites() {
     return [
