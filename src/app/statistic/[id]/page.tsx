@@ -16,7 +16,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import { Instance } from "@/api/axios";
-import { getCookie, removeCookie } from "@/Cookie";
+import { getCookie, removeAllCookies } from "@/Cookie";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import {
@@ -51,7 +51,6 @@ interface dataProps {
 }
 
 const Statistic: React.FC = () => {
-  const accessToken = getCookie("accessToken");
   const router = useRouter();
 
   // state--------------------------------------------------
@@ -72,33 +71,27 @@ const Statistic: React.FC = () => {
     content: [],
   });
 
-  const LogOut = () => {
-    removeCookie("accessToken", {});
-    removeCookie("user_id", {});
-    removeCookie("user_name", {});
-    removeCookie("user_role", {});
-    router.push("/");
-  };
-
   // useEffect--------------------------------------------------
   useEffect(() => {
     (async () => {
       try {
-        const res1 = await Instance.get(`/statistics/user/count/daily`);
-        const res2 = await Instance.get(`/statistics/exhibition/count/daily`);
-        const res3 = await Instance.get(`/statistics/abusing-reports/photos/count/daily`);
-        const res4 = await Instance.get(`/statistics/abusing-reports/guest-books/count/daily`);
+        const res1 = await Instance.get(`/api/v1/statistics/users`);
+        const res2 = await Instance.get(`/api/v1/statistics/exhibition`);
+        const res3 = await Instance.get(`/api/v1/statistics/photos/infringement`);
+        const res4 = await Instance.get(`/api/v1/statistics/guestbooks/infringement`);
         setUserCount(res1.data);
         setExhibitionCount(res2.data);
         setPhotoCount(res3.data);
         setGuestBookCount(res4.data);
       } catch (err) {
-        if (err instanceof AxiosError) {
-          console.log(err);
-          // if (err?.response.status === 401) {
-          //   alert("Please login");
-          //   LogOut();
-          // }
+        if (err instanceof AxiosError && err.response) {
+          if (err?.response.status === 401) {
+            alert("Please login");
+            removeAllCookies();
+            router.push("/");
+            console.clear();
+            console.log(err);
+          }
         }
       }
     })();

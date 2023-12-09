@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -13,25 +13,96 @@ import {
   Navigation,
 } from "swiper/modules";
 import * as M from "@/components/management/Styled";
-import { GUEST_BOOK_DATA } from "../../../DummyData";
 import Image from "next/image";
+import { Instance } from "@/api/axios";
+import GuestBookDetailModal from "../detail/GuestBookDetailModal";
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
+
+interface GuestBookProps {
+  guest_book_id: string;
+  photographer_id: string;
+  photographer_nickname: string;
+  photographer_profile_img: string;
+  guest_book_author_id: string;
+  guest_book_author_nickname: string;
+  guest_book_author_profile_img: string;
+  guest_book_content: string;
+  guest_book_created_at: string;
+  guest_book_abusing_report_count: number | null;
+}
 
 const SwiperComponent: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemOffSet, setItemOffSet] = useState(0);
+  // State-------------------------------------------
+  const [guestBookList, setGuestBookList] = useState<GuestBookProps[]>([]);
 
-  // useEffect(() => {
-  //   setCurrentPage(Math.ceil(GUEST_BOOK_DATA.length / ITEMS_PER_PAGE));
-  // }, [itemOffSet, ITEMS_PER_PAGE]);
+  // Modal-------------------------------------------
+  const [modal, setModal] = useState<boolean>(false);
 
-  const offSet = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentData = GUEST_BOOK_DATA.slice(offSet, offSet + ITEMS_PER_PAGE);
+  // Pagination--------------------------------------
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [render, setRender] = useState<boolean>(false);
+  const currentPageData = guestBookList.slice(0, ITEMS_PER_PAGE);
 
+  // Handling----------------------------------------
   const handlePageClick = (data: { selected: number }) => {
     setCurrentPage(data.selected);
+    const paginationItems = document.querySelectorAll(".page-item");
+    paginationItems.forEach((item) => {
+      item.classList.remove("active");
+    });
   };
+
+  const handleDelete = async (guestBookId: string) => {
+    if (window.confirm("해당 방명록 신고 건을 정말 삭제하시겠습니까?")) {
+      try {
+        const result = await Instance.delete(
+          `/api/v1/management/guestbooks/delete/${guestBookId}`
+        );
+        if (result.status === 200) {
+          setRender(!render);
+        }
+      } catch (err: any) {
+        console.log(err);
+      }
+    } else return;
+  };
+
+  const handleReject = async (guestBookId: string) => {
+    if (window.confirm("해당 방명록 신고 건을 반려 처리하시겠습니까?")) {
+      try {
+        const result = await Instance.put(
+          `/api/v1/management/guestbooks/reject/${guestBookId}`
+        );
+        if (result.status === 200) {
+          setRender(!render);
+        }
+      } catch (err: any) {
+        console.log(err);
+      }
+    } else return;
+  };
+
+  // componentDidMount-------------------------------
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await Instance.get(`/api/v1/management/guestbooks`, {
+          params: {
+            page: currentPage,
+            size: ITEMS_PER_PAGE,
+          },
+        });
+        setGuestBookList(result.data.content);
+        console.log(result.data);
+        setTotalPage(result.data.totalPages);
+      } catch (err: any) {
+        console.log(err);
+      }
+    })();
+  }, [render, currentPage]);
+
   return (
     <>
       <M.SwiperContainer>
@@ -52,55 +123,81 @@ const SwiperComponent: React.FC = () => {
             slideShadows: true,
           }}
           modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
-          style={{ overflow: GUEST_BOOK_DATA.length === 0 ? "visible" : "" }}
+          style={{ overflow: guestBookList.length === 0 ? "visible" : "" }}
         >
-          {GUEST_BOOK_DATA.map((data) => {
+          {currentPageData.map((data, idx) => {
             return (
-              <M.SwiperCard key={data.id}>
-                <M.ImageBox>
-                  <Image
-                    src={data.profile}
-                    alt="user-profile"
-                    fill
-                    style={M.SwiperImageStyle}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              <React.Fragment key={data?.guest_book_id}>
+                <M.SwiperCard>
+                  <M.ImageBox onClick={() => setModal(true)}>
+                    <Image
+                      src={data.photographer_profile_img}
+                      alt="author-profile"
+                      fill
+                      style={M.SwiperImageStyle}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </M.ImageBox>
+                  <M.InfoSection onClick={() => setModal(true)}>
+                    <M.InfoBox>
+                      <M.ColHeadBox>
+                        <M.ColHalfBox>
+                          <M.InfoSpan $attr="title">user-id</M.InfoSpan>
+                          <M.InfoSpan $attr="title">name</M.InfoSpan>
+                        </M.ColHalfBox>
+                        <M.ColHalfBox>
+                          <M.InfoSpan>
+                            {data?.guest_book_author_id.length > 7
+                              ? data?.guest_book_author_id.slice(0, 7) + "..."
+                              : data?.guest_book_author_id}
+                          </M.InfoSpan>
+                          <M.InfoSpan>
+                            {data?.guest_book_author_nickname}
+                          </M.InfoSpan>
+                        </M.ColHalfBox>
+                      </M.ColHeadBox>
+                      <M.ColLogBox>
+                        <M.InfoSpan $attr="log">Log</M.InfoSpan>
+                        <M.InfoSpan>{data?.guest_book_content}</M.InfoSpan>
+                      </M.ColLogBox>
+                    </M.InfoBox>
+                    <M.ActionBox>
+                      <M.ActionButton
+                        $attr="delete"
+                        onClick={() => handleDelete(data?.guest_book_id)}
+                      >
+                        DELETE
+                      </M.ActionButton>
+                      <M.ActionButton
+                        $attr="reject"
+                        onClick={() => handleReject(data?.guest_book_id)}
+                      >
+                        REJECT
+                      </M.ActionButton>
+                    </M.ActionBox>
+                  </M.InfoSection>
+                  <GuestBookDetailModal
+                    modal={modal}
+                    setModal={setModal}
+                    modalData={data}
+                    handleDelete={handleDelete}
+                    handleReject={handleReject}
                   />
-                </M.ImageBox>
-                <M.InfoSection>
-                  <M.InfoBox>
-                    <M.ColHeadBox>
-                      <M.ColHalfBox>
-                        <M.InfoSpan $attr="title">user-id</M.InfoSpan>
-                        <M.InfoSpan $attr="title">name</M.InfoSpan>
-                      </M.ColHalfBox>
-                      <M.ColHalfBox>
-                        <M.InfoSpan>{data.id}</M.InfoSpan>
-                        <M.InfoSpan>{data.name}</M.InfoSpan>
-                      </M.ColHalfBox>
-                    </M.ColHeadBox>
-                    <M.ColLogBox>
-                      <M.InfoSpan $attr="log">Log</M.InfoSpan>
-                      <M.InfoSpan>{data.guestBook}</M.InfoSpan>
-                    </M.ColLogBox>
-                  </M.InfoBox>
-                  <M.ActionBox>
-                    <M.ActionButton $attr="delete">DELETE</M.ActionButton>
-                    <M.ActionButton $attr="reject">REJECT</M.ActionButton>
-                  </M.ActionBox>
-                </M.InfoSection>
-              </M.SwiperCard>
+                </M.SwiperCard>
+              </React.Fragment>
             );
           })}
         </Swiper>
       </M.SwiperContainer>
+
       <M.StyledPagination
-        forcePage={1}
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={2}
-        marginPagesDisplayed={3}
+        pageCount={totalPage}
+        marginPagesDisplayed={2}
         pageRangeDisplayed={2}
+        onPageChange={handlePageClick}
         containerClassName="pagination justify-content-center"
         pageClassName="page-item"
         pageLinkClassName="page-link"
