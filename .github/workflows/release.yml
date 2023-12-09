@@ -30,5 +30,3 @@ jobs:
         run: npm install
       - name: Build next app
         run: npm run build
-      - name: Deploy using pm2
-        run: pm2 start npm --name "esthete-cms" -- start
