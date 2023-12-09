@@ -26,6 +26,8 @@ const nextConfig = {
 
   assetPrefix: "http://43.201.218.137/",
 
+  output: "export",
+
   async rewrites() {
     return [
       // Statistics------------------------------------------------
