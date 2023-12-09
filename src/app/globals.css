@@ -124,6 +124,8 @@ body {
   letter-spacing: 3px;
   line-height: 1.5;
   font-family: "Syncopate", serif;
+  background-color: #000;
+  color: #fff;
 }
 menu,
 ol,
@@ -170,6 +172,10 @@ table {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+input {
+  color: #fff;
 }
 
 @media (prefers-color-scheme: dark) {

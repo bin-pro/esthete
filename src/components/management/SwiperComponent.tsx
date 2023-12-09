@@ -64,7 +64,7 @@ const SwiperComponent: React.FC = () => {
           setRender(!render);
         }
       } catch (err: any) {
-        console.log(err);
+        alert(err.response.data.error);
       }
     } else return;
   };
@@ -79,7 +79,7 @@ const SwiperComponent: React.FC = () => {
           setRender(!render);
         }
       } catch (err: any) {
-        console.log(err);
+        alert(err.response.data.error);
       }
     } else return;
   };
@@ -95,10 +95,9 @@ const SwiperComponent: React.FC = () => {
           },
         });
         setGuestBookList(result.data.content);
-        console.log(result.data);
         setTotalPage(result.data.totalPages);
       } catch (err: any) {
-        console.log(err);
+        alert(err.response.data.error);
       }
     })();
   }, [render, currentPage]);
@@ -125,68 +124,71 @@ const SwiperComponent: React.FC = () => {
           modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
           style={{ overflow: guestBookList.length === 0 ? "visible" : "" }}
         >
-          {currentPageData.map((data, idx) => {
-            return (
-              <React.Fragment key={data?.guest_book_id}>
-                <M.SwiperCard>
-                  <M.ImageBox onClick={() => setModal(true)}>
-                    <Image
-                      src={data.photographer_profile_img}
-                      alt="author-profile"
-                      fill
-                      style={M.SwiperImageStyle}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </M.ImageBox>
-                  <M.InfoSection onClick={() => setModal(true)}>
-                    <M.InfoBox>
-                      <M.ColHeadBox>
-                        <M.ColHalfBox>
-                          <M.InfoSpan $attr="title">user-id</M.InfoSpan>
-                          <M.InfoSpan $attr="title">name</M.InfoSpan>
-                        </M.ColHalfBox>
-                        <M.ColHalfBox>
-                          <M.InfoSpan>
-                            {data?.guest_book_author_id.length > 7
-                              ? data?.guest_book_author_id.slice(0, 7) + "..."
-                              : data?.guest_book_author_id}
-                          </M.InfoSpan>
-                          <M.InfoSpan>
-                            {data?.guest_book_author_nickname}
-                          </M.InfoSpan>
-                        </M.ColHalfBox>
-                      </M.ColHeadBox>
-                      <M.ColLogBox>
-                        <M.InfoSpan $attr="log">Log</M.InfoSpan>
-                        <M.InfoSpan>{data?.guest_book_content}</M.InfoSpan>
-                      </M.ColLogBox>
-                    </M.InfoBox>
-                    <M.ActionBox>
-                      <M.ActionButton
-                        $attr="delete"
-                        onClick={() => handleDelete(data?.guest_book_id)}
-                      >
-                        DELETE
-                      </M.ActionButton>
-                      <M.ActionButton
-                        $attr="reject"
-                        onClick={() => handleReject(data?.guest_book_id)}
-                      >
-                        REJECT
-                      </M.ActionButton>
-                    </M.ActionBox>
-                  </M.InfoSection>
-                  <GuestBookDetailModal
-                    modal={modal}
-                    setModal={setModal}
-                    modalData={data}
-                    handleDelete={handleDelete}
-                    handleReject={handleReject}
-                  />
-                </M.SwiperCard>
-              </React.Fragment>
-            );
-          })}
+          {currentPageData.length === 0
+            ? "No Guest Book infringment exsists"
+            : currentPageData.map((data, idx) => {
+                return (
+                  <React.Fragment key={data?.guest_book_id}>
+                    <M.SwiperCard>
+                      <M.ImageBox onClick={() => setModal(true)}>
+                        <Image
+                          src={data.photographer_profile_img}
+                          alt="author-profile"
+                          fill
+                          style={M.SwiperImageStyle}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                      </M.ImageBox>
+                      <M.InfoSection onClick={() => setModal(true)}>
+                        <M.InfoBox>
+                          <M.ColHeadBox>
+                            <M.ColHalfBox>
+                              <M.InfoSpan $attr="title">user-id</M.InfoSpan>
+                              <M.InfoSpan $attr="title">name</M.InfoSpan>
+                            </M.ColHalfBox>
+                            <M.ColHalfBox>
+                              <M.InfoSpan>
+                                {data?.guest_book_author_id.length > 7
+                                  ? data?.guest_book_author_id.slice(0, 7) +
+                                    "..."
+                                  : data?.guest_book_author_id}
+                              </M.InfoSpan>
+                              <M.InfoSpan>
+                                {data?.guest_book_author_nickname}
+                              </M.InfoSpan>
+                            </M.ColHalfBox>
+                          </M.ColHeadBox>
+                          <M.ColLogBox>
+                            <M.InfoSpan $attr="log">Log</M.InfoSpan>
+                            <M.InfoSpan>{data?.guest_book_content}</M.InfoSpan>
+                          </M.ColLogBox>
+                        </M.InfoBox>
+                        <M.ActionBox>
+                          <M.ActionButton
+                            $attr="delete"
+                            onClick={() => handleDelete(data?.guest_book_id)}
+                          >
+                            DELETE
+                          </M.ActionButton>
+                          <M.ActionButton
+                            $attr="reject"
+                            onClick={() => handleReject(data?.guest_book_id)}
+                          >
+                            REJECT
+                          </M.ActionButton>
+                        </M.ActionBox>
+                      </M.InfoSection>
+                      <GuestBookDetailModal
+                        modal={modal}
+                        setModal={setModal}
+                        modalData={data}
+                        handleDelete={handleDelete}
+                        handleReject={handleReject}
+                      />
+                    </M.SwiperCard>
+                  </React.Fragment>
+                );
+              })}
         </Swiper>
       </M.SwiperContainer>
 

@@ -16,7 +16,7 @@ interface SelectProps {
 }
 export const SelectText = styled.span<SelectProps>`
   font-size: 14px;
-  opacity: ${(props) => (props.$isSelect ? 1 : 0.5)};
+  opacity: ${(props: any) => (props.$isSelect ? 1 : 0.5)};
   margin: 0 15px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
@@ -73,7 +73,7 @@ export const CardIageHoverBox = styled.section<CardImageProps>`
   display: flex;
   position: absolute;
   top: 0;
-  left: ${(props) => (props.$isHover ? "0" : "-250px")};
+  left: ${(props: any) => (props.$isHover ? "0" : "-250px")};
   border: 1px solid #fff;
   background-color: rgba(0, 0, 0, 0.8);
   overflow-x: hidden;
@@ -84,7 +84,7 @@ interface CardHalfBoxProps {
   $left: Boolean;
 }
 export const CardHalfBox = styled.section<CardHalfBoxProps>`
-  width: ${(props) => (props.$left ? "45%" : "65%")};
+  width: ${(props: any) => (props.$left ? "45%" : "65%")};
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -120,11 +120,12 @@ export const CardButton = styled.section<CardButtonProps>`
   width: 50%;
   height: 100%;
   border: 1px solid #fff;
-  border-right: ${(props) => (props.$attr === "delete" ? "none" : "1px solid #fff")};
+  border-right: ${(props: any) =>
+    props.$attr === "delete" ? "none" : "1px solid #fff"};
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${(props) => (props.$attr === "delete" ? "#FF6D6D" : "#7EC9FF")};
+  color: ${(props: any) => (props.$attr === "delete" ? "#FF6D6D" : "#7EC9FF")};
   background-color: #000;
   font-size: 12px;
   cursor: pointer;
@@ -252,8 +253,12 @@ interface InfoSpanProps {
 }
 export const InfoSpan = styled.span<InfoSpanProps>`
   font-size: 14px;
-  color: ${(props) =>
-    props.$attr === "title" ? "#7EC9FF" : props.$attr === "log" ? "#FF6D6D" : "#fff"};
+  color: ${(props: any) =>
+    props.$attr === "title"
+      ? "#7EC9FF"
+      : props.$attr === "log"
+      ? "#FF6D6D"
+      : "#fff"};
   @media (max-width: 900px) {
     font-size: 12px;
   }
@@ -291,9 +296,10 @@ export const ActionButton = styled.button<ActionButtonProps>`
   justify-content: center;
   align-items: center;
   border: none;
-  border-right: ${(props) => (props.$attr === "delete" ? "1px solid #fff" : "none")};
+  border-right: ${(props: any) =>
+    props.$attr === "delete" ? "1px solid #fff" : "none"};
   font-family: "Syncopate", sans-serif;
-  color: ${(props) => (props.$attr === "delete" ? "#FF6D6D" : "#7EC9FF")};
+  color: ${(props: any) => (props.$attr === "delete" ? "#FF6D6D" : "#7EC9FF")};
   background-color: transparent;
   font-size: 14px;
   transition: all 0.3s ease-in-out;

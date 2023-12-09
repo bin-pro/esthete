@@ -6,7 +6,6 @@ import React, { memo, useEffect, useState } from "react";
 import { Instance } from "@/api/axios";
 import { removeAllCookies } from "@/Cookie";
 import { useRouter } from "next/navigation";
-import DefaultImage from "@/../public/images/OG-Thumbnail.png";
 
 const customStyles = {
   content: {
@@ -21,11 +20,11 @@ const customStyles = {
     width: "85%",
     minWidth: "600px",
     maxWidth: "700px",
-    height: "90%",
+    height: "95%",
     minHeight: "400px",
   },
   overlay: {
-    backgroundColor: "rgba(0,0,0,0.8)",
+    backgroundColor: "rgba(0,0,0,0.6)",
     zIndex: 1,
   },
 };
@@ -104,7 +103,7 @@ const GuestBookDetailModal: React.FC<PostDetailModalProps> = ({
         return;
       }
     } catch (err: any) {
-      console.log(err);
+      alert(err.response.data.error);
     }
   };
 
@@ -112,11 +111,14 @@ const GuestBookDetailModal: React.FC<PostDetailModalProps> = ({
   useEffect(() => {
     (async () => {
       try {
-        const result = await Instance.get(`/api/v1/management/guestbooks/details`, {
-          params: {
-            guestBookId: modalData?.guest_book_id,
-          },
-        });
+        const result = await Instance.get(
+          `/api/v1/management/guestbooks/details`,
+          {
+            params: {
+              guestBookId: modalData?.guest_book_id,
+            },
+          }
+        );
         if (result.status === 200) {
           setModalDetail(result.data.content);
           setTotalPage(result.data.totalPages);
@@ -143,7 +145,10 @@ const GuestBookDetailModal: React.FC<PostDetailModalProps> = ({
         <D.ColumnDetailBox>
           <D.RowBox>
             <D.ImageBox>
-              <D.FullImage src={modalData?.photographer_profile_img} alt="photographer-image" />
+              <D.FullImage
+                src={modalData?.photographer_profile_img}
+                alt="photographer-image"
+              />
             </D.ImageBox>
             <D.InfoSection>
               <D.InfoText>photographer-id</D.InfoText>
@@ -156,7 +161,9 @@ const GuestBookDetailModal: React.FC<PostDetailModalProps> = ({
           <D.RowBox>
             <D.InfoSection>
               <D.InfoText>guestbook-created-at</D.InfoText>
-              <D.SmallText>{modalData?.guest_book_created_at.slice(0, 10)}</D.SmallText>
+              <D.SmallText>
+                {modalData?.guest_book_created_at.slice(0, 10)}
+              </D.SmallText>
               <br />
               <D.InfoText>guestbook-content</D.InfoText>
               <D.SmallText>{modalData?.guest_book_content}</D.SmallText>
@@ -168,7 +175,9 @@ const GuestBookDetailModal: React.FC<PostDetailModalProps> = ({
               <D.SmallText>{modalData?.guest_book_author_nickname}</D.SmallText>
               <br />
               <D.InfoText>abusing-report-count</D.InfoText>
-              <D.SmallText>{modalData?.guest_book_abusing_report_count}</D.SmallText>
+              <D.SmallText>
+                {modalData?.guest_book_abusing_report_count}
+              </D.SmallText>
             </D.InfoSection>
             <D.ImageBox>
               <D.FullImage
@@ -177,28 +186,39 @@ const GuestBookDetailModal: React.FC<PostDetailModalProps> = ({
               />
             </D.ImageBox>
           </D.RowBox>
-          <D.RowBox>
+          <D.RowBox $last={true}>
             {currentDetailPageData.length === 0 ? (
-              <D.InfoEmptySection>No guestbook reports exsists</D.InfoEmptySection>
+              <D.InfoEmptySection>
+                No guestbook reports exsists
+              </D.InfoEmptySection>
             ) : (
               currentDetailPageData?.map((data) => (
                 <React.Fragment key={data.report_id}>
                   <D.ImageBox>
-                    <D.FullImage src={data?.reporter_profile_img} alt="reporter-image" />
+                    <D.FullImage
+                      src={data?.reporter_profile_img}
+                      alt="reporter-image"
+                    />
                   </D.ImageBox>
                   <D.InfoSection $rel={true}>
                     <D.InfoText>report-reason</D.InfoText>
                     <D.SmallText>{data?.report_reason}</D.SmallText>
                     <br />
                     <D.InfoText>reporter-id</D.InfoText>
-                    <D.SmallText>{data?.reporter_id.slice(0, 25) + "..."}</D.SmallText>
+                    <D.SmallText>
+                      {data?.reporter_id.slice(0, 25) + "..."}
+                    </D.SmallText>
                     <br />
                     <D.InfoText>reporter-nickname</D.InfoText>
                     <D.SmallText>{data?.reporter_nickname}</D.SmallText>
                     <br />
                     <D.InfoText>abusing-report-count</D.InfoText>
-                    <D.SmallText>{data?.reporter_guest_book_abusing_report_count}</D.SmallText>
-                    <D.ReportDetailDelete onClick={() => handleDetailDelete(data?.report_id)}>
+                    <D.SmallText>
+                      {data?.reporter_guest_book_abusing_report_count}
+                    </D.SmallText>
+                    <D.ReportDetailDelete
+                      onClick={() => handleDetailDelete(data?.report_id)}
+                    >
                       DEL
                     </D.ReportDetailDelete>
                     <D.StyledPagination
