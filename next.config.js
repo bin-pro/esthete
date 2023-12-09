@@ -24,7 +24,7 @@ const nextConfig = {
     ],
   },
 
-  assertPrefix: "http://43.201.218.137/",
+  assetPrefix: "http://43.201.218.137/",
 
   async rewrites() {
     return [
