@@ -16,7 +16,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import { Instance } from "@/api/axios";
-import { getCookie, removeAllCookies } from "@/Cookie";
+import { removeAllCookies } from "@/Cookie";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import {
@@ -28,7 +28,14 @@ import {
   CHART_DUMMY_OPTIONS4,
 } from "../../../../DummyData";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const OPTIONS = {
   responsive: true,
@@ -77,8 +84,12 @@ const Statistic: React.FC = () => {
       try {
         const res1 = await Instance.get(`/api/v1/statistics/users`);
         const res2 = await Instance.get(`/api/v1/statistics/exhibition`);
-        const res3 = await Instance.get(`/api/v1/statistics/photos/infringement`);
-        const res4 = await Instance.get(`/api/v1/statistics/guestbooks/infringement`);
+        const res3 = await Instance.get(
+          `/api/v1/statistics/photos/infringement`
+        );
+        const res4 = await Instance.get(
+          `/api/v1/statistics/guestbooks/infringement`
+        );
         setUserCount(res1.data);
         setExhibitionCount(res2.data);
         setPhotoCount(res3.data);
@@ -98,7 +109,8 @@ const Statistic: React.FC = () => {
   }, []);
 
   // Hydration--------------------------------------------
-  const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
+  const [element, setElement] =
+    useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
   useEffect(() => {
     setElement(document.getElementsByTagName("html"));
   }, []);
@@ -174,7 +186,9 @@ const Statistic: React.FC = () => {
               <S.Graph>
                 <Bar
                   data={
-                    userCount?.content && userCount.content[0]?.date && userCount.content[9]?.date
+                    userCount?.content &&
+                    userCount.content[0]?.date &&
+                    userCount.content[9]?.date
                       ? CHART_DUMMY_OPTIONS1
                       : userCountData
                   }

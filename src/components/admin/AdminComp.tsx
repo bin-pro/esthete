@@ -65,7 +65,9 @@ const AdminComp: React.FC = () => {
 
   const handleDelete = async (userId: string) => {
     try {
-      const result = await Instance.delete(`/api/v1/admin/manager/delete/${userId}`);
+      const result = await Instance.delete(
+        `/api/v1/admin/manager/delete/${userId}`
+      );
       if (result.status === 200) {
         setRender(!render);
         if (currentPageData.length === 1) {
@@ -75,7 +77,9 @@ const AdminComp: React.FC = () => {
           paginationItems[currentPage].classList.add("active");
         }
       }
-    } catch (err: any) {}
+    } catch (err: any) {
+      alert(err.response.data.error);
+    }
   };
 
   // useEffect--------------------------------------------
@@ -103,7 +107,8 @@ const AdminComp: React.FC = () => {
   }, [render, currentPage]);
 
   // Hydration--------------------------------------------
-  const [element, setElement] = useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
+  const [element, setElement] =
+    useState<HTMLCollectionOf<HTMLHtmlElement> | null>(null);
   useEffect(() => {
     setElement(document.getElementsByTagName("html"));
   }, []);
@@ -154,7 +159,9 @@ const AdminComp: React.FC = () => {
                         <A.ListText>{manager.username}</A.ListText>
                         <A.ListText>{manager.password}</A.ListText>
                       </A.ListTextBox>
-                      <A.ListDeleteButton onClick={() => handleDelete(manager.user_id)}>
+                      <A.ListDeleteButton
+                        onClick={() => handleDelete(manager.user_id)}
+                      >
                         DEL
                       </A.ListDeleteButton>
                     </A.ListUnit>

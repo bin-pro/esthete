@@ -31,7 +31,9 @@ const MasonryComponent: React.FC = () => {
 
   // Modal-------------------------------------------
   const [modal, setModal] = useState<boolean>(false);
-  const [photoReportList, setPhotoReportList] = useState<PhotoReportdataops[]>([]);
+  const [photoReportList, setPhotoReportList] = useState<PhotoReportdataops[]>(
+    []
+  );
 
   // Pagination--------------------------------------
   const [currentPage, setCurrentPage] = useState(0);
@@ -74,7 +76,9 @@ const MasonryComponent: React.FC = () => {
   const handleDelete = async (photoId: string) => {
     try {
       if (window.confirm("해당 저작권 신고 게시물을 정말 삭제하시겠습니까?")) {
-        const result = await Instance.delete(`/api/v1/management/photos/delete/${photoId}`);
+        const result = await Instance.delete(
+          `/api/v1/management/photos/delete/${photoId}`
+        );
         if (result.status === 200) {
           setRender(!render);
           alert("삭제되었습니다.");
@@ -89,14 +93,16 @@ const MasonryComponent: React.FC = () => {
         return;
       }
     } catch (err: any) {
-      console.log(err);
+      alert(err.response.data.error);
     }
   };
 
   const handleReject = async (photoId: string) => {
     try {
       if (window.confirm("해당 저작권 신고를 반려 처리하시겠습니까?")) {
-        const result = await Instance.delete(`/api/v1/management/photos/reject/${photoId}`);
+        const result = await Instance.delete(
+          `/api/v1/management/photos/reject/${photoId}`
+        );
         if (result.status === 200) {
           setRender(!render);
           alert("신고 반려 처리되었습니다.");
@@ -111,7 +117,7 @@ const MasonryComponent: React.FC = () => {
         return;
       }
     } catch (err: any) {
-      console.log(err);
+      alert(err.response.data.error);
     }
   };
 
@@ -123,58 +129,72 @@ const MasonryComponent: React.FC = () => {
           style={M.ResMasonryStyle}
         >
           <Masonry gutter="30px" style={M.MasonryStyle}>
-            {currentPageData?.map((data: any) => {
-              return (
-                <React.Fragment key={data.photo_id}>
-                  <M.CardContainer>
-                    <M.CardImage
-                      src={data.photo_url}
-                      alt="postImage"
-                      onMouseEnter={() => {
-                        setHover(data.photo_id);
-                      }}
-                    />
-                    <M.CardIageHoverBox
-                      $isHover={hover === data.photo_id}
-                      onMouseLeave={() => setHover("-1")}
-                      onClick={() => setModal(true)}
-                    >
-                      <M.CardHalfBox $left={true}>
-                        <M.SmallText>user-id</M.SmallText>
-                        <M.SmallText>name</M.SmallText>
-                        <M.SmallText>post</M.SmallText>
-                        <M.SmallText>accounts</M.SmallText>
-                      </M.CardHalfBox>
-                      <M.CardHalfBox $left={false}>
-                        <M.SmallText>
-                          {data.photo_id.length > 9
-                            ? data.photo_id.slice(0, 9) + "..."
-                            : data.photo_id}
-                        </M.SmallText>
-                        <M.SmallText>{data.photographer_nickname}</M.SmallText>
-                        <M.SmallText>{data.photo_abusing_report_count}</M.SmallText>
-                        <M.SmallText>{data.photographer_photo_abusing_report_count}</M.SmallText>
-                      </M.CardHalfBox>
-                    </M.CardIageHoverBox>
-                    <M.CardFooter>
-                      <M.CardButton $attr={"delete"} onClick={() => handleDelete(data.photo_id)}>
-                        DELETE
-                      </M.CardButton>
-                      <M.CardButton $attr={"reject"} onClick={() => handleReject(data.photo_id)}>
-                        REJECT
-                      </M.CardButton>
-                    </M.CardFooter>
-                  </M.CardContainer>
-                  <PostDetailModal
-                    modal={modal}
-                    setModal={setModal}
-                    modalData={data}
-                    handleDelete={handleDelete}
-                    handleReject={handleReject}
-                  />
-                </React.Fragment>
-              );
-            })}
+            {currentPageData.length === 0
+              ? "No Photo Infringement Exists"
+              : currentPageData?.map((data: any) => {
+                  return (
+                    <React.Fragment key={data.photo_id}>
+                      <M.CardContainer>
+                        <M.CardImage
+                          src={data.photo_url}
+                          alt="postImage"
+                          onMouseEnter={() => {
+                            setHover(data.photo_id);
+                          }}
+                        />
+                        <M.CardIageHoverBox
+                          $isHover={hover === data.photo_id}
+                          onMouseLeave={() => setHover("-1")}
+                          onClick={() => setModal(true)}
+                        >
+                          <M.CardHalfBox $left={true}>
+                            <M.SmallText>user-id</M.SmallText>
+                            <M.SmallText>name</M.SmallText>
+                            <M.SmallText>post</M.SmallText>
+                            <M.SmallText>accounts</M.SmallText>
+                          </M.CardHalfBox>
+                          <M.CardHalfBox $left={false}>
+                            <M.SmallText>
+                              {data.photo_id.length > 9
+                                ? data.photo_id.slice(0, 9) + "..."
+                                : data.photo_id}
+                            </M.SmallText>
+                            <M.SmallText>
+                              {data.photographer_nickname}
+                            </M.SmallText>
+                            <M.SmallText>
+                              {data.photo_abusing_report_count}
+                            </M.SmallText>
+                            <M.SmallText>
+                              {data.photographer_photo_abusing_report_count}
+                            </M.SmallText>
+                          </M.CardHalfBox>
+                        </M.CardIageHoverBox>
+                        <M.CardFooter>
+                          <M.CardButton
+                            $attr={"delete"}
+                            onClick={() => handleDelete(data.photo_id)}
+                          >
+                            DELETE
+                          </M.CardButton>
+                          <M.CardButton
+                            $attr={"reject"}
+                            onClick={() => handleReject(data.photo_id)}
+                          >
+                            REJECT
+                          </M.CardButton>
+                        </M.CardFooter>
+                      </M.CardContainer>
+                      <PostDetailModal
+                        modal={modal}
+                        setModal={setModal}
+                        modalData={data}
+                        handleDelete={handleDelete}
+                        handleReject={handleReject}
+                      />
+                    </React.Fragment>
+                  );
+                })}
           </Masonry>
         </ResponsiveMasonry>
       </M.MasonryContainer>

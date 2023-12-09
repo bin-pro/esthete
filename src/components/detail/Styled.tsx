@@ -136,9 +136,10 @@ export const ActionButton = styled.button<ActionButtonProps>`
   align-items: center;
   font-family: "syncopate", sans-serif;
   border: none;
-  border-right: ${(props) => (props.$attr === "delete" ? "1px solid #fff" : "none")};
+  border-right: ${(props: any) =>
+    props.$attr === "delete" ? "1px solid #fff" : "none"};
   background-color: transparent;
-  color: ${(props) => (props.$attr === "delete" ? "#FF6D6D" : "#7EC9FF")};
+  color: ${(props: any) => (props.$attr === "delete" ? "#FF6D6D" : "#7EC9FF")};
   cursor: pointer;
 `;
 
@@ -147,7 +148,6 @@ export const StyledPagination = styled(ReactPaginate).attrs({
 })`
   display: flex;
   justify-content: center;
-  margin-top: 15px;
   list-style-type: none;
   li a {
     border-radius: 7px;
@@ -179,18 +179,23 @@ export const ColumnDetailBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 `;
-export const RowBox = styled.div`
-  width: 100%;
+
+interface RowBoxProps {
+  $last?: boolean;
+}
+export const RowBox = styled.div<RowBoxProps>`
+  width: 95%;
   height: 33.3%;
   display: flex;
+  border-bottom: ${(props: any) => (props.$last ? "none" : "1px solid #fff")};
 `;
 
 export const ImageBox = styled.section`
   width: 40%;
   height: 100%;
   position: relative;
-  border: 1px solid #fff;
 `;
 
 interface InfoSectionProps {
@@ -201,10 +206,9 @@ export const InfoSection = styled.section<InfoSectionProps>`
   height: 100%;
   display: flex;
   flex-direction: column;
-  position: ${(props) => (props.$rel ? "relative" : "none")};
+  position: ${(props: any) => (props.$rel ? "relative" : "none")};
   padding: 15px;
-  overflow-y: ${(props) => (props.$rel ? "auto" : "none")};
-  border: 1px solid #fff;
+  overflow-y: ${(props: any) => (props.$rel ? "auto" : "none")};
 `;
 
 export const InfoEmptySection = styled.section`
