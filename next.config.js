@@ -24,6 +24,8 @@ const nextConfig = {
     ],
   },
 
+  // assetPrefix: "http://43.201.218.137/",
+
   async rewrites() {
     return [
       // Statistics------------------------------------------------
