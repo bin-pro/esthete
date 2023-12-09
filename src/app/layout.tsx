@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     images: "@/../public/images/OG-Thumbnail.png",
     description: "내 손 안의 작은 전시회, Esthète",
   },
+  category: "Art",
 };
 
 export default function RootLayout({
