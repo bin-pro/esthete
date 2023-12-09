@@ -24,7 +24,7 @@ const customStyles = {
     minHeight: "400px",
   },
   overlay: {
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: "rgba(0,0,0,0.5)",
     zIndex: 1,
   },
 };
@@ -192,8 +192,8 @@ const GuestBookDetailModal: React.FC<PostDetailModalProps> = ({
                 No guestbook reports exsists
               </D.InfoEmptySection>
             ) : (
-              currentDetailPageData?.map((data) => (
-                <React.Fragment key={data.report_id}>
+              currentDetailPageData?.map((data, idx) => (
+                <React.Fragment key={idx}>
                   <D.ImageBox>
                     <D.FullImage
                       src={data?.reporter_profile_img}
@@ -206,7 +206,7 @@ const GuestBookDetailModal: React.FC<PostDetailModalProps> = ({
                     <br />
                     <D.InfoText>reporter-id</D.InfoText>
                     <D.SmallText>
-                      {data?.reporter_id.slice(0, 25) + "..."}
+                      {data?.reporter_id.slice(0, 33) + "..."}
                     </D.SmallText>
                     <br />
                     <D.InfoText>reporter-nickname</D.InfoText>

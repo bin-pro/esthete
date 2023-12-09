@@ -133,58 +133,56 @@ const MasonryComponent: React.FC = () => {
               ? "No Photo Infringement Exists"
               : currentPageData?.map((data: any) => {
                   return (
-                    <React.Fragment key={data.photo_id}>
-                      <M.CardContainer>
-                        <M.CardImage
-                          src={data.photo_url}
-                          alt="postImage"
-                          onMouseEnter={() => {
-                            setHover(data.photo_id);
-                          }}
-                        />
-                        <M.CardIageHoverBox
-                          $isHover={hover === data.photo_id}
-                          onMouseLeave={() => setHover("-1")}
-                          onClick={() => setModal(true)}
+                    <M.CardContainer key={data?.photo_id}>
+                      <M.CardImage
+                        src={data.photo_url}
+                        alt="postImage"
+                        onMouseEnter={() => {
+                          setHover(data.photo_id);
+                        }}
+                      />
+                      <M.CardIageHoverBox
+                        $isHover={hover === data.photo_id}
+                        onMouseLeave={() => setHover("-1")}
+                        onClick={() => setModal(true)}
+                      >
+                        <M.CardHalfBox $left={true}>
+                          <M.SmallText>user-id</M.SmallText>
+                          <M.SmallText>name</M.SmallText>
+                          <M.SmallText>post</M.SmallText>
+                          <M.SmallText>accounts</M.SmallText>
+                        </M.CardHalfBox>
+                        <M.CardHalfBox $left={false}>
+                          <M.SmallText>
+                            {data.photo_id.length > 9
+                              ? data.photo_id.slice(0, 9) + "..."
+                              : data.photo_id}
+                          </M.SmallText>
+                          <M.SmallText>
+                            {data.photographer_nickname}
+                          </M.SmallText>
+                          <M.SmallText>
+                            {data.photo_abusing_report_count}
+                          </M.SmallText>
+                          <M.SmallText>
+                            {data.photographer_photo_abusing_report_count}
+                          </M.SmallText>
+                        </M.CardHalfBox>
+                      </M.CardIageHoverBox>
+                      <M.CardFooter>
+                        <M.CardButton
+                          $attr={"delete"}
+                          onClick={() => handleDelete(data.photo_id)}
                         >
-                          <M.CardHalfBox $left={true}>
-                            <M.SmallText>user-id</M.SmallText>
-                            <M.SmallText>name</M.SmallText>
-                            <M.SmallText>post</M.SmallText>
-                            <M.SmallText>accounts</M.SmallText>
-                          </M.CardHalfBox>
-                          <M.CardHalfBox $left={false}>
-                            <M.SmallText>
-                              {data.photo_id.length > 9
-                                ? data.photo_id.slice(0, 9) + "..."
-                                : data.photo_id}
-                            </M.SmallText>
-                            <M.SmallText>
-                              {data.photographer_nickname}
-                            </M.SmallText>
-                            <M.SmallText>
-                              {data.photo_abusing_report_count}
-                            </M.SmallText>
-                            <M.SmallText>
-                              {data.photographer_photo_abusing_report_count}
-                            </M.SmallText>
-                          </M.CardHalfBox>
-                        </M.CardIageHoverBox>
-                        <M.CardFooter>
-                          <M.CardButton
-                            $attr={"delete"}
-                            onClick={() => handleDelete(data.photo_id)}
-                          >
-                            DELETE
-                          </M.CardButton>
-                          <M.CardButton
-                            $attr={"reject"}
-                            onClick={() => handleReject(data.photo_id)}
-                          >
-                            REJECT
-                          </M.CardButton>
-                        </M.CardFooter>
-                      </M.CardContainer>
+                          DELETE
+                        </M.CardButton>
+                        <M.CardButton
+                          $attr={"reject"}
+                          onClick={() => handleReject(data.photo_id)}
+                        >
+                          REJECT
+                        </M.CardButton>
+                      </M.CardFooter>
                       <PostDetailModal
                         modal={modal}
                         setModal={setModal}
@@ -192,7 +190,7 @@ const MasonryComponent: React.FC = () => {
                         handleDelete={handleDelete}
                         handleReject={handleReject}
                       />
-                    </React.Fragment>
+                    </M.CardContainer>
                   );
                 })}
           </Masonry>

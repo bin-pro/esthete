@@ -186,7 +186,7 @@ interface RowBoxProps {
   $last?: boolean;
 }
 export const RowBox = styled.div<RowBoxProps>`
-  width: 95%;
+  width: 100%;
   height: 33.3%;
   display: flex;
   border-bottom: ${(props: any) => (props.$last ? "none" : "1px solid #fff")};
