@@ -17,6 +17,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "db3o78f1kbvk.cloudfront.net",
       },
+      {
+        protocol: "http",
+        hostname: "43.201.218.137",
+      },
     ],
   },
   assetPrefix:
@@ -73,7 +77,8 @@ const nextConfig = {
       },
       {
         // abusing-reports photos detail 삭제하기
-        source: "/api/v1/management/photos/details/delete/:photoAbusingReportId",
+        source:
+          "/api/v1/management/photos/details/delete/:photoAbusingReportId",
         destination: `${API_URL}/abusing-reports/photos/details/:photoAbusingReportId`,
       },
       // ---------------------------------------------------------
@@ -99,7 +104,8 @@ const nextConfig = {
       },
       {
         // abusing-reports guestbooks detail 삭제하기
-        source: "/api/v1/management/guestbooks/details/delete/:guestBookAbusingReportId",
+        source:
+          "/api/v1/management/guestbooks/details/delete/:guestBookAbusingReportId",
         destination: `${API_URL}/abusing-reports/guest-books/details/:guestBookAbusingReportId`,
       },
       // Admin-----------------------------------------------------
