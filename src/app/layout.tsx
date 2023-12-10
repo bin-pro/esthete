@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StyledComponentsRegistry from "./lib/registry";
-import OgThumbnail from "@/../public/images/OG-Thumbnail.png";
 
 export const metadata: Metadata = {
   title: "Esthète CMS",
