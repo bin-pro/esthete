@@ -6,12 +6,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
-import {
-  EffectCoverflow,
-  Autoplay,
-  Pagination,
-  Navigation,
-} from "swiper/modules";
+import { EffectCoverflow, Autoplay, Pagination, Navigation } from "swiper/modules";
 import * as M from "@/components/management/Styled";
 import Image from "next/image";
 import { Instance } from "@/api/axios";
@@ -55,9 +50,7 @@ const SwiperComponent: React.FC = () => {
   const handleDelete = async (guestBookId: string) => {
     if (window.confirm("해당 방명록 신고 건을 정말 삭제하시겠습니까?")) {
       try {
-        const result = await Instance.delete(
-          `/api/v1/management/guestbooks/delete/${guestBookId}`
-        );
+        const result = await Instance.delete(`/api/v1/management/guestbooks/delete/${guestBookId}`);
         if (result.status === 200) {
           setRender(!render);
           setModal(false);
@@ -71,9 +64,7 @@ const SwiperComponent: React.FC = () => {
   const handleReject = async (guestBookId: string) => {
     if (window.confirm("해당 방명록 신고 건을 반려 처리하시겠습니까?")) {
       try {
-        const result = await Instance.put(
-          `/api/v1/management/guestbooks/reject/${guestBookId}`
-        );
+        const result = await Instance.put(`/api/v1/management/guestbooks/reject/${guestBookId}`);
         if (result.status === 200) {
           setRender(!render);
           setModal(false);
@@ -151,9 +142,7 @@ const SwiperComponent: React.FC = () => {
                                 ? data?.guest_book_author_id.slice(0, 7) + "..."
                                 : data?.guest_book_author_id}
                             </M.InfoSpan>
-                            <M.InfoSpan>
-                              {data?.guest_book_author_nickname}
-                            </M.InfoSpan>
+                            <M.InfoSpan>{data?.guest_book_author_nickname}</M.InfoSpan>
                           </M.ColHalfBox>
                         </M.ColHeadBox>
                         <M.ColLogBox>
