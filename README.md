@@ -89,3 +89,5 @@ https://github.com/dgu-web-t3-blackshoe/esthete-cms/assets/102159721/581e63e0-e6
 ### 유튜브 시연
 > https://www.youtube.com/watch?v=B-3IrsyK8B4&list=WL&index=1
 
+### DEV 정리
+> https://asheroh.notion.site/Esth-te-039ce99aba8f430b83e14eb66994ab7f
